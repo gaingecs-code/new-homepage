@@ -11589,6 +11589,11 @@ a.community-intro-more-link:hover {
   padding: 1.5rem;
 }
 
+/* display:flex가 [hidden]의 display:none을 덮어써 플레이스홀더가 iframe 위에 남던 문제 (VOC 영상 팝업) */
+.home-testimonial-video-placeholder[hidden] {
+  display: none !important;
+}
+
 .home-testimonial-video-placeholder p {
   margin: 0;
   font-size: 1.05rem;
