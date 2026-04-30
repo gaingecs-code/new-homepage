@@ -1,0 +1,90 @@
+const ts = "2026-04-28T00:00:00.000Z";
+
+function entries() {
+  return {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+    "6": [],
+    "7": [],
+    "8": [],
+    "9": [],
+    "10": [],
+    "11": [],
+    "12": [],
+  };
+}
+
+export const defaultCommunityCalendarData = {
+  title: "커뮤니티 캘린더",
+  guide: "성장클럽은 진행일을 누르면 월 단위 참가신청을 할 수 있습니다.",
+  ctaLinks: {
+    conference: "https://gainge.com/contents/products/980",
+    growthClub: "https://gainge.com/contents/products/1",
+    ccClass: "https://gainge.com/contents/products/604",
+  },
+  updatedAt: ts,
+  rows: [
+    {
+      id: "community-cc-class",
+      program: "CC클래스",
+      programMeta: "매월 첫째 목요일",
+      place: "CTS",
+      monthEntries: {
+        ...entries(),
+        "1": [{ id: "cc-1", label: "8일", link: "", note: "" }],
+        "2": [{ id: "cc-2", label: "5일", link: "", note: "" }],
+        "3": [{ id: "cc-3", label: "5일", link: "", note: "" }],
+        "4": [{ id: "cc-4", label: "2일", link: "", note: "" }],
+        "5": [{ id: "cc-5", label: "7일", link: "", note: "" }],
+        "6": [{ id: "cc-6", label: "4일", link: "", note: "" }],
+        "7": [{ id: "cc-7", label: "2일", link: "", note: "" }],
+        "8": [{ id: "cc-8", label: "6일", link: "", note: "" }],
+        "9": [{ id: "cc-9", label: "3일", link: "", note: "" }],
+        "10": [{ id: "cc-10", label: "1일", link: "", note: "" }],
+        "11": [{ id: "cc-11", label: "5일", link: "", note: "" }],
+        "12": [{ id: "cc-12", label: "3일", link: "", note: "" }],
+      },
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: "community-growth-club",
+      program: "성장클럽",
+      programMeta: "매월 셋째 목요일",
+      place: "aT센터",
+      monthEntries: {
+        ...entries(),
+        "1": [{ id: "gc-1", label: "15일", link: "", note: "" }],
+        "2": [{ id: "gc-2", label: "26일", link: "", note: "" }],
+        "3": [{ id: "gc-3", label: "19일", link: "", note: "" }],
+        "4": [{ id: "gc-4", label: "16일", link: "https://gainge.com/contents/products/926", note: "" }],
+        "5": [{ id: "gc-5", label: "14일", link: "https://gainge.com/contents/products/924", note: "" }],
+        "6": [{ id: "gc-6", label: "18일", link: "https://gainge.com/contents/products/933", note: "" }],
+        "7": [{ id: "gc-7", label: "30일", link: "https://gainge.com/contents/products/934", note: "" }],
+        "8": [{ id: "gc-8", label: "27일", link: "https://gainge.com/contents/products/935", note: "" }],
+        "9": [{ id: "gc-9", label: "17일", link: "https://gainge.com/contents/products/936", note: "" }],
+        "10": [{ id: "gc-10", label: "15일", link: "https://gainge.com/contents/products/937", note: "" }],
+        "11": [{ id: "gc-11", label: "26일", link: "https://gainge.com/contents/products/1022", note: "" }],
+        "12": [{ id: "gc-12", label: "17일", link: "https://gainge.com/contents/products/1023", note: "" }],
+      },
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: "community-conference",
+      program: "컨퍼런스",
+      programMeta: "연 2회",
+      place: "",
+      monthEntries: {
+        ...entries(),
+        "5": [{ id: "cf-5", label: "29일", link: "https://gainge.com/contents/products/980", note: "아모리스 역삼" }],
+        "11": [{ id: "cf-11", label: "미정", link: "", note: "장소 미정" }],
+      },
+      createdAt: ts,
+      updatedAt: ts,
+    },
+  ],
+};

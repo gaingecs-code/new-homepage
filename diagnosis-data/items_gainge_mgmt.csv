@@ -1,0 +1,61 @@
+diagnosisId,itemType,sectionId,sectionTitle,itemId,itemText,scaleMin,scaleMax,scoreDirection,weight,notes
+gainge_mgmt,rating,가치_실천,가치 실천,G01,우리 회사는 핵심가치가 실천되고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,가치_실천,가치 실천,G02,우리는 회사 밖에서도 사람들에게 사명이나 비전을 자랑한다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,가치_실천,가치 실천,G03,나는 우리 회사의 사명이나 비전을 말할 수 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,가치_실천,가치 실천,G04,우리 회사의 업무 시간은 회사의 비전 달성을 위해 사용되고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G05,우리 회사의 구성원들은 리더들의 의사결정을 신뢰한다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G06,우리는 리더들을 존경한다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,가치_실천,가치 실천,G07,우리는 우리 회사가 사회에 꼭 필요하다고 믿고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,가치_실천,가치 실천,G08,우리는 고객에 대하여 자부심을 가지고 일하고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,가치_실천,가치 실천,G09,우리는 사회에 공헌하기 위해 별도의 시간과 돈을 사용하고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,가치_실천,가치 실천,G10,우리 회사는 구성원들이 참여하여 매년 꾸준히 해 오고 있는 사회공헌 활동이 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G11,우리의 리더들은 조직의 사명이나 비전에 대해서 자주 이야기한다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G12,우리 회사의 리더들은 리더로서 헌신하고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,문화_만족,문화 만족,G13,우리는 리더들에게 개인적인 고민을 나눌 수 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,문화_만족,문화 만족,G14,우리는 각자의 가정이 건강하게 유지되고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,문화_만족,문화 만족,G15,회사 내에 개인적인 고민을 나누는 사람들이 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,문화_만족,문화 만족,G16,우리는 서로를 격려하고 지지하고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G17,우리 회사는 실무자들도 의사결정에 참여한다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G18,우리는 회사의 주요 의사결정에 대해 이해하고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,문화_만족,문화 만족,G19,우리에게는 자랑하고 싶은 문화가 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,문화_만족,문화 만족,G20,우리가 자부심을 느끼는 사례가 계속 생기고 있다.,1,5,higher_is_better,1,Major: 가치경영
+gainge_mgmt,rating,인재_양성,인재 양성,G21,우리 회사는 구성원들의 성장로드맵이 제시되어 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_양성,인재 양성,G22,나를 포함한 회사의 구성원들에게는 도전적인 일들이 부여되고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_양성,인재 양성,G23,우리 리더들은 구성원들의 강약점을 잘 알고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_양성,인재 양성,G24,우리는 각자가 성과를 내는 자신의 방식을 알고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_양성,인재 양성,G25,우리 회사는 필요한 교육이 제때에 이루어진다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_양성,인재 양성,G26,우리 회사의 교육은 성과를 내는 데 도움이 된다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G27,우리 조직은 역량이 있는 사람이 먼저 승진한다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G28,우리는 업무 성과와 지식을 이야기하는 것이 자연스럽다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G29,우리에게는 경쟁력 있는 전문가가 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G30,신입사원에게 제시할 만한 롤모델이 사내에 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G31,우리의 보상과 포상은 즐겁게 일하는 데 도움이 되고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G32,우리 회사는 공정한 보상이 이루어지고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G33,우리 회사는 인재상에 맞는 사람들이 합류하고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G34,우리 회사의 업무는 적절하게 분장되어 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,문화_만족,문화 만족,G35,우리는 공식적인 미팅에서 서로 진솔한 대화를 하고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,문화_만족,문화 만족,G36,우리 회사의 구성원들은 서로를 신뢰하고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,과업_추진,과업 추진,G37,우리는 각자 자신의 성과를 관리하고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,과업_추진,과업 추진,G38,우리는 일에 대해서 리더들에게 피드백을 받는다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G39,우리 회사에는 성과를 내는 사람이 늘어나고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_배치,인재 배치,G40,우리 회사는 구성원을 성장시켜 리더로 세우고 있다.,1,5,higher_is_better,1,Major: 인재경영
+gainge_mgmt,rating,인재_양성,인재 양성,G41,우리 회사에는 즐겁게 자신의 지식을 공유할 수 있는 시스템이 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,인재_양성,인재 양성,G42,우리 회사에는 새로운 시도와 결과를 공유하는 장이 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,과업_추진,과업 추진,G43,우리는 각자 어떤 성과를 내야 할지 알고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,과업_추진,과업 추진,G44,구성원들은 업무 시간의 대부분을 성과와 직결된 일에 사용하고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G45,우리 회사는 적시에 의사결정이 되고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,리더십_신뢰,리더십 신뢰,G46,우리 회사는 문제해결이 이루어지는 회사이다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,과업_추진,과업 추진,G47,우리에게는 1년 이상 모두가 집중하고 있는 해결 과제가 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,과업_추진,과업 추진,G48,우리는 모두가 회사 전체의 목적을 1순위에 두고 일하고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,인재_양성,인재 양성,G49,나를 포함한 회사의 구성원들은 시간이 지날수록 업무 역량이 향상되고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,인재_양성,인재 양성,G50,우리는 일을 할수록 팀워크가 향상된다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,경쟁력_확보,경쟁력 확보,G51,우리는 정기적으로 고객으로부터 피드백을 받고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,경쟁력_확보,경쟁력 확보,G52,우리는 고객이 무엇을 원하는지 알고 일하고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,경쟁력_확보,경쟁력 확보,G53,우리는 각자 자신의 업무를 피드백하고 개선할 수 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,경쟁력_확보,경쟁력 확보,G54,우리는 실행 후 반드시 피드백한다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,인재_양성,인재 양성,G55,우리 회사는 개인이나 팀의 경험이 전체에게 공유된다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,인재_양성,인재 양성,G56,우리는 사내에서 서로 물어보고 답해주는 것이 자연스럽다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,경쟁력_확보,경쟁력 확보,G57,우리 회사는 다른 회사와는 차별화된 핵심 역량이 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,경쟁력_확보,경쟁력 확보,G58,우리는 실행 후 더 나은 방법을 찾기 위해 노력하고 있다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,과업_추진,과업 추진,G59,우리 회사는 부서 간 협력이 잘 이루어진다.,1,5,higher_is_better,1,Major: 지식경영
+gainge_mgmt,rating,과업_추진,과업 추진,G60,우리 회사는 고객에 대해서 새로운 제안과 시도를 지속한다.,1,5,higher_is_better,1,Major: 지식경영

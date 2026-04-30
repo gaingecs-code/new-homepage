@@ -1,0 +1,8 @@
+{
+  "cert-1": false,
+  "cert-2": false,
+  "onboarding-1": false,
+  "onboarding-2": false,
+  "workshop-1": true,
+  "workshop-2": true
+}

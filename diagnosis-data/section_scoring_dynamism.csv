@@ -1,0 +1,11 @@
+diagnosisId,sectionId,aggregation,rounding
+dynamism,vision_integ,mean,1
+dynamism,goal_clarity,mean,1
+dynamism,challenge,mean,1
+dynamism,proactive,mean,1
+dynamism,empathy_listen,mean,1
+dynamism,feedback,mean,1
+dynamism,open_comm,mean,1
+dynamism,tolerance,mean,1
+dynamism,engagement,mean,1
+dynamism,responsibility,mean,1

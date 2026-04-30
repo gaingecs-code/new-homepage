@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고객 스토리</title>
+  <style>
+    :root {
+      /* 3번 스토리 이미지 로드 후 JS가 실제 비율로 덮어씀 */
+      --story-media-aspect-ratio: 4 / 3;
+      --branding-color-1: #005eff;
+      --branding-color-2: #8eff00;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .story-title-section {
+      min-height: 43.2vh;
+      min-height: 43.2dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.01rem, 2.54vh, 1.78rem) 1rem;
+      box-sizing: border-box;
+    }
+
+    .story-title-content {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(2rem, 3.5vw, 3rem);
+      transform: translateY(clamp(1.6rem, 4vh, 3rem));
+    }
+
+    .story-title-heading {
+      margin: 0;
+      text-align: center;
+      font-size: calc(clamp(0.95rem, 2vw, 1.6rem) * 1.2);
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #ffffff;
+    }
+
+    .story-title-attribution {
+      margin: 0;
+      width: 100%;
+      max-width: none;
+      align-self: center;
+      text-align: center;
+      font-size: calc(clamp(0.72rem, 0.3vw + 0.65rem, 0.82rem) * 1.3);
+      font-weight: 500;
+      line-height: 1.4;
+      color: #e5e7eb;
+      letter-spacing: -0.01em;
+    }
+
+    .story-video-section {
+      padding: clamp(1.2rem, 3vw, 2.2rem) 1rem clamp(3.2rem, 6vw, 4.6rem);
+      box-sizing: border-box;
+    }
+
+    .story-concern-section {
+      padding: clamp(2.2rem, 4.5vw, 3.4rem) 1rem clamp(2.2rem, 4.2vw, 3.2rem);
+      box-sizing: border-box;
+    }
+
+    .story-request-section {
+      padding: clamp(1.2rem, 3vw, 2.2rem) 1rem clamp(2.2rem, 4.2vw, 3.2rem);
+      box-sizing: border-box;
+    }
+
+    .story-concern-grid {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 3fr 7fr;
+      gap: clamp(0.9rem, 2vw, 1.6rem);
+      align-items: stretch;
+    }
+
+    .story-concern-grid--reverse {
+      grid-template-columns: 7fr 3fr;
+    }
+
+    .story-concern-media {
+      margin: 0;
+      aspect-ratio: var(--story-media-aspect-ratio);
+      overflow: hidden;
+      background: #0b0b0b;
+    }
+
+    .story-concern-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      object-fit: cover;
+    }
+
+    .story-concern-copy {
+      margin: 0;
+      width: 92%;
+      justify-self: end;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.03);
+      padding: clamp(1rem, 2.2vw, 1.5rem);
+      color: #e5e7eb;
+      font-size: clamp(0.95rem, 1.15vw, 1.06rem);
+      line-height: 1.72;
+      letter-spacing: -0.01em;
+      box-sizing: border-box;
+      text-align: justify;
+      text-align-last: left;
+      text-justify: inter-character;
+      word-break: break-all;
+      overflow-wrap: anywhere;
+    }
+
+    .story-concern-grid--reverse .story-concern-copy {
+      justify-self: start;
+    }
+
+    .story-concern-copy p {
+      margin: 0;
+      text-indent: 0.5em;
+    }
+
+    .story-concern-copy p + p {
+      margin-top: 1em;
+    }
+
+    .story-concern-copy strong {
+      font-weight: 700;
+      color: #93c5fd;
+      text-shadow: 0 0 1px rgba(15, 23, 42, 0.35);
+    }
+
+    .story-request-section .story-concern-media {
+      transform: translateX(-0.55rem);
+    }
+
+    .story-concern-section--concern .story-concern-copy {
+      transform: translateX(0.4rem);
+    }
+
+    section[aria-label="고민 섹션"] .story-concern-copy {
+      transform: translateX(2.4rem);
+    }
+
+    /* 고민 섹션(1번) 이미지: 그리드 칸 대비 가로 확장(동일 가로세로 비 유지) */
+    section[aria-label="고민 섹션"] .story-concern-media {
+      width: 125%;
+      justify-self: start;
+    }
+
+    /* 의뢰(2번)·변화(4번): 동일 이미지 폭·위치·텍스트 오프셋 */
+    section[aria-label="의뢰 섹션"] .story-concern-media,
+    section[aria-label="변화 섹션"] .story-concern-media {
+      width: 132%;
+      justify-self: end;
+      transform: translateX(1.4rem);
+    }
+
+    section[aria-label="변화 섹션"] .story-concern-media {
+      width: 140%;
+    }
+
+    section[aria-label="의뢰 섹션"] .story-concern-copy {
+      transform: translateX(-1.65rem);
+    }
+
+    section[aria-label="변화 섹션"] .story-concern-copy {
+      transform: translateX(-2.95rem);
+    }
+
+    section[aria-label="비전 섹션"] .story-concern-copy {
+      transform: translateX(3.5rem);
+    }
+
+    section[aria-label="비전 섹션"] .story-concern-media {
+      width: 135%;
+      justify-self: start;
+    }
+
+    /* 경험 섹션(스토리 3): 미디어 박스 비율은 :root 변수(3번 이미지 기준)와 동일 + 그리드 살짝 확장 */
+    .story-experience-section .story-concern-media {
+      width: 133%;
+      justify-self: start;
+      background: transparent;
+      transform: translateY(0.35rem);
+    }
+
+    .story-experience-section .story-concern-copy {
+      width: 92%;
+      transform: translate(2.5rem, 0.05rem);
+    }
+
+    @media (max-width: 768px) {
+      .story-concern-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .story-voc-section {
+      padding: clamp(0.9rem, 2vw, 1.4rem) 1rem clamp(2.6rem, 4.8vw, 3.8rem);
+      box-sizing: border-box;
+    }
+
+    .story-voc-content {
+      width: min(960px, 100%);
+      margin: clamp(0.45rem, 1.2vw, 0.8rem) auto 0;
+      color: #e5e7eb;
+      font-size: clamp(1rem, 1.45vw, 1.2rem);
+      line-height: 1.75;
+      letter-spacing: -0.01em;
+      text-align: left;
+    }
+
+    .story-video-frame {
+      position: relative;
+      width: min(960px, 100%);
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      line-height: 0;
+      background: #000000;
+    }
+
+    .story-video-overlay {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .story-video-thumb {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-video-play-btn {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(64px, 9vw, 94px);
+      height: clamp(64px, 9vw, 94px);
+      border-radius: 999px;
+      border: 4px solid #ffffff;
+      background: rgba(0, 0, 0, 0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      box-sizing: border-box;
+    }
+
+    .story-video-play-btn::before {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      margin-left: 0.7rem;
+      border-top: 1.75em solid transparent;
+      border-bottom: 1.75em solid transparent;
+      border-left: 2.8em solid #ffffff;
+    }
+
+    .story-video-player {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      background: #000000;
+    }
+
+    .story-youtube-embed {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: #000000;
+    }
+
+    .story-youtube-embed .story-video-player {
+      border: 0;
+      vertical-align: top;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .story-video-embed-close {
+      position: absolute;
+      top: 0.35rem;
+      right: 0.35rem;
+      z-index: 3;
+      margin: 0;
+      padding: 0.1em 0.35em;
+      border: 0;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.55);
+      color: #ffffff;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .story-video-embed-close:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    .consulting-solution-cta-wrap {
+      margin-top: clamp(5.6rem, 9.6vh, 6.9rem);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .consulting-solution-inquiry-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem 1.65rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #000000;
+      background: var(--branding-color-2);
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-sizing: border-box;
+      transform: scale(1);
+      transform-origin: center;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.25s ease;
+    }
+
+    .consulting-solution-inquiry-btn:hover {
+      background: var(--branding-color-1);
+      color: #ffffff;
+      border-color: var(--branding-color-1);
+      transform: scale(1.06);
+    }
+
+    .consulting-solution-inquiry-btn:focus {
+      outline: none;
+    }
+
+    .consulting-solution-inquiry-btn:focus-visible {
+      outline: 2px solid var(--branding-color-2);
+      outline-offset: 3px;
+    }
+
+    .consulting-solution-inquiry-btn:hover:focus-visible {
+      outline-color: #ffffff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .consulting-solution-inquiry-btn {
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .consulting-solution-inquiry-btn:hover {
+        transform: none;
+      }
+    }
+
+    .story-principles-section {
+      background-color: #000000;
+      color: #ffffff;
+      padding: clamp(2.2rem, 4.6vw, 3.4rem) 1rem clamp(5.4rem, 9.2vw, 7rem);
+      box-sizing: border-box;
+    }
+
+    .story-principles-container {
+      width: min(960px, 100%);
+      margin: 0 auto;
+    }
+
+    .story-principles-footer-logo {
+      display: block;
+      width: min(260px, 62%);
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+  </style>
+</head>
+<body>
+  <main aria-label="고객 스토리 페이지">
+    <section class="story-title-section" aria-label="스토리 타이틀 섹션">
+      <div class="story-title-content">
+        <h1 class="story-title-heading">"저 혼자가 아니라는 위안을 얻었고,<br />우리는 자발적인 성과 지향적 조직이 되었습니다."</h1>
+        <p class="story-title-attribution">(주)바이오닷 한현진 대표</p>
+      </div>
+    </section>
+
+    <section class="story-voc-section" aria-label="VOC 섹션">
+      <p class="story-voc-content">
+        핵심 인재의 퇴사에 저는 충격을 받았고, 경영을 잘 하고 있는 것인지 불안했습니다.<br />
+        그간 성과 압박 중심으로 운영해 온 방식이 단기적 성과에는 유효했지만,<br />
+        우리는 직원들이 일하고 싶은 회사가 되지 못했고, 자발적인 역동성과 창의성은 나오지 않았습니다.
+      </p>
+    </section>
+
+    <section class="story-video-section" aria-label="영상 섹션">
+      <div class="story-video-frame" data-inline-video data-story-youtube="https://youtu.be/Dz3ya3PD9eU">
+        <button type="button" class="story-video-overlay" aria-label="영상 재생">
+          <img class="story-video-thumb" src="assets/간증 이미지 샘플 3.jpg" alt="바이오닷 영상 썸네일" />
+          <span class="story-video-play-btn" aria-hidden="true"></span>
+        </button>
+        <div class="story-youtube-embed" hidden>
+          <iframe
+            class="story-video-player"
+            title="바이오닷 간증 영상"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+          <button type="button" class="story-video-embed-close" aria-label="닫기">×</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-concern-section story-concern-section--concern" aria-label="고민 섹션">
+      <div class="story-concern-grid">
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/바이오닷 스토리 1.png" alt="바이오닷 스토리 고민 섹션 이미지" />
+        </figure>
+        <article class="story-concern-copy">
+          <p>
+            초창기 저에게 경영은 '나를 증명하는 무대'였습니다. 사업을 성공시켜 능력을 인정받고, 우리 가족이 행복하게 잘 사는 것이 가장 큰 목적이었습니다. 하지만 시간이 흐를수록 경영은 제가 원하든 원치 않든 감당해야 하는 <strong>'주어진 임무'처럼 다가왔습니다.</strong>
+          </p>
+          <p>
+            사업이란 늘 예기치 못한 불확실성과의 싸움입니다. 때로는 모든 것을 포기하고 싶을 만큼 힘들고 지치는 순간들이 찾아옵니다.
+          </p>
+          <p>
+            특히 제가 전적으로 믿고 의지했던 핵심 직원이 퇴사 의사를 밝혔을 때, 경영자로서의 <strong>자괴감과 조직 운영에 대한 근본적인 회의감은 정점에 달했습니다.</strong> '성과'만을 쫓아 달려온 대가가 이것뿐인가 하는 깊은 고민에 빠졌습니다.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="story-request-section" aria-label="의뢰 섹션">
+      <div class="story-concern-grid story-concern-grid--reverse">
+        <article class="story-concern-copy">
+          <p>
+            조직이 흔들리던 결정적인 순간, 저는 지식 공유 모임에서 만난 김경민 대표님에게 조언을 구했습니다. 핵심 직원의 퇴사 고민을 털어놓았을 때, 그는 "현재 우리 조직에는 성과 이전에 '위로'가 필요한 것 같다"는 진단을 내려주었습니다.
+          </p>
+          <p>
+            그동안 너무 성과 중심의 지식에만 매몰되어 정작 중요한 <strong>'조직 문화'와 '사람의 마음'을 놓치고 있었다는 사실을 깨달았습니다.</strong>
+          </p>
+          <p>
+            우리 회사가 가진 잠재력을 깨우고, 구성원들이 서로 지지하며 함께 성장할 수 있는 단단한 토대를 만들기 위해 본격적인 경영 컨설팅을 시작하게 되었습니다.
+          </p>
+        </article>
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/바이오닷 스토리 2.png" alt="바이오닷 스토리 의뢰 섹션 이미지" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="story-concern-section story-concern-section--concern story-experience-section" aria-label="경험 섹션">
+      <div class="story-concern-grid">
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/바이오닷 스토리 3.png" alt="바이오닷 스토리 경험 섹션 이미지" />
+        </figure>
+        <article class="story-concern-copy">
+          <p>
+            컨설팅은 조직의 문제를 진단하는 것부터 시작해, 성과 관리 시스템인 OKR을 도입하고 조직 문화를 재구축하는 과정으로 이어졌습니다. 특히 인상 깊었던 것은 컨설턴트의 태도였습니다. <strong>그는 경영자인 저의 외로움을 진심으로 이해하고 공감해주었습니다.</strong>
+          </p>
+          <p>
+            가장 감동적이었던 장면은 컨설팅이 종료된 후, 우리끼리 처음으로 전략 워크숍을 준비하던 때였습니다. 막막한 마음에 컨설턴트에게 전화 걸었는데, 그는 아무런 대가 없이 한걸음에 달려와 주었습니다.
+          </p>
+          <p>
+            오후 4시부터 밤 12시가 넘을 때까지 함께 치열하게 토론하며 워크숍을 이끌어주던 그의 진심 어린 모습에서, <strong>저는 단순한 계약 관계를 넘어서는 파트너십을 느꼈습니다.</strong>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="story-request-section" aria-label="변화 섹션">
+      <div class="story-concern-grid story-concern-grid--reverse">
+        <article class="story-concern-copy">
+          <p>
+            가장 큰 변화는 '도전의 주체'가 제가 아닌 '조직 전체'로 바뀌었다는 점입니다. 예전에는 저 혼자만 새로운 도전을 외쳤다면, 이제는 구성원들이 조직의 힘으로 함께 문제를 돌파해 나가는 내성이 생겼습니다.
+          </p>
+          <p>
+            한때 잠시 멈추려 했던 OKR 시스템을, <strong>오히려 직원들이 먼저 "이걸 놓치면 안 된다, OKR 수립하자"라고 제안해 왔을 때의 전율</strong>을 잊을 수 없습니다. 경영자가 강요하는 것이 아니라, 구성원 스스로가 시스템의 필요성을 느끼고 주도적으로 참여하는 문화가 정착된 것입니다.
+          </p>
+          <p>
+            저 또한 가인지에서의 경험을 통해, 사명감을 가지고 즐겁게 일하는 인재들이 조직에 얼마나 큰 활력을 주는지 깊이 체득하게 되었습니다.
+          </p>
+        </article>
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/바이오닷 스토리 4.png" alt="바이오닷 스토리 변화 섹션 이미지" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="story-concern-section" aria-label="비전 섹션">
+      <div class="story-concern-grid">
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/바이오닷 스토리 5.png" alt="바이오닷 스토리 비전 섹션 이미지" />
+        </figure>
+        <article class="story-concern-copy">
+          <p>
+            바이오닷은 이제 '녹용계의 정관장'을 꿈꿉니다. 2030년 매출 1,500억 달성이라는 가시적인 목표와 함께, 의약품, 식품, 화장품, 펫푸드 등 녹용이라는 원천 소재를 활용한 다양한 분야로 사업을 확장하고 있습니다.
+          </p>
+          <p>
+            저희의 진정한 비전은 전 세계인이 녹용을 건강하게 즐길 수 있는 문화를 만드는 것입니다. 일본과 동남아시아 등 글로벌 시장을 개척하며 각 나라의 문화에 맞는 녹용 제품을 선보일 계획입니다.
+          </p>
+          <p>
+            설령 매출이 조금 떨어지거나 이익이 줄어들더라도, 우리가 녹용을 진정으로 사랑하고 이 가치를 알리는 데 집중한다면 그 결과 또한 자연스럽게 따라올 것이라 믿습니다. <strong>우리는 매출을 넘어 이 일 자체가 하고 싶어졌습니다.</strong>
+          </p>
+        </article>
+      </div>
+      <p class="consulting-solution-cta-wrap">
+        <a href="story-inquiry-popup.html" class="consulting-solution-inquiry-btn" data-story-inquiry>컨설팅 문의하기</a>
+      </p>
+    </section>
+
+    <section class="story-principles-section" aria-label="핵심원리 섹션">
+      <div class="story-principles-container">
+        <img class="story-principles-footer-logo" src="assets/하단 로고.png" alt="하단 로고" />
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      function applyStoryMediaAspectFromSection3() {
+        var img = document.querySelector(".story-experience-section .story-concern-image");
+        if (!img) return;
+        function setRatio() {
+          var w = img.naturalWidth;
+          var h = img.naturalHeight;
+          if (w > 0 && h > 0) {
+            document.documentElement.style.setProperty(
+              "--story-media-aspect-ratio",
+              w + " / " + h
+            );
+          }
+        }
+        if (img.complete && img.naturalWidth > 0) setRatio();
+        else img.addEventListener("load", setRatio, { once: true });
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", applyStoryMediaAspectFromSection3);
+      } else {
+        applyStoryMediaAspectFromSection3();
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var root = document.querySelector("[data-inline-video]");
+      if (!root) return;
+
+      var watchUrl = root.getAttribute("data-story-youtube") || "";
+      var overlay = root.querySelector(".story-video-overlay");
+      var embedWrap = root.querySelector(".story-youtube-embed");
+      var iframe = embedWrap && embedWrap.querySelector(".story-video-player");
+      var closeBtn = embedWrap && embedWrap.querySelector(".story-video-embed-close");
+      if (!overlay || !embedWrap || !iframe) return;
+
+      function toEmbed(u) {
+        var s = (u || "").trim();
+        var m = s.match(/youtu\.be\/([^?&#]+)/i);
+        if (m) {
+          return (
+            "https://www.youtube.com/embed/" +
+            m[1] +
+            "?rel=0&modestbranding=1&playsinline=1&autoplay=1"
+          );
+        }
+        m = s.match(/[?&]v=([^?&#]+)/i);
+        if (m) {
+          return (
+            "https://www.youtube.com/embed/" +
+            m[1] +
+            "?rel=0&modestbranding=1&playsinline=1&autoplay=1"
+          );
+        }
+        return s;
+      }
+
+      function closeEmbed() {
+        iframe.setAttribute("src", "");
+        embedWrap.setAttribute("hidden", "hidden");
+        overlay.removeAttribute("hidden");
+      }
+
+      overlay.addEventListener("click", function () {
+        overlay.setAttribute("hidden", "hidden");
+        embedWrap.removeAttribute("hidden");
+        iframe.setAttribute("src", toEmbed(watchUrl));
+      });
+
+      if (closeBtn) closeBtn.addEventListener("click", closeEmbed);
+
+      var inquiryBtn = document.querySelector("[data-story-inquiry]");
+      if (inquiryBtn) {
+        inquiryBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          var inquiryUrl = inquiryBtn.getAttribute("href") || "story-inquiry-popup.html";
+          window.open(inquiryUrl, "_blank", "noopener,noreferrer,width=980,height=860");
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

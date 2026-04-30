@@ -1,0 +1,37 @@
+diagnosisId,typeId,imageFileName,altText
+leadership,S_TIME,img_leadership_S_TIME.png,시간관리 강점 이미지
+leadership,S_CONT,img_leadership_S_CONT.png,공헌집중 강점 이미지
+leadership,S_STRG,img_leadership_S_STRG.png,강점활용 강점 이미지
+leadership,S_PRIO,img_leadership_S_PRIO.png,우선순위 강점 이미지
+leadership,S_DECI,img_leadership_S_DECI.png,의사결정 강점 이미지
+leadership,S_CORE,img_leadership_S_CORE.png,핵심가치 강점 이미지
+leadership,G_TIME,img_leadership_G_TIME.png,시간관리 성장포인트 이미지
+leadership,G_CONT,img_leadership_G_CONT.png,공헌집중 성장포인트 이미지
+leadership,G_STRG,img_leadership_G_STRG.png,강점활용 성장포인트 이미지
+leadership,G_PRIO,img_leadership_G_PRIO.png,우선순위 성장포인트 이미지
+leadership,G_DECI,img_leadership_G_DECI.png,의사결정 성장포인트 이미지
+leadership,G_CORE,img_leadership_G_CORE.png,핵심가치 성장포인트 이미지
+dynamism,S_VISION,img_dynamism_S_VISION.png,비전정렬 강점 이미지
+dynamism,S_INNO,img_dynamism_S_INNO.png,혁신행동 강점 이미지
+dynamism,S_SUPP,img_dynamism_S_SUPP.png,지원적 리더십 강점 이미지
+dynamism,S_PSYC,img_dynamism_S_PSYC.png,심리적 안전감 강점 이미지
+dynamism,S_EFFI,img_dynamism_S_EFFI.png,업무 효능감 강점 이미지
+dynamism,G_VISION,img_dynamism_G_VISION.png,비전정렬 성장포인트 이미지
+dynamism,G_INNO,img_dynamism_G_INNO.png,혁신행동 성장포인트 이미지
+dynamism,G_SUPP,img_dynamism_G_SUPP.png,지원적 리더십 성장포인트 이미지
+dynamism,G_PSYC,img_dynamism_G_PSYC.png,심리적 안전감 성장포인트 이미지
+dynamism,G_EFFI,img_dynamism_G_EFFI.png,업무 효능감 성장포인트 이미지
+gainge_mgmt,S_CULT_SAT,img_gainge_mgmt_S_CULT_SAT.png,문화 만족 강점 이미지
+gainge_mgmt,S_TAL_PLACE,img_gainge_mgmt_S_TAL_PLACE.png,인재 배치 강점 이미지
+gainge_mgmt,S_TASK_DRV,img_gainge_mgmt_S_TASK_DRV.png,과업 추진 강점 이미지
+gainge_mgmt,S_VAL_PRAC,img_gainge_mgmt_S_VAL_PRAC.png,가치 실천 강점 이미지
+gainge_mgmt,S_COMP_EDGE,img_gainge_mgmt_S_COMP_EDGE.png,경쟁력 확보 강점 이미지
+gainge_mgmt,S_LEAD_TRUST,img_gainge_mgmt_S_LEAD_TRUST.png,리더십 신뢰 강점 이미지
+gainge_mgmt,S_HR_DEV,img_gainge_mgmt_S_HR_DEV.png,인재 양성 강점 이미지
+gainge_mgmt,G_CULT_SAT,img_gainge_mgmt_G_CULT_SAT.png,문화 만족 성장포인트 이미지
+gainge_mgmt,G_TAL_PLACE,img_gainge_mgmt_G_TAL_PLACE.png,인재 배치 성장포인트 이미지
+gainge_mgmt,G_TASK_DRV,img_gainge_mgmt_G_TASK_DRV.png,과업 추진 성장포인트 이미지
+gainge_mgmt,G_VAL_PRAC,img_gainge_mgmt_G_VAL_PRAC.png,가치 실천 성장포인트 이미지
+gainge_mgmt,G_COMP_EDGE,img_gainge_mgmt_G_COMP_EDGE.png,경쟁력 확보 성장포인트 이미지
+gainge_mgmt,G_LEAD_TRUST,img_gainge_mgmt_G_LEAD_TRUST.png,리더십 신뢰 성장포인트 이미지
+gainge_mgmt,G_HR_DEV,img_gainge_mgmt_G_HR_DEV.png,인재 양성 성장포인트 이미지

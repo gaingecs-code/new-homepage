@@ -1,0 +1,116 @@
+const ts = "2026-04-28T00:00:00.000Z";
+
+export const defaultEducationProgramsData = {
+  introTitle: "교육 프로그램 소개",
+  updatedAt: ts,
+  items: [
+    {
+      id: "cert-1",
+      group: "자격증 과정",
+      title: "원온원 코칭 자격증",
+      imageUrl: "assets/images/교육페이지 소개 1.png",
+      overview:
+        "1on1 미팅을 통해 성과관리와 동기부여의 방법을 알게 됩니다.\n조직 구성원의 변화를 경험하십시오.",
+      targets: [
+        "- 피드백을 잘 하고 싶은 CEO",
+        "- 문화와 성과를 창출하는 중간관리자",
+        "- 효율적으로 팀을 이끌고 싶은 책임자",
+      ],
+      schedule: "연 6회. 회당 2일 총 12시간 운영",
+      link: "https://gainge.com/contents/products/687",
+      ended: false,
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: "cert-2",
+      group: "자격증 과정",
+      title: "OKR 코치 자격증",
+      imageUrl: "assets/images/교육 페이지 소개 2.png",
+      overview:
+        "기업에서 OKR을 설계하고 퍼실리테이팅 할 수 있게 됩니다.\n기업에 OKR의 효과를 불어넣으십시오.",
+      targets: [
+        "- KPI의 한계를 느끼는 경영자",
+        "- OKR 도입 후 운영에서 막힌 리더",
+        "- OKR을 조직에 안착시켜야 하는 인사팀장",
+      ],
+      schedule: "연 4회. 회당 2일 총 16시간 운영",
+      link: "https://gainge.com/contents/products/576",
+      ended: false,
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: "onboarding-1",
+      group: "직급별 교육",
+      title: "팀장 스쿨",
+      imageUrl: "assets/images/교육 페이지 소개 3.png",
+      overview:
+        "팀장은 개인이 아니라 팀으로 일해야 합니다.\n실무자를 넘어 리더로 나아가십시오.",
+      targets: [
+        "- 리더가 되고싶은 실무형 CEO",
+        "- 새롭게 임명된 임원",
+        "- 팀을 잘 이끌고 싶은 팀장",
+      ],
+      schedule: "연 6회. 회당 1일 총 6시간 30분.",
+      link: "https://gainge.com/contents/products/764",
+      ended: false,
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: "onboarding-2",
+      group: "직급별 교육",
+      title: "직장인 학교",
+      imageUrl: "assets/images/교육 페이지 소개 4.png",
+      overview:
+        "일하는 방법과 조직 소통을 재대로 시작해야 합니다.\n태도, 소통, 성장습관을 여기에서 만드십시오.",
+      targets: [
+        "- 프로페셔널하게 성장시킬 직원",
+        "- 일하는 자세와 습관을 다듬을 직원",
+        "- 기업 온보딩 프로그램을 만들 인사담당자",
+      ],
+      schedule: "연 5회. 회당 총 6시간.",
+      link: "https://gainge.com/contents/products/766",
+      ended: false,
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: "workshop-1",
+      group: "직무별 교육",
+      title: "면접관 교육",
+      imageUrl: "assets/images/교육 페이지 소개 5.png",
+      overview:
+        "채용은 기업의 성과와 조직문화에 직결됩니다.\n면접관 교육으로 채용 실패를 예방하십시오.",
+      targets: [
+        "- 채용이 고민인 기업 CEO",
+        "- 좋은 인재를 발견하고 싶은 리더와 팀장",
+        "- 면접관 역할을 처음 맡는 실무자",
+      ],
+      schedule: "4월 15일(수) 오후 1시 ~ 오후 6시. 가인지 벙커(서울시 토정로 16. 2F)",
+      link: "https://gainge.com/contents/products/1008",
+      ended: true,
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: "workshop-2",
+      group: "직무별 교육",
+      title: "강점 기반 영업 워크샵",
+      imageUrl: "assets/images/교육페이지 소개 6.png",
+      overview:
+        "Clifton Strengths for Sales 진단을 기반으로\n나의 영업 방식을 설계하고 실행법을 만드십시오.",
+      targets: [
+        "- 영업 업무를 수행하는 실무자",
+        "- 자신에게 맞는 영업 스타일을 찾는 경영자와 실무자",
+        "- 영업팀의 성과를 높이고 싶은 경영자, 팀장",
+      ],
+      schedule: "6월 13일(토), 6월 27일(토) 오후 2시 ~ 5시. 가인지벙커(서울시 토정로 16. 2F)",
+      link: "https://gainge.com/contents/products/974",
+      ended: true,
+      createdAt: ts,
+      updatedAt: ts,
+    },
+  ],
+};

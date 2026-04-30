@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>작성자 게시글</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="author-posts-popup">
+  <main>
+    <section aria-label="작성자 게시글 목록">
+      <div class="container">
+        <header class="author-posts-popup-header">
+          <h1 class="author-posts-popup-title" id="authorPostsHeading">작성자 게시글</h1>
+          <button type="button" class="author-posts-popup-close" id="authorPostsClose">닫기</button>
+        </header>
+
+        <ul class="board-list" id="authorPostsList" aria-label="작성자 게시글 목록"></ul>
+
+        <nav class="board-pagination" id="authorPostsPagination" aria-label="작성자 게시글 페이지 이동"></nav>
+        <p class="author-posts-popup-empty" id="authorPostsEmpty" hidden>해당 작성자의 게시글이 없습니다.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var STORAGE_KEY = "testimonialsBoardPosts";
+      var PAGE_SIZE = 10;
+      var currentPage = 1;
+
+      var params = new URLSearchParams(window.location.search);
+      var authorName = (params.get("author") || "").trim();
+
+      var headingEl = document.getElementById("authorPostsHeading");
+      var listEl = document.getElementById("authorPostsList");
+      var paginationEl = document.getElementById("authorPostsPagination");
+      var emptyEl = document.getElementById("authorPostsEmpty");
+      var closeBtn = document.getElementById("authorPostsClose");
+
+      function loadAllPosts() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          var parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (err) {
+          return [];
+        }
+      }
+
+      function render(posts, page) {
+        var totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
+        currentPage = Math.max(1, Math.min(page, totalPages));
+        var start = (currentPage - 1) * PAGE_SIZE;
+        var pagePosts = posts.slice(start, start + PAGE_SIZE);
+
+        listEl.innerHTML = "";
+        pagePosts.forEach(function (post) {
+          var li = document.createElement("li");
+          li.className = "board-item";
+          li.innerHTML =
+            '<a href="#" class="board-thumb-link" aria-label="게시글 썸네일">' +
+            '<img class="board-thumb-image" src="' + (post.thumbnail || "") + '" alt="' + (post.title || "게시글") + ' 썸네일" loading="lazy" decoding="async" />' +
+            "</a>" +
+            '<div class="board-meta">' +
+            '<a href="#" class="board-title">' + (post.title || "제목 없음") + "</a>" +
+            '<span class="board-author">' + (post.author || "작성자") + "</span>" +
+            "</div>";
+          listEl.appendChild(li);
+        });
+
+        paginationEl.innerHTML = "";
+        if (posts.length > PAGE_SIZE) {
+          var numbersWrap = document.createElement("div");
+          numbersWrap.className = "board-page-numbers";
+          for (var i = 1; i <= totalPages; i += 1) {
+            var btn = document.createElement("a");
+            btn.href = "#";
+            btn.className = "board-page-num" + (i === currentPage ? " is-current" : "");
+            btn.setAttribute("data-page", String(i));
+            if (i === currentPage) {
+              btn.setAttribute("aria-current", "page");
+            }
+            btn.textContent = String(i);
+            numbersWrap.appendChild(btn);
+          }
+          paginationEl.appendChild(numbersWrap);
+        }
+      }
+
+      var allPosts = loadAllPosts();
+      var authorPosts = allPosts.filter(function (post) {
+        return (post.author || "").trim() === authorName;
+      });
+
+      headingEl.textContent = authorName ? authorName + " 작성 게시글" : "작성자 게시글";
+
+      if (!authorPosts.length) {
+        emptyEl.hidden = false;
+      } else {
+        emptyEl.hidden = true;
+        render(authorPosts, 1);
+      }
+
+      paginationEl.addEventListener("click", function (e) {
+        var pageLink = e.target.closest(".board-page-num");
+        if (!pageLink) return;
+        e.preventDefault();
+        var targetPage = parseInt(pageLink.getAttribute("data-page"), 10);
+        if (!Number.isNaN(targetPage)) {
+          render(authorPosts, targetPage);
+        }
+      });
+
+      closeBtn.addEventListener("click", function () {
+        window.close();
+      });
+    })();
+  </script>
+</body>
+</html>

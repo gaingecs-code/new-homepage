@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>성공 사례</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 상단 고정 헤더 (메인·가인지경영과 동일) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+      </a>
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="메뉴 열기">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="gainge-management.html">가인지컨설팅그룹</a></li>
+          <li><a href="consulting.html">컨설팅 서비스</a></li>
+          <li><a href="testimonials.html" class="nav-current">고객 사례</a></li>
+          <li><a href="corporate-education.html">기업교육</a></li>
+          <li><a href="community.html">경영자 커뮤니티</a></li>
+          <li><a href="about.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="header-actions-top">
+          <button type="button" class="pill-cta-button" data-header-diagnosis>기업 진단하기<span class="pill-cta-badge">Free</span></button>
+          <button type="button" class="pill-cta-button" data-gainge-campus>가인지캠퍼스 바로가기</button>
+          <button class="header-auth-button">로그인/회원가입</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="testimonials-main">
+    <!-- 첫 섹션: 히어로 이미지 5장 로테이션(컨설팅 첫 섹션과 동일 구조·스크립트) -->
+    <section
+      class="consulting-group-photo-section testimonials-case-hero"
+      aria-label="고객 사례 히어로"
+      data-testimonials-group-hero
+      role="region"
+    >
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-a" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-b" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-overlay" aria-hidden="true"></div>
+      <div class="consulting-group-photo-content">
+        <h1 class="consulting-group-photo-title">Do Everything in LOVE</h1>
+      </div>
+    </section>
+
+    <!-- 성공 사례: 간증 썸네일·스토리 -->
+    <section class="testimonials-hero" aria-labelledby="testimonials-stories-heading">
+      <div class="container testimonials-hero-wrap">
+        <div class="consulting-group-photo-dots" role="tablist" aria-label="단체 사진 이미지 선택">
+          <button
+            type="button"
+            class="consulting-group-photo-dot"
+            role="tab"
+            data-testimonials-hero-dot
+            data-testimonials-hero-index="0"
+            aria-selected="true"
+            aria-label="이미지 1 보기"
+          ></button>
+          <button
+            type="button"
+            class="consulting-group-photo-dot"
+            role="tab"
+            data-testimonials-hero-dot
+            data-testimonials-hero-index="1"
+            aria-selected="false"
+            aria-label="이미지 2 보기"
+          ></button>
+          <button
+            type="button"
+            class="consulting-group-photo-dot"
+            role="tab"
+            data-testimonials-hero-dot
+            data-testimonials-hero-index="2"
+            aria-selected="false"
+            aria-label="이미지 3 보기"
+          ></button>
+          <button
+            type="button"
+            class="consulting-group-photo-dot"
+            role="tab"
+            data-testimonials-hero-dot
+            data-testimonials-hero-index="3"
+            aria-selected="false"
+            aria-label="이미지 4 보기"
+          ></button>
+          <button
+            type="button"
+            class="consulting-group-photo-dot"
+            role="tab"
+            data-testimonials-hero-dot
+            data-testimonials-hero-index="4"
+            aria-selected="false"
+            aria-label="이미지 5 보기"
+          ></button>
+        </div>
+        <h2 id="testimonials-stories-heading" class="testimonials-stories-heading">고객 스토리</h2>
+        <!-- 간증 이미지 3개 (1행) + 썸네일 아래 문구, 개별 간증 페이지 링크, 재생 버튼 -->
+        <div class="story-grid" aria-label="간증 스토리">
+          <div class="story-grid-item">
+            <button type="button" class="story-thumb-link" aria-label="간증 영상 1 재생" data-testimonials-page-video="1">
+              <span class="story-thumb-image-wrap">
+                <img src="assets/간증 이미지 샘플 1.jpg" alt="간증 1" />
+                <span class="story-play-btn" aria-hidden="true"></span>
+              </span>
+            </button>
+            <div class="community-intro-detail-slot">
+              <a
+                href="story-testimonial-1.html"
+                class="community-intro-more-btn"
+                onclick="window.open(this.href, 'testimonialsStoryPopup', 'width=1080,height=860,scrollbars=yes,resizable=yes'); return false;"
+              >태향 스토리 보기</a>
+            </div>
+          </div>
+          <div class="story-grid-item">
+            <button type="button" class="story-thumb-link" aria-label="간증 영상 2 재생" data-testimonials-page-video="2">
+              <span class="story-thumb-image-wrap">
+                <img src="assets/간증 이미지 샘플 2.jpg" alt="간증 2" />
+                <span class="story-play-btn" aria-hidden="true"></span>
+              </span>
+            </button>
+            <div class="community-intro-detail-slot">
+              <a
+                href="story-testimonial-2.html"
+                class="community-intro-more-btn"
+                onclick="window.open(this.href, 'testimonialsStoryPopup', 'width=1080,height=860,scrollbars=yes,resizable=yes'); return false;"
+              >실란트로  스토리 보기</a>
+            </div>
+          </div>
+          <div class="story-grid-item">
+            <button type="button" class="story-thumb-link" aria-label="간증 영상 3 재생" data-testimonials-page-video="3">
+              <span class="story-thumb-image-wrap">
+                <img src="assets/간증 이미지 샘플 3.jpg" alt="간증 3" />
+                <span class="story-play-btn" aria-hidden="true"></span>
+              </span>
+            </button>
+            <div class="community-intro-detail-slot">
+              <a
+                href="story-testimonial-3.html"
+                class="community-intro-more-btn"
+                onclick="window.open(this.href, 'testimonialsStoryPopup', 'width=1080,height=860,scrollbars=yes,resizable=yes'); return false;"
+              >바이오닷 스토리 보기</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 검색 섹션: 성공사례 게시글 검색/상세검색(UI) -->
+    <section class="testimonials-search" aria-label="성공 사례 검색">
+      <div class="container">
+        <form class="testimonials-search-form" role="search" action="#" method="get">
+          <label class="sr-only" for="successSearchInput">성공사례 검색</label>
+          <input
+            id="successSearchInput"
+            name="q"
+            type="search"
+            class="testimonials-search-input"
+            placeholder="검색창"
+            autocomplete="off"
+          />
+          <button type="submit" class="testimonials-search-button" aria-label="검색">
+            <span aria-hidden="true" class="testimonials-search-icon"></span>
+          </button>
+        </form>
+
+        <div class="testimonials-filters" aria-label="상세 검색">
+          <div class="testimonials-filter-row">
+            <div class="testimonials-filter-label">산업 분류</div>
+            <div class="testimonials-filter-body testimonials-filter-body--industry">
+              <div class="testimonials-filter-chip-row" role="group" aria-label="산업 분류 첫째 줄">
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="소비재·F&amp;B·뷰티">소비재·F&amp;B·뷰티</button>
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="ICT·전자">ICT·전자</button>
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="모빌리티·산업재">모빌리티·산업재</button>
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="건설·에너지">건설·에너지</button>
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="바이오·헬스케어">바이오·헬스케어</button>
+              </div>
+              <div class="testimonials-filter-chip-row" role="group" aria-label="산업 분류 둘째 줄">
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="콘텐츠·교육·미디어">콘텐츠·교육·미디어</button>
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="금융">금융</button>
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="공공영역·NGO">공공영역·NGO</button>
+                <button type="button" class="filter-chip" data-filter-group="industry" data-filter-value="유통·라이프스타일">유통·라이프스타일</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonials-filter-row">
+            <div class="testimonials-filter-label">규모 분류</div>
+            <div class="testimonials-filter-body">
+              <button type="button" class="filter-chip" data-filter-group="scale" data-filter-value="5인 미만">5인 미만</button>
+              <button type="button" class="filter-chip" data-filter-group="scale" data-filter-value="5~10인">5~10인</button>
+              <button type="button" class="filter-chip" data-filter-group="scale" data-filter-value="10~20인">10~20인</button>
+              <button type="button" class="filter-chip" data-filter-group="scale" data-filter-value="20~50인">20~50인</button>
+              <button type="button" class="filter-chip" data-filter-group="scale" data-filter-value="50인 이상">50인 이상</button>
+            </div>
+          </div>
+
+          <div class="testimonials-filter-row">
+            <div class="testimonials-filter-label">컨설팅 유형</div>
+            <div class="testimonials-filter-body">
+              <button type="button" class="filter-chip" data-filter-group="consulting" data-filter-value="HR 컨설팅">HR 컨설팅</button>
+              <button type="button" class="filter-chip" data-filter-group="consulting" data-filter-value="전략 컨설팅">전략 컨설팅</button>
+              <button type="button" class="filter-chip" data-filter-group="consulting" data-filter-value="마케팅 컨설팅">마케팅 컨설팅</button>
+              <button type="button" class="filter-chip" data-filter-group="consulting" data-filter-value="성과관리 컨설팅">성과관리 컨설팅</button>
+              <button type="button" class="filter-chip" data-filter-group="consulting" data-filter-value="경영자문">경영자문</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      게시판 섹션 (Admin 연동 예정)
+      - 게시글 작성 시 산업 분류·규모 분류·컨설팅 유형을 체크박스 형태로 선택해 게시.
+      - 저장된 값은 각 li의 data-testimonial-industry / data-testimonial-scale / data-testimonial-consulting 에 출력.
+      - 문자열은 상세분류 필터 칩의 data-filter-value 와 동일해야 검색·필터와 일치함.
+      - 한 축에서 복수 선택 시 값은 파이프(|)로 구분. 예: data-testimonial-industry="ICT·전자|금융"
+    -->
+    <section class="testimonials-board" aria-label="성공 사례 게시판">
+      <div class="container">
+        <ul class="board-list" aria-label="게시글 목록" data-admin-section="testimonialsBoard">
+          <li class="board-item" data-admin-item-key="board-post-1" data-testimonial-industry="ICT·전자" data-testimonial-scale="10~20인" data-testimonial-consulting="HR 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 1 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a1.JPG" alt="게시글 1 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 1 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 1</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 1 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-2" data-testimonial-industry="소비재·F&amp;B·뷰티" data-testimonial-scale="5~10인" data-testimonial-consulting="마케팅 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 2 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a2.JPG" alt="게시글 2 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 2 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 2</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 2 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-3" data-testimonial-industry="건설·에너지" data-testimonial-scale="50인 이상" data-testimonial-consulting="전략 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 3 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a3.JPG" alt="게시글 3 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 3 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 3</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 3 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-4" data-testimonial-industry="바이오·헬스케어" data-testimonial-scale="5인 미만" data-testimonial-consulting="성과관리 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 4 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a4.JPG" alt="게시글 4 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 4 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 4</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 4 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-5" data-testimonial-industry="유통·라이프스타일" data-testimonial-scale="20~50인" data-testimonial-consulting="경영자문">
+            <a href="#" class="board-thumb-link" aria-label="게시글 5 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a5.JPG" alt="게시글 5 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 5 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 5</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 5 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-6" data-testimonial-industry="금융" data-testimonial-scale="10~20인" data-testimonial-consulting="HR 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 6 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a1.JPG" alt="게시글 6 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 6 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 6</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 6 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-7" data-testimonial-industry="콘텐츠·교육·미디어" data-testimonial-scale="5~10인" data-testimonial-consulting="마케팅 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 7 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a2.JPG" alt="게시글 7 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 7 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 7</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 7 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-8" data-testimonial-industry="모빌리티·산업재" data-testimonial-scale="50인 이상" data-testimonial-consulting="전략 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 8 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a3.JPG" alt="게시글 8 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 8 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 8</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 8 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-9" data-testimonial-industry="공공영역·NGO" data-testimonial-scale="20~50인" data-testimonial-consulting="성과관리 컨설팅">
+            <a href="#" class="board-thumb-link" aria-label="게시글 9 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a4.JPG" alt="게시글 9 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 9 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 9</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 9 본문 내용입니다.</span>
+            </div>
+          </li>
+          <li class="board-item" data-admin-item-key="board-post-10" data-testimonial-industry="ICT·전자" data-testimonial-scale="5인 미만" data-testimonial-consulting="경영자문">
+            <a href="#" class="board-thumb-link" aria-label="게시글 10 썸네일 보기">
+              <img class="board-thumb-image" data-admin-field="thumbnail" src="assets/a5.JPG" alt="게시글 10 썸네일" loading="lazy" decoding="async" />
+            </a>
+            <div class="board-meta">
+              <a href="#" class="board-title" data-admin-field="title">게시글 10 제목이 들어갑니다</a>
+              <a href="#" class="board-author" data-admin-field="author">작성자 10</a>
+              <span class="board-content-source sr-only" data-admin-field="content">게시글 10 본문 내용입니다.</span>
+            </div>
+          </li>
+        </ul>
+        <p class="board-empty-message" id="boardEmptyMessage" hidden role="status">검색 조건에 맞는 성공 사례가 없습니다.</p>
+        <nav class="board-pagination" aria-label="게시판 페이지">
+          <div class="board-page-numbers" data-page-group="1" aria-label="1~10 페이지">
+            <a href="#" class="board-page-num is-current" data-page="1" aria-current="page">1</a>
+            <a href="#" class="board-page-num" data-page="2">2</a>
+            <a href="#" class="board-page-num" data-page="3">3</a>
+            <a href="#" class="board-page-num" data-page="4">4</a>
+            <a href="#" class="board-page-num" data-page="5">5</a>
+            <a href="#" class="board-page-num" data-page="6">6</a>
+            <a href="#" class="board-page-num" data-page="7">7</a>
+            <a href="#" class="board-page-num" data-page="8">8</a>
+            <a href="#" class="board-page-num" data-page="9">9</a>
+            <a href="#" class="board-page-num" data-page="10">10</a>
+          </div>
+          <a href="#" class="board-page-next" aria-label="다음 10개 페이지">다음 10개 <span aria-hidden="true">▶</span></a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- 게시글 본문 팝업 (제목 클릭 시 표시) -->
+    <div class="board-article-overlay hidden" id="boardArticleOverlay" aria-hidden="true">
+      <div class="board-article-modal" role="dialog" aria-modal="true" aria-labelledby="boardArticleTitle" aria-describedby="board-article-body">
+        <button type="button" class="board-article-close" aria-label="닫기" id="boardArticleClose">×</button>
+        <div class="board-article-body" id="board-article-body">
+          <h2 class="board-article-title" id="boardArticleTitle">팀장님, 저 출퇴근 하는게 맞나요? 백지 말고 시작했다<br />생산성을 한도 껏 올릴 수 있겠죠?</h2>
+          <p>본문 플레이스홀더입니다. 추후 Admin에서 작성한 게시글 내용이 여기에 표시됩니다. 여러 단락과 소제목, 이미지를 넣을 수 있는 구조로 마크업해 두었습니다.</p>
+          <p>성공 사례를 형식지로 배우고, 우리 기업의 목표를 점검하는 내용이 이어질 수 있습니다.</p>
+          <h3 class="board-article-heading">성공자를 형식지로 배우는 법</h3>
+          <p>명시지와 암묵지를 활용해 성공 사례를 체계적으로 학습하는 방법을 소개합니다.</p>
+          <figure class="board-article-figure">
+            <span class="board-article-img-placeholder" aria-hidden="true">이미지 영역 (추후 본문 이미지)</span>
+          </figure>
+          <h3 class="board-article-heading">우리 기업의 2024년 목표는 지금 어디에 있습니까?</h3>
+          <p>목표 설정과 실행 점검의 중요성을 다룹니다.</p>
+          <figure class="board-article-figure">
+            <span class="board-article-img-placeholder" aria-hidden="true">도식/이미지 영역 (추후 본문 이미지)</span>
+          </figure>
+          <p class="board-article-cta-wrap">
+            <a href="index.html#contact" class="board-article-cta">고민 상담하기</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container footer-inner">
+        <div class="footer-top-row">
+          <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
+            <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+          </a>
+          <div class="footer-social-icons" aria-label="SNS 바로가기">
+            <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
+              <img src="assets/1.png" alt="" />
+            </a>
+            <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
+              <img src="assets/푸터 인스타.png" alt="" />
+            </a>
+            <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
+              <img src="assets/푸터 블로그.png" alt="" />
+            </a>
+          </div>
+        </div>
+        <div class="footer-legal">
+          <p class="footer-legal-line">
+            (주)가인지캠퍼스 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 639-88-00543 &nbsp;|&nbsp; 통신판매업신고: 제 2017-서울마포-1383호
+          </p>
+          <p class="footer-legal-line">
+            이메일: <a href="mailto:gainge.cs@gainge.com" target="_blank" rel="noopener noreferrer">gainge.cs@gainge.com</a> &nbsp;|&nbsp; 대표번호: <a href="tel:02-337-0691" target="_blank" rel="noopener noreferrer">02-337-0691</a> &nbsp;|&nbsp; 주소: 서울특별시 마포구 토정로 16 2층
+          </p>
+          <p class="footer-copyright">© 2026 가인지컨설팅그룹. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 고객 사례 히어로 간증 영상: data/testimonials-page.json, #testimonials-page-data, 기본값 순 -->
+    <div class="community-video-popup" id="testimonials-page-video-popup" role="dialog" aria-modal="true" aria-label="간증 영상" hidden>
+      <div class="community-video-popup-backdrop"></div>
+      <div class="community-video-popup-inner">
+        <button type="button" class="community-video-popup-close" aria-label="닫기">&times;</button>
+        <div class="community-video-popup-body">
+          <iframe class="community-video-popup-iframe" title="간증 영상" allowfullscreen hidden></iframe>
+          <video
+            class="testimonial-popup-video-native"
+            controls
+            playsinline
+            preload="metadata"
+            title="간증 영상"
+            hidden
+          ></video>
+          <div class="home-testimonial-video-placeholder">
+            <p>영상이 준비 중입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script>
+    (function () {
+      var root = document.querySelector("[data-testimonials-group-hero]");
+      if (!root) return;
+
+      var layers = root.querySelectorAll(".consulting-group-photo-bg");
+      if (!layers || layers.length < 2) return;
+
+      var dots = document.querySelectorAll(".testimonials-main [data-testimonials-hero-dot]");
+
+      var photos = [
+        "assets/a1.JPG",
+        "assets/a2.JPG",
+        "assets/a3.JPG",
+        "assets/a4.JPG",
+        "assets/a5.JPG"
+      ];
+      var n = photos.length;
+      if (!n) return;
+
+      var currentPhotoIdx = 0;
+      var activeLayerIdx = 0;
+      var timer = null;
+      var firstTimer = null;
+      var AUTO_MS = 2600;
+      var FADE_MS = 1500;
+      var FIRST_FADE_IN_MS = 620;
+      var FIRST_ROTATION_CROSSFADE_MS = 300;
+      var isFirstRotation = true;
+      var reduceMotion =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduceMotion) {
+        AUTO_MS = 5000;
+        FADE_MS = 0;
+      }
+
+      /** 모든 히어로 이미지가 로드된 뒤 로테이션 시작(미로드 시 두 번째 장 등이 비어 보이는 현상 방지) */
+      function runWhenImagesReady(done) {
+        var pending = n;
+        if (pending === 0) {
+          done();
+          return;
+        }
+        function one() {
+          pending -= 1;
+          if (pending <= 0) done();
+        }
+        for (var i = 0; i < n; i++) {
+          var img = new Image();
+          img.onload = one;
+          img.onerror = one;
+          img.src = photos[i];
+        }
+      }
+
+      function setLayerBg(layer, url, photoIndex) {
+        var safe = encodeURI(url).replace(/'/g, "%27");
+        var u = 'url("' + safe + '")';
+        var fill = layer.querySelector(".consulting-group-photo-bg-fill");
+        var main = layer.querySelector(".consulting-group-photo-bg-main");
+        if (fill) fill.style.backgroundImage = u;
+        if (main) main.style.backgroundImage = u;
+        var useBlurFill = typeof photoIndex === "number" && photoIndex >= 2;
+        layer.classList.toggle("consulting-group-photo-bg--blur-fill", useBlurFill);
+      }
+
+      function updateDots() {
+        if (!dots || !dots.length) return;
+        dots.forEach(function (dot) {
+          var i = parseInt(dot.getAttribute("data-testimonials-hero-index"), 10);
+          var on = i === currentPhotoIdx;
+          dot.classList.toggle("is-current", on);
+          dot.setAttribute("aria-selected", on ? "true" : "false");
+        });
+      }
+
+      function goTo(targetIdx) {
+        targetIdx = ((targetIdx % n) + n) % n;
+        if (targetIdx === currentPhotoIdx) {
+          schedule();
+          return;
+        }
+
+        if (isFirstRotation) {
+          isFirstRotation = false;
+          layers[0].style.transitionDuration = "";
+          layers[1].style.transitionDuration = "";
+        }
+
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        setLayerBg(layers[incomingLayerIdx], photos[targetIdx], targetIdx);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = targetIdx;
+        activeLayerIdx = incomingLayerIdx;
+        updateDots();
+        schedule();
+      }
+
+      function showInitial() {
+        var first = layers[0];
+        setLayerBg(first, photos[0], 0);
+        setLayerBg(layers[1], photos[1 % n], 1 % n);
+        layers[1].classList.remove("is-active");
+        if (!reduceMotion) {
+          first.style.transitionDuration = FIRST_FADE_IN_MS / 1000 + "s";
+        }
+        window.requestAnimationFrame(function () {
+          first.classList.add("is-active");
+          if (!reduceMotion) {
+            function clearFirstFadeDuration(e) {
+              if (e && e.propertyName !== "opacity") return;
+              first.removeEventListener("transitionend", clearFirstFadeDuration);
+              first.style.transitionDuration = "";
+            }
+            first.addEventListener("transitionend", clearFirstFadeDuration);
+            window.setTimeout(clearFirstFadeDuration, FIRST_FADE_IN_MS + 120);
+          }
+        });
+      }
+
+      function next() {
+        var nextPhotoIdx = (currentPhotoIdx + 1) % n;
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        var useShortFirstRotation = !reduceMotion && isFirstRotation;
+        if (useShortFirstRotation) {
+          layers[0].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+          layers[1].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+        }
+
+        setLayerBg(layers[incomingLayerIdx], photos[nextPhotoIdx], nextPhotoIdx);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = nextPhotoIdx;
+        activeLayerIdx = incomingLayerIdx;
+
+        if (useShortFirstRotation) {
+          isFirstRotation = false;
+          window.setTimeout(function () {
+            layers[0].style.transitionDuration = "";
+            layers[1].style.transitionDuration = "";
+          }, FIRST_ROTATION_CROSSFADE_MS + 80);
+        }
+        updateDots();
+      }
+
+      function clear() {
+        if (firstTimer !== null) {
+          window.clearTimeout(firstTimer);
+          firstTimer = null;
+        }
+        if (timer !== null) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function schedule() {
+        clear();
+        var firstDelay = AUTO_MS;
+        firstTimer = window.setTimeout(function () {
+          next();
+          timer = window.setInterval(next, AUTO_MS);
+          firstTimer = null;
+        }, firstDelay);
+      }
+
+      function pause() {
+        clear();
+      }
+
+      function resume() {
+        schedule();
+      }
+
+      runWhenImagesReady(function () {
+        showInitial();
+        updateDots();
+        schedule();
+      });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          var i = parseInt(dot.getAttribute("data-testimonials-hero-index"), 10);
+          if (Number.isNaN(i)) return;
+          goTo(i);
+        });
+      });
+
+      root.addEventListener("focusin", pause);
+      root.addEventListener("focusout", function (e) {
+        if (!root.contains(e.relatedTarget)) resume();
+      });
+    })();
+  </script>
+  <script src="js/site-data.js"></script>
+  <!-- data/testimonials-page.json 과 동기화. file:// 폴백 -->
+  <script type="application/json" id="testimonials-page-data">
+{
+  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "pageVideoUrls": {
+    "1": "https://youtu.be/uNRDkKpbWQs",
+    "2": "https://youtu.be/ZxaHLlL2ESg",
+    "3": "https://youtu.be/Dz3ya3PD9eU"
+  },
+  "storyPageUrls": {
+    "1": "",
+    "2": "",
+    "3": ""
+  }
+}
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

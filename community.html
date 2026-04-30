@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>경영자 커뮤니티</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 상단 고정 헤더 (다른 페이지와 동일 구조) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html#hero" class="logo">
+        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+      </a>
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="메뉴 열기">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="gainge-management.html">가인지컨설팅그룹</a></li>
+          <li><a href="consulting.html">컨설팅 서비스</a></li>
+          <li><a href="testimonials.html">고객 사례</a></li>
+          <li><a href="corporate-education.html">기업교육</a></li>
+          <li><a href="community.html" class="nav-current">경영자 커뮤니티</a></li>
+          <li><a href="about.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="header-actions-top">
+          <button type="button" class="pill-cta-button" data-header-diagnosis>기업 진단하기<span class="pill-cta-badge">Free</span></button>
+          <button type="button" class="pill-cta-button" data-gainge-campus>가인지캠퍼스 바로가기</button>
+          <button class="header-auth-button">로그인/회원가입</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="community-main" aria-label="경영자 커뮤니티">
+    <!-- 초대 섹션: 고객 사례 첫 섹션과 동일 구조 (히어로 이미지 6장 로테이션) -->
+    <section
+      class="consulting-group-photo-section testimonials-case-hero"
+      aria-label="커뮤니티 초대 히어로"
+      data-community-invitation-hero
+      role="region"
+    >
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-a" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-b" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-overlay" aria-hidden="true"></div>
+      <div class="consulting-group-photo-content">
+        <h1 class="consulting-group-photo-title">The Movement</h1>
+      </div>
+    </section>
+
+    <section class="community-hero-dots-section" aria-label="히어로 도트 네비게이션">
+      <div class="container">
+        <div class="consulting-group-photo-dots" role="tablist" aria-label="히어로 이미지 선택">
+          <button type="button" class="consulting-group-photo-dot" role="tab" data-community-invitation-hero-dot data-community-invitation-hero-index="0" aria-selected="true" aria-label="이미지 1 보기"></button>
+          <button type="button" class="consulting-group-photo-dot" role="tab" data-community-invitation-hero-dot data-community-invitation-hero-index="1" aria-selected="false" aria-label="이미지 2 보기"></button>
+          <button type="button" class="consulting-group-photo-dot" role="tab" data-community-invitation-hero-dot data-community-invitation-hero-index="2" aria-selected="false" aria-label="이미지 3 보기"></button>
+          <button type="button" class="consulting-group-photo-dot" role="tab" data-community-invitation-hero-dot data-community-invitation-hero-index="3" aria-selected="false" aria-label="이미지 4 보기"></button>
+          <button type="button" class="consulting-group-photo-dot" role="tab" data-community-invitation-hero-dot data-community-invitation-hero-index="4" aria-selected="false" aria-label="이미지 5 보기"></button>
+          <button type="button" class="consulting-group-photo-dot" role="tab" data-community-invitation-hero-dot data-community-invitation-hero-index="5" aria-selected="false" aria-label="이미지 6 보기"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 마리아 섹션: 좌우 1:1, 인사말 본문 -->
+    <section class="community-maria-section" aria-label="마리아 인사말">
+      <div class="container">
+        <div class="community-maria-grid">
+          <div class="community-maria-cell community-maria-cell--left">
+            <img src="assets/마리아 누끼.png" alt="마리아" class="community-maria-image" />
+          </div>
+          <div class="community-maria-cell community-maria-cell--right">
+            <div class="community-maria-title-block">
+              <p class="community-maria-title">표류하는 경영에서,<br />압도적인 항해로!</p>
+            </div>
+            <div class="community-maria-greeting community-maria-greeting--summary">
+              <div class="community-maria-summary-text">
+                <div class="community-maria-chunk">
+                  <span class="community-maria-summary-line">반갑습니다.</span>
+                  <span class="community-maria-summary-line">가인지 커뮤니티 총괄 권현지 센터장입니다.</span>
+                </div>
+                <div class="community-maria-chunk">
+                  <span class="community-maria-summary-line">격변의 시대에</span>
+                  <span class="community-maria-summary-line">경영자는 종종 짙은 안개에 갇힌 고독한 선장이 됩니다.</span>
+                </div>
+                <div class="community-maria-chunk">
+                  <span class="community-maria-summary-line">그 안개 속에서 동료 경영자들과 함께 나누는 지식과 경험,</span>
+                  <span class="community-maria-summary-line">멘토의 코칭은 바다 위의 등대처럼 경영의 길을 보여줄 것입니다.</span>
+                </div>
+                <div class="community-maria-chunk">
+                  <span class="community-maria-summary-line">고독한 혼자만의 경영에서 벗어나,</span>
+                  <span class="community-maria-summary-line">함께하는 동료들과 함께 압도적인 항해로 나아가십시오.</span>
+                </div>
+                <div class="community-maria-chunk">
+                  <span class="community-maria-summary-line">이미 매월 300명의 경영자가 성장의 루틴을 만들어가고 있습니다.</span>
+                  <span class="community-maria-summary-line">커뮤니티에서 나눠지는 사례와 인사이트는 각 기업에 접목되고 있습니다.</span>
+                </div>
+                <div class="community-maria-chunk">
+                  <span class="community-maria-summary-line">성장과 성공으로 이어지는 이 여정에</span>
+                  <span class="community-maria-summary-line">가인지 커뮤니티가 당신과 함께합니다.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 소개 섹션: 상단 3열(타이틀·썸네일·슬로건·해시태그·VOC카드) + 하단 더 알아보기 버튼 3열 -->
+    <section class="community-intro-section" aria-label="소개">
+      <div class="container community-intro-container">
+        <div class="community-intro-heading">
+          <p class="community-intro-title">가인지 커뮤니티</p>
+          <p class="community-intro-subtitle">사진 위에 마우스를 올려보세요.</p>
+        </div>
+
+        <div class="community-intro-top-grid" role="presentation">
+          <div class="community-intro-top-col-wrap">
+              <div class="community-intro-top-col">
+                <p class="community-intro-top-col-title">가인지 컨퍼런스</p>
+                <div class="community-intro-image-frame">
+                  <div class="community-intro-image-slot" data-community-intro="conference">
+                    <img
+                      src="assets/컨퍼런스 임시.jpg"
+                      alt="컨퍼런스"
+                      class="community-intro-image"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <button type="button" class="community-intro-play-btn" aria-label="컨퍼런스 영상 재생" data-community-intro-play></button>
+                  </div>
+                </div>
+                <p class="community-intro-slogan">
+                  연 2회 700명의 경영자와 함께하는<br />
+                  <strong class="community-intro-slogan-em">압도적인 경영 인사이트 컨퍼런스</strong>
+                </p>
+                <p class="community-intro-top-hashtags">
+                  <span class="community-intro-top-hashtag">#인사이트폭발</span>
+                  <span class="community-intro-top-hashtag">#비즈니스연결</span>
+                  <span class="community-intro-top-hashtag">#성장에너지</span>
+                </p>
+                <p class="community-intro-top-note">매년 5월과 11월 연 2회 운영됩니다.</p>
+                <div
+                  class="community-intro-voc-rotator"
+                  data-community-intro-voc="conference"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  <div class="community-intro-voc-card">
+                    <p class="community-intro-voc-text" data-community-intro-voc-text>VOC1</p>
+                  </div>
+                </div>
+              </div>
+            <div class="community-intro-curtain-panel" aria-hidden="true">
+              <span class="community-intro-curtain-word">Insight</span>
+              <img
+                class="community-intro-curtain-img"
+                src="assets/커튼 1.png"
+                alt=""
+                width="800"
+                height="600"
+                decoding="async"
+              />
+            </div>
+          </div>
+          <div class="community-intro-top-col-wrap">
+              <div class="community-intro-top-col">
+                <p class="community-intro-top-col-title">성장클럽</p>
+                <div class="community-intro-image-frame">
+                  <div class="community-intro-image-slot" data-community-intro="growthClub">
+                    <img
+                      src="assets/성장클럽 임시.jpg"
+                      alt="성장클럽"
+                      class="community-intro-image"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <button type="button" class="community-intro-play-btn" aria-label="성장클럽 영상 재생" data-community-intro-play></button>
+                  </div>
+                </div>
+                <p class="community-intro-slogan">
+                  성장하는 경영자 300명의 지식과 사례가<br />
+                  <strong class="community-intro-slogan-em">매월 공유되는 경영자 커뮤니티</strong>
+                </p>
+                <p class="community-intro-top-hashtags">
+                  <span class="community-intro-top-hashtag">#성장루틴</span>
+                  <span class="community-intro-top-hashtag">#현장솔루션</span>
+                  <span class="community-intro-top-hashtag">#검증된네트워킹</span>
+                </p>
+                <p class="community-intro-top-note">연간회원, 특정 월 회원 모두 가능합니다.</p>
+                <div
+                  class="community-intro-voc-rotator"
+                  data-community-intro-voc="growthClub"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  <div class="community-intro-voc-card">
+                    <p class="community-intro-voc-text" data-community-intro-voc-text>VOC1</p>
+                  </div>
+                </div>
+              </div>
+            <div class="community-intro-curtain-panel" aria-hidden="true">
+              <span class="community-intro-curtain-word">Growth</span>
+              <img
+                class="community-intro-curtain-img"
+                src="assets/커튼 2.png"
+                alt=""
+                width="800"
+                height="600"
+                decoding="async"
+              />
+            </div>
+          </div>
+          <div class="community-intro-top-col-wrap">
+              <div class="community-intro-top-col">
+                <p class="community-intro-top-col-title">CC클래스</p>
+                <div class="community-intro-image-frame">
+                  <div class="community-intro-image-slot" data-community-intro="ccClass">
+                    <img
+                      src="assets/CC클래스 임시.jpg"
+                      alt="CC클래스"
+                      class="community-intro-image"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <button type="button" class="community-intro-play-btn" aria-label="CC클래스 영상 재생" data-community-intro-play></button>
+                  </div>
+                </div>
+                <p class="community-intro-slogan">
+                  성경적 원리로 경영하는 120명의 경영자가<br />
+                  <strong class="community-intro-slogan-em">사례를 나누고 격려하는 경영자 커뮤니티</strong>
+                </p>
+                <p class="community-intro-top-hashtags">
+                  <span class="community-intro-top-hashtag">#영적리더십</span>
+                  <span class="community-intro-top-hashtag">#탁월함과성품</span>
+                  <span class="community-intro-top-hashtag">#믿음의동역자</span>
+                </p>
+                <p class="community-intro-top-note">연간회원, 특정 월 회원 모두 가능합니다.</p>
+                <div
+                  class="community-intro-voc-rotator"
+                  data-community-intro-voc="ccClass"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  <div class="community-intro-voc-card">
+                    <p class="community-intro-voc-text" data-community-intro-voc-text>VOC1</p>
+                  </div>
+                </div>
+              </div>
+            <div class="community-intro-curtain-panel" aria-hidden="true">
+              <span class="community-intro-curtain-word">Belief</span>
+              <img
+                class="community-intro-curtain-img"
+                src="assets/커튼 3.png"
+                alt=""
+                width="800"
+                height="600"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="community-intro-details-grid">
+          <div class="community-intro-detail-slot">
+            <a
+              href="https://gainge.com/contents/products/980"
+              class="community-intro-more-btn"
+              data-community-link="conference"
+              rel="noopener noreferrer"
+            >더 알아보기</a>
+          </div>
+          <div class="community-intro-detail-slot">
+            <a
+              href="https://gainge.com/contents/products/1"
+              class="community-intro-more-btn"
+              data-community-link="growthClub"
+              rel="noopener noreferrer"
+            >더 알아보기</a>
+          </div>
+          <div class="community-intro-detail-slot">
+            <a
+              href="https://gainge.com/contents/products/604"
+              class="community-intro-more-btn"
+              data-community-link="ccClass"
+              rel="noopener noreferrer"
+            >더 알아보기</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 간증 섹션: 현장 사진 로테이션 -->
+    <section class="community-testimony-section" aria-label="간증">
+      <div class="container">
+        <p class="community-testimony-title">커뮤니티 현장 사진</p>
+        <div class="community-testimony-category-tabs" role="tablist" aria-label="현장 모습 모임 선택">
+          <button
+            type="button"
+            class="community-testimony-category-btn is-current"
+            role="tab"
+            aria-selected="true"
+            data-testimony-category="conference"
+          >
+            컨퍼런스
+          </button>
+          <button
+            type="button"
+            class="community-testimony-category-btn"
+            role="tab"
+            aria-selected="false"
+            data-testimony-category="growthClub"
+          >
+            성장클럽
+          </button>
+          <button
+            type="button"
+            class="community-testimony-category-btn"
+            role="tab"
+            aria-selected="false"
+            data-testimony-category="ccClass"
+          >
+            CC클래스
+          </button>
+        </div>
+        <div
+          class="community-testimony-photos"
+          data-community-testimony-photos
+          role="region"
+          aria-label="커뮤니티 현장 사진"
+        >
+          <div class="community-testimony-photo-stage">
+            <div class="community-testimony-photo-track">
+              <img class="community-testimony-photo-img is-active" src="assets/커뮤니티 로테 1.jpg" alt="가인지 커뮤니티 현장 사진 1" loading="eager" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 2.jpg" alt="가인지 커뮤니티 현장 사진 2" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 3.jpg" alt="가인지 커뮤니티 현장 사진 3" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 4.jpg" alt="가인지 커뮤니티 현장 사진 4" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 5.jpg" alt="가인지 커뮤니티 현장 사진 5" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 6.jpg" alt="가인지 커뮤니티 현장 사진 6" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 7.jpg" alt="가인지 커뮤니티 현장 사진 7" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 8.jpg" alt="가인지 커뮤니티 현장 사진 8" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 9.jpg" alt="가인지 커뮤니티 현장 사진 9" loading="lazy" decoding="async" />
+            </div>
+            <button type="button" class="community-testimony-nav community-testimony-nav--prev community-testimony-nav--community" aria-label="이전 사진">
+              <span aria-hidden="true">&lt;</span>
+            </button>
+            <button type="button" class="community-testimony-nav community-testimony-nav--next community-testimony-nav--community" aria-label="다음 사진">
+              <span aria-hidden="true">&gt;</span>
+            </button>
+          </div>
+          <div class="community-testimony-photo-dots" role="tablist" aria-label="사진 선택">
+            <button type="button" class="community-testimony-dot is-current" role="tab" aria-selected="true" aria-label="사진 1" data-testimony-photo-index="0"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 2" data-testimony-photo-index="1"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 3" data-testimony-photo-index="2"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 4" data-testimony-photo-index="3"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 5" data-testimony-photo-index="4"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 6" data-testimony-photo-index="5"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 7" data-testimony-photo-index="6"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 8" data-testimony-photo-index="7"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="community-calendar-actions">
+        <a href="https://gainge.com/contents/products/980" class="community-calendar-cta" data-community-link="conference" rel="noopener noreferrer">컨퍼런스 참여하기</a>
+        <a href="https://gainge.com/contents/products/1" class="community-calendar-cta" data-community-link="growthClub" rel="noopener noreferrer">성장클럽 참여하기</a>
+        <a href="https://gainge.com/contents/products/604" class="community-calendar-cta" data-community-link="ccClass" rel="noopener noreferrer">CC클래스 참여하기</a>
+      </div>
+    </div>
+
+    <!-- 캘린더 섹션: 연간 캘린더 이미지 (이미지는 Admin에서 변경 가능) -->
+    <section class="community-calendar-section" aria-label="캘린더">
+      <div class="container">
+        <p class="community-calendar-title">커뮤니티 캘린더</p>
+        <p class="community-calendar-guide">성장클럽은 진행일을 누르면 월 단위 참가신청을 할 수 있습니다.</p>
+        <div class="community-calendar-grid" role="table" aria-label="연간 커뮤니티 캘린더">
+          <div class="community-calendar-row community-calendar-row--head" role="row">
+            <div class="community-calendar-cell community-calendar-cell--program" role="columnheader">프로그램</div>
+            <div class="community-calendar-cell" role="columnheader">1월</div>
+            <div class="community-calendar-cell" role="columnheader">2월</div>
+            <div class="community-calendar-cell" role="columnheader">3월</div>
+            <div class="community-calendar-cell" role="columnheader">4월</div>
+            <div class="community-calendar-cell" role="columnheader">5월</div>
+            <div class="community-calendar-cell" role="columnheader">6월</div>
+            <div class="community-calendar-cell" role="columnheader">7월</div>
+            <div class="community-calendar-cell" role="columnheader">8월</div>
+            <div class="community-calendar-cell" role="columnheader">9월</div>
+            <div class="community-calendar-cell" role="columnheader">10월</div>
+            <div class="community-calendar-cell" role="columnheader">11월</div>
+            <div class="community-calendar-cell" role="columnheader">12월</div>
+          </div>
+
+          <div class="community-calendar-row" role="row">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title">CC클래스</strong>
+              <span class="community-calendar-program-meta">매월 첫째 목요일</span>
+              <span class="community-calendar-program-place"><em>장소</em> CTS</span>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">8일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">5일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">5일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">2일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">7일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">4일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">2일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">6일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">3일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">1일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">5일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">3일</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title">성장클럽</strong>
+              <span class="community-calendar-program-meta">매월 셋째 목요일</span>
+              <span class="community-calendar-program-place"><em>장소</em> aT센터</span>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">15일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">26일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill">19일</span></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/926" data-calendar-link="growthClub-4" target="_blank" rel="noopener noreferrer">16일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/924" data-calendar-link="growthClub-5" target="_blank" rel="noopener noreferrer">14일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/933" data-calendar-link="growthClub-6" target="_blank" rel="noopener noreferrer">18일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/934" data-calendar-link="growthClub-7" target="_blank" rel="noopener noreferrer">30일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/935" data-calendar-link="growthClub-8" target="_blank" rel="noopener noreferrer">27일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/936" data-calendar-link="growthClub-9" target="_blank" rel="noopener noreferrer">17일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/937" data-calendar-link="growthClub-10" target="_blank" rel="noopener noreferrer">15일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/1022" data-calendar-link="growthClub-11" target="_blank" rel="noopener noreferrer">26일</a></div>
+            <div class="community-calendar-cell"><a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/1023" data-calendar-link="growthClub-12" target="_blank" rel="noopener noreferrer">17일</a></div>
+          </div>
+
+          <div class="community-calendar-row" role="row">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title">컨퍼런스</strong>
+              <span class="community-calendar-program-meta">연 2회</span>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell">
+              <a class="community-calendar-pill community-calendar-pill--btn" href="https://gainge.com/contents/products/980" data-calendar-link="conference-5" target="_blank" rel="noopener noreferrer">29일</a>
+              <span class="community-calendar-note">아모리스 역삼</span>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+            <div class="community-calendar-cell">
+              <span class="community-calendar-pill">미정</span>
+              <span class="community-calendar-note">장소 미정</span>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash">-</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 비전 세션: 미래 비전 + 마리아 사진 -->
+    <section class="community-vision-section" aria-label="비전 세션" hidden>
+      <div class="container">
+        <div class="community-vision-grid">
+          <div class="community-vision-cell community-vision-cell--photo">
+            <img
+              src="assets/마리아 비전.jpg"
+              alt="가인지 커뮤니티 총괄 권현지 센터장"
+              class="community-vision-image"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="community-vision-cell community-vision-cell--text">
+            <div class="community-maria-title-block">
+              <p class="community-maria-title">우리는 세상을 바꿀<br />1,000명의 경영자를 세워갈 것입니다.</p>
+            </div>
+            <div class="community-vision-text-body">
+              <div class="community-maria-greeting community-maria-greeting--summary">
+                <div class="community-maria-summary-text">
+                  <div class="community-maria-chunk">
+                    <span class="community-maria-summary-line">가인지 커뮤니티는 사랑으로 비즈니스 필드를 변화시키는 1,000명의 경영자를 세워가고 있습니다.</span>
+                  </div>
+                  <div class="community-maria-chunk">
+                    <span class="community-maria-summary-line">우리의 커뮤니티는 경영자가 고독한 외로움에서 벗어나 &lsquo;함께 성장하는 즐거움&rsquo;을 누리게 하기 위해 존재합니다. 더불어 <strong>한 명의 경영자가 바로 설 때</strong> 기업이 살고, 가정이 회복되며, 사회가 변화된다고 믿습니다.</span>
+                  </div>
+                  <div class="community-maria-chunk">
+                    <span class="community-maria-summary-line">그렇기에 우리는 대한민국 모든 기업이 &lsquo;실력&rsquo;과 &lsquo;가치&rsquo;를 동시에 갖춘 기업으로 거듭나는 미래를 꿈꿉니다. 비즈니스 필드에서 서로의 성장을 돕고 사랑을 실천하는 지식 공유의 장이 되는 커뮤니티를 만들었습니다.</span>
+                  </div>
+                  <div class="community-maria-chunk">
+                    <span class="community-maria-summary-line">경영자를 위해 검증된 지식 콘텐츠와 실행 도구를 제공하여 막막함을 해결합니다. 또한, 성장 루틴을 설계하고, 실력 있는 리더들의 강력한 네트워크를 연결하여 기업 성장에 가속도를 붙여줍니다.</span>
+                  </div>
+                  <div class="community-maria-chunk">
+                    <span class="community-maria-summary-line">혼자 고민하며 밤을 지새우던 시간을 끝내고, 실력 있는 동료 경영자들과 어깨를 나란히 하며 성장의 확신을 얻으십시오.<br /><strong>이제, 당신 차례입니다</strong>.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="community-maria-chunk community-maria-chunk--signature community-vision-signature">
+              <span class="community-maria-summary-line">가인지 커뮤니티 총괄 권현지 센터장</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 소개영상 재생 팝업 (Admin에서 영상 URL 설정/삭제 가능) -->
+    <div class="community-video-popup" id="community-video-popup" role="dialog" aria-modal="true" aria-label="소개영상 재생" hidden>
+      <div class="community-video-popup-backdrop"></div>
+      <div class="community-video-popup-inner">
+        <button type="button" class="community-video-popup-close" aria-label="닫기">&times;</button>
+        <div class="community-video-popup-body">
+          <iframe class="community-video-popup-iframe" title="소개영상" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-top-row">
+        <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
+          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+        </a>
+        <div class="footer-social-icons" aria-label="SNS 바로가기">
+          <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
+            <img src="assets/1.png" alt="" />
+          </a>
+          <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
+            <img src="assets/푸터 인스타.png" alt="" />
+          </a>
+          <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
+            <img src="assets/푸터 블로그.png" alt="" />
+          </a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-legal-line">
+          (주)가인지캠퍼스 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 639-88-00543 &nbsp;|&nbsp; 통신판매업신고: 제 2017-서울마포-1383호
+        </p>
+        <p class="footer-legal-line">
+          이메일: <a href="mailto:gainge.cs@gainge.com" target="_blank" rel="noopener noreferrer">gainge.cs@gainge.com</a> &nbsp;|&nbsp; 대표번호: <a href="tel:02-337-0691" target="_blank" rel="noopener noreferrer">02-337-0691</a> &nbsp;|&nbsp; 주소: 서울특별시 마포구 토정로 16 2층
+        </p>
+        <p class="footer-copyright">© 2026 가인지컨설팅그룹. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/site-data.js"></script>
+  <script>
+    (function () {
+      var root = document.querySelector("[data-community-invitation-hero]");
+      if (!root) return;
+
+      var layers = root.querySelectorAll(".consulting-group-photo-bg");
+      if (!layers || layers.length < 2) return;
+
+      var dots = document.querySelectorAll(".community-main [data-community-invitation-hero-dot]");
+
+      var photos = [
+        "assets/커뮤니티 초대 샘플 1.JPG",
+        "assets/커뮤니티 초대 샘플 2.JPG",
+        "assets/커뮤니티 초대 샘플 3.JPG",
+        "assets/커뮤니티 초대 샘플 4.JPG",
+        "assets/커뮤니티 초대 샘플 5.JPG",
+        "assets/커뮤니티 초대 샘플 6.JPG"
+      ];
+      var n = photos.length;
+      if (!n) return;
+
+      var currentPhotoIdx = 0;
+      var activeLayerIdx = 0;
+      var timer = null;
+      var firstTimer = null;
+      var AUTO_MS = 2200;
+      var FADE_MS = 1500;
+      var FIRST_FADE_IN_MS = 490;
+      var FIRST_ROTATION_CROSSFADE_MS = 380;
+      var FIRST_TO_SECOND_DELAY_MS = 600;
+      var isFirstRotation = true;
+      var reduceMotion =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduceMotion) {
+        AUTO_MS = 5000;
+        FADE_MS = 0;
+      }
+
+      function preloadRemainingImages() {
+        for (var i = 1; i < n; i++) {
+          var img = new Image();
+          img.src = photos[i];
+        }
+      }
+
+      function runWhenFirstImageReady(done) {
+        if (n === 0) {
+          done();
+          return;
+        }
+        var started = false;
+        function startOnce() {
+          if (started) return;
+          started = true;
+          done();
+          preloadRemainingImages();
+        }
+
+        var firstImg = new Image();
+        firstImg.onload = startOnce;
+        firstImg.onerror = startOnce;
+        firstImg.src = photos[0];
+
+        // 비정상 네트워크/캐시 지연 대비: 일정 시간 뒤에는 시작
+        window.setTimeout(startOnce, 700);
+      }
+
+      function setLayerBg(layer, url, photoIndex) {
+        var safe = encodeURI(url).replace(/'/g, "%27");
+        var u = 'url("' + safe + '")';
+        var fill = layer.querySelector(".consulting-group-photo-bg-fill");
+        var main = layer.querySelector(".consulting-group-photo-bg-main");
+        if (fill) fill.style.backgroundImage = u;
+        if (main) main.style.backgroundImage = u;
+        var useBlurFill = typeof photoIndex === "number" && photoIndex >= 2;
+        layer.classList.toggle("consulting-group-photo-bg--blur-fill", useBlurFill);
+      }
+
+      function updateDots() {
+        if (!dots || !dots.length) return;
+        dots.forEach(function (dot) {
+          var i = parseInt(dot.getAttribute("data-community-invitation-hero-index"), 10);
+          var on = i === currentPhotoIdx;
+          dot.classList.toggle("is-current", on);
+          dot.setAttribute("aria-selected", on ? "true" : "false");
+        });
+      }
+
+      function goTo(targetIdx) {
+        targetIdx = ((targetIdx % n) + n) % n;
+        if (targetIdx === currentPhotoIdx) {
+          schedule();
+          return;
+        }
+
+        if (isFirstRotation) {
+          isFirstRotation = false;
+          layers[0].style.transitionDuration = "";
+          layers[1].style.transitionDuration = "";
+        }
+
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        setLayerBg(layers[incomingLayerIdx], photos[targetIdx], targetIdx);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = targetIdx;
+        activeLayerIdx = incomingLayerIdx;
+        updateDots();
+        schedule();
+      }
+
+      function showInitial() {
+        var first = layers[0];
+        setLayerBg(first, photos[0], 0);
+        setLayerBg(layers[1], photos[1 % n], 1 % n);
+        layers[1].classList.remove("is-active");
+        if (!reduceMotion) {
+          first.style.transitionDuration = FIRST_FADE_IN_MS / 1000 + "s";
+        }
+        window.requestAnimationFrame(function () {
+          first.classList.add("is-active");
+          if (!reduceMotion) {
+            function clearFirstFadeDuration(e) {
+              if (e && e.propertyName !== "opacity") return;
+              first.removeEventListener("transitionend", clearFirstFadeDuration);
+              first.style.transitionDuration = "";
+            }
+            first.addEventListener("transitionend", clearFirstFadeDuration);
+            window.setTimeout(clearFirstFadeDuration, FIRST_FADE_IN_MS + 120);
+          }
+        });
+      }
+
+      function next() {
+        var nextPhotoIdx = (currentPhotoIdx + 1) % n;
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        var useShortFirstRotation = !reduceMotion && isFirstRotation;
+        if (useShortFirstRotation) {
+          layers[0].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+          layers[1].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+        }
+
+        setLayerBg(layers[incomingLayerIdx], photos[nextPhotoIdx], nextPhotoIdx);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = nextPhotoIdx;
+        activeLayerIdx = incomingLayerIdx;
+
+        if (useShortFirstRotation) {
+          isFirstRotation = false;
+          window.setTimeout(function () {
+            layers[0].style.transitionDuration = "";
+            layers[1].style.transitionDuration = "";
+          }, FIRST_ROTATION_CROSSFADE_MS + 80);
+        }
+        updateDots();
+      }
+
+      function clear() {
+        if (firstTimer !== null) {
+          window.clearTimeout(firstTimer);
+          firstTimer = null;
+        }
+        if (timer !== null) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function schedule() {
+        clear();
+        var firstDelay = isFirstRotation
+          ? FIRST_TO_SECOND_DELAY_MS
+          : Math.max(0, AUTO_MS - FADE_MS);
+        firstTimer = window.setTimeout(function () {
+          next();
+          timer = window.setInterval(next, AUTO_MS);
+          firstTimer = null;
+        }, firstDelay);
+      }
+
+      function pause() {
+        clear();
+      }
+
+      function resume() {
+        schedule();
+      }
+
+      runWhenFirstImageReady(function () {
+        showInitial();
+        updateDots();
+        schedule();
+      });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          var i = parseInt(dot.getAttribute("data-community-invitation-hero-index"), 10);
+          if (Number.isNaN(i)) return;
+          goTo(i);
+        });
+      });
+
+      root.addEventListener("focusin", pause);
+      root.addEventListener("focusout", function (e) {
+        if (!root.contains(e.relatedTarget)) resume();
+      });
+    })();
+  </script>
+  <script>
+    window.COMMUNITY_INTRO_VOC = {
+      conference: [
+        "시대는 지금도 변화합니다. 컨퍼런스를 통해 제가 속한 산업군에서 어떤 방향으로 기업을 경영해야 할 것인지 방향성을 얻을 수 있었습니다. 적극 추천합니다.",
+        "컨퍼런스 강연에서 지금의 시기에 적절하고 필요한 인사이트를 얻을 수 있었습니다. 그리고 참가자 네트워킹과 이벤트 존에서의 시간도 유익했습니다. 여기에서 가진 정보교류가 매우 만족스러웠습니다.",
+        "이번 컨퍼런스는 정말 깊은 울림이 있었습니다. 단순한 비즈니스 행사가 아니라, '비즈니스는 결국 사랑'이라는 메시지를 온 몸으로 느낄 수 있는 시간이었습니다. 강연과 프로그램 하나, 하나에 진정성이 담겨있고 참여자, 연사 그리고 운영진 모두가 한 마음으로 '더 나은 세상'을 향해 나간다는 감동을 받았습니다.",
+        "비즈니스의 시작부터 끝까지를 모두 다루는 실질적인 컨퍼런스였다고 생각합니다. 사례와 원리뿐 아니라, 현장에서 바로 사용할 수 있는 도구, 방법까지 얻었습니다."
+      ],
+      growthClub: [
+        "제가 경영책까지 쓸 수 있게 된 데에는 가인지 경영을 접하고, 몇 년간 성장클럽에서 배운 것들 덕분입니다. 성장클럽을 만나지 못했다면 이런 결과는 없었을 것입니다.",
+        "COP, 디브리핑, 스케치 페이퍼 등 현장에서 바로 사용할 수 있는 경영 도구를 성장클럽을 통해 배웠습니다. 이 도구들을 통해 기업에서 성과를 어떻게 내야 할지 보다 명확하게 깨달은 것 같습니다.",
+        "성장클럽에서 1년간 듣는 12개의 강의만 제대로 듣고 적용해도 충분하다고 생각합니다. 매번 새로운 주제를 학습하고 갈 때마다 적어도 한 개 이상의 적용점을 발견해서 좋습니다.",
+        "항상 큰 깨달음을 얻는 유익한 시간입니다. 좋은 환경에서 좋은 연사님을 모시고 지식나눔의 시간을 만들어주셔서 감사합니다."
+      ],
+      ccClass: [
+        "경영의 자리는 항상 마음이 복잡하고 분주합니다. 이곳 CC클래스에서 같은 신앙을 가진 경영자들과 하나님의 말씀을 향해 시선을 정돈하며 내가 살아갈 방향을 다시 바로집을 수 있음이 감사합니다.",
+        "찬양이 울려퍼지는 CC클래스에서 저는 경영의 자리로 저를 부르신 하나님의 음성에 귀를 귀울이게 됩니다. 내가 일을 하는 이유와 사명을 되돌아보는 시간입니다.",
+        "신앙을 경영에 적용하는 것은 쉽지 않습니다. 같은 고민을 가진 경영자들과 서로의 사례를 나누며 CC클래스에서 접한 것을 어떻게 각자의 경영 현장에 적용할지 나누는 시간이 있어 도움이 됩니다.",
+        "같은 신앙을 가진 동료 경영자들과 서로의 고민을 솔직하게 나누고, 서로를 위해 기도하며 격려할 수 있다는 것은 참 소중하고 감사합니다. 여기에서 많은 힘을 얻습니다."
+      ]
+    };
+  </script>
+  <script src="js/community-intro-voc-rotate.js"></script>
+  <script src="js/community-links.js"></script>
+  <script src="js/community-testimony-photos.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

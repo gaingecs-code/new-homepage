@@ -1,0 +1,11 @@
+{
+  "name": "gainge-static-site",
+  "private": true,
+  "description": "정적 사이트 — 로컬 확인은 npm start (file:// 직접 열기 비권장)",
+  "scripts": {
+    "start": "npx --yes serve -l 5500 .",
+    "preview": "npx --yes serve -l 5500 .",
+    "build:admin": "cd admin && npm install && npm run build && node ../scripts/sync-admin-dist.mjs",
+    "vercel-build": "npm run build:admin"
+  }
+}

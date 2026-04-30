@@ -1,0 +1,542 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>가인지 컨설팅 그룹</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 상단 고정 헤더 (다른 페이지와 동일 구조) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html#hero" class="logo">
+        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+      </a>
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="메뉴 열기">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="gainge-management.html">가인지컨설팅그룹</a></li>
+          <li><a href="consulting.html">컨설팅 서비스</a></li>
+          <li><a href="testimonials.html">고객 사례</a></li>
+          <li><a href="corporate-education.html">기업교육</a></li>
+          <li><a href="community.html">경영자 커뮤니티</a></li>
+          <li><a href="about.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="header-actions-top">
+          <button type="button" class="pill-cta-button" data-header-diagnosis>기업 진단하기<span class="pill-cta-badge">Free</span></button>
+          <button type="button" class="pill-cta-button" data-gainge-campus>가인지캠퍼스 바로가기</button>
+          <button class="header-auth-button">로그인/회원가입</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="home-main" aria-label="가인지 컨설팅 그룹">
+    <section class="hero-section home-hero-section" id="hero" aria-label="메인 히어로">
+      <div class="home-hero-backdrop" aria-hidden="true">
+        <div class="home-hero-backdrop-images">
+          <div class="home-hero-backdrop-blur"></div>
+          <div class="home-hero-backdrop-main"></div>
+        </div>
+      </div>
+      <div class="container home-hero-container">
+        <div class="home-hero-split">
+          <div class="home-hero-col home-hero-col--text">
+            <div class="home-hero-text-stack">
+              <p class="home-hero-text-box home-hero-text-box--1">
+                <span class="home-hero-emphasized-head">기업의<br />존재 목적은</span>
+              </p>
+              <p class="home-hero-text-box home-hero-text-box--body">
+                고객가치의 창출이며<br />직원은 같은 사명을 향해 나아가는 동료입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 증언 섹션: 좌우 2분할(헤더와 동일 .container 폭) -->
+    <section class="home-copy-section" id="copy" aria-label="증언 섹션">
+      <div class="container">
+        <div class="home-hero-dots" role="tablist" aria-label="히어로 이미지 선택">
+          <button type="button" class="home-hero-dot" role="tab" data-home-hero-dot-index="0" aria-selected="true" aria-label="히어로 이미지 1 보기"></button>
+          <button type="button" class="home-hero-dot" role="tab" data-home-hero-dot-index="1" aria-selected="false" aria-label="히어로 이미지 2 보기"></button>
+          <button type="button" class="home-hero-dot" role="tab" data-home-hero-dot-index="2" aria-selected="false" aria-label="히어로 이미지 3 보기"></button>
+          <button type="button" class="home-hero-dot" role="tab" data-home-hero-dot-index="3" aria-selected="false" aria-label="히어로 이미지 4 보기"></button>
+          <button type="button" class="home-hero-dot" role="tab" data-home-hero-dot-index="4" aria-selected="false" aria-label="히어로 이미지 5 보기"></button>
+        </div>
+        <div class="home-copy-split">
+          <a href="gainge-management.html" class="home-copy-col-link" title="가인지경영 더 알아보기">
+            <p class="home-copy-text home-copy-text--left-intro">
+              우리는 '일이 곧 사랑'이라는 철학의 <br />
+              실천적 경영 모델과 <strong class="home-copy-em">5,400여 기업</strong>에서의 성공 사례, <br />
+              <strong class="home-copy-em">54개 방법론</strong>의 실행 방법을 제시합니다.<br /><br />
+              <span class="home-copy-accent-line">그렇게 우리는 사랑으로 일하는 기업을 세워갑니다.</span>
+            </p>
+          </a>
+          <a href="consulting.html" class="home-copy-col-link" title="가인지 컨설팅 더 알아보기">
+            <p class="home-copy-text home-copy-text--right-outcome">
+              가인지 경영을 만난 기업들의 변화입니다. <br />
+              어떤 곳은 매출이 5배 성장해 <strong class="home-copy-em">1,000억</strong>을 바라보고, <br />
+              어떤 곳은 <strong class="home-copy-em">3개</strong>의 사내벤처를 출범시켰습니다.<br /><br />
+              <span class="home-copy-accent-line">무엇보다 그들은 일 자체로 행복해졌다고 말합니다.</span>
+            </p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOC 섹션: 상하 3분할 × 좌우 2분할 -->
+    <section class="home-voc-section" id="voc" aria-labelledby="home-voc-heading">
+      <div class="container home-voc-container">
+        <h2 id="home-voc-heading" class="sr-only">VOC</h2>
+        <div class="home-voc-logo-wrap" aria-hidden="true">
+          <span class="home-voc-logo-arrow" aria-hidden="true">▼</span>
+          <img src="assets/헤더용 신규 로고 1.png" alt="" class="home-voc-logo" />
+          <span class="home-voc-logo-arrow" aria-hidden="true">▼</span>
+        </div>
+        <h3 class="home-voc-section-title">고객 스토리</h3>
+        <p class="home-voc-section-subtitle">마우스를 올려보세요.</p>
+        <div class="home-voc-grid" role="group" aria-label="VOC 영역 3행 2열">
+          <div
+            class="home-voc-cell home-voc-cell--image home-voc-cell--image-left-edge home-voc-cell--pair1-image"
+            data-home-voc-inline-media
+          >
+            <div class="home-voc-media-stack">
+              <div class="home-voc-media-layer home-voc-media-layer--video" data-home-voc-video-layer aria-hidden="true">
+                <div class="home-voc-inline-video-frame" data-home-voc-inline-frame>
+                  <iframe
+                    class="home-voc-inline-video home-voc-inline-iframe"
+                    data-home-voc-youtube-url="https://youtu.be/uNRDkKpbWQs"
+                    title="(주)태향 사례 영상"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy"
+                  ></iframe>
+                  <button type="button" class="home-voc-inline-close" data-home-voc-close aria-label="닫기">×</button>
+                </div>
+              </div>
+              <div class="home-voc-media-layer home-voc-media-layer--thumb" data-home-voc-thumb-layer>
+                <div class="home-voc-image-wrap">
+                  <img src="assets/분할면 태향.png" alt="태향 사례" class="home-voc-image" loading="lazy" decoding="async" />
+                  <span class="home-voc-play-btn" aria-hidden="true">
+                    <span class="home-voc-play-btn__ring">
+                      <span class="home-voc-play-btn__tri"></span>
+                    </span>
+                  </span>
+                </div>
+                <button type="button" class="home-voc-inline-play" data-home-voc-play aria-label="(주)태향 사례 영상 재생"></button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="home-voc-cell home-voc-cell--empty home-voc-cell--empty-bridge home-voc-cell--pair1-text"
+            data-home-voc-story-url="story-testimonial-1.html"
+            role="link"
+            tabindex="0"
+            aria-label="(주)태향 사례 스토리 보기 (새 창)"
+          >
+            <div class="home-voc-empty-content">
+              <p class="home-voc-company-name">(주)태향 이수기 대표</p>
+              <p class="home-voc-quote">사업을 정리하려 할 때가 있었습니다. 외롭고 막연하던 시기에 가인지를 만났고 가치, 인재, 지식의 균형을 배웠습니다. 지금은 어떤 어려움도 이겨낼 힘이 생겼고 매출은 1,000억을 바라보고 있습니다.</p>
+              <div class="home-voc-actions">
+                <a
+                  href="story-testimonial-1.html"
+                  class="home-voc-text-btn"
+                  onclick="window.open(this.href, 'testimonialsStoryPopup', 'width=1080,height=860,scrollbars=yes,resizable=yes'); return false;"
+                >스토리 보기</a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="home-voc-cell home-voc-cell--empty home-voc-cell--empty-bridge-left home-voc-cell--pair2-text"
+            data-home-voc-story-url="story-testimonial-2.html"
+            role="link"
+            tabindex="0"
+            aria-label="(주)실란트로 사례 스토리 보기 (새 창)"
+          >
+            <div class="home-voc-empty-content">
+              <p class="home-voc-company-name">(주)실란트로 박주원 대표</p>
+              <p class="home-voc-quote">고생 끝에 사업을 일궈냈지만, 경영의 의미를 잃어버린 때가 있습니다. 가인지를 만나고 경영의 의미와 기업의 목표를 재정립할 수 있었습니다. 그러자 기업에 활력이 생겼고 지금은 1,500억 매출을 목표로 하고 있습니다.</p>
+              <div class="home-voc-actions">
+                <a
+                  href="story-testimonial-2.html"
+                  class="home-voc-text-btn"
+                  onclick="window.open(this.href, 'testimonialsStoryPopup', 'width=1080,height=860,scrollbars=yes,resizable=yes'); return false;"
+                >스토리 보기</a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="home-voc-cell home-voc-cell--image home-voc-cell--image-right-edge home-voc-cell--pair2-image"
+            data-home-voc-inline-media
+          >
+            <div class="home-voc-media-stack">
+              <div class="home-voc-media-layer home-voc-media-layer--video" data-home-voc-video-layer aria-hidden="true">
+                <div class="home-voc-inline-video-frame" data-home-voc-inline-frame>
+                  <iframe
+                    class="home-voc-inline-video home-voc-inline-iframe"
+                    data-home-voc-youtube-url="https://youtu.be/ZxaHLlL2ESg"
+                    title="(주)실란트로 사례 영상"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy"
+                  ></iframe>
+                  <button type="button" class="home-voc-inline-close" data-home-voc-close aria-label="닫기">×</button>
+                </div>
+              </div>
+              <div class="home-voc-media-layer home-voc-media-layer--thumb" data-home-voc-thumb-layer>
+                <div class="home-voc-image-wrap">
+                  <img src="assets/분할면 실란트로.png" alt="실란트로 사례" class="home-voc-image" loading="lazy" decoding="async" />
+                  <span class="home-voc-play-btn" aria-hidden="true">
+                    <span class="home-voc-play-btn__ring">
+                      <span class="home-voc-play-btn__tri"></span>
+                    </span>
+                  </span>
+                </div>
+                <button type="button" class="home-voc-inline-play" data-home-voc-play aria-label="(주)실란트로 사례 영상 재생"></button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="home-voc-cell home-voc-cell--image home-voc-cell--image-left-edge home-voc-cell--row3-up home-voc-cell--pair3-image"
+            data-home-voc-inline-media
+          >
+            <div class="home-voc-media-stack">
+              <div class="home-voc-media-layer home-voc-media-layer--video" data-home-voc-video-layer aria-hidden="true">
+                <div class="home-voc-inline-video-frame" data-home-voc-inline-frame>
+                  <iframe
+                    class="home-voc-inline-video home-voc-inline-iframe"
+                    data-home-voc-youtube-url="https://youtu.be/Dz3ya3PD9eU"
+                    title="(주)바이오닷 사례 영상"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy"
+                  ></iframe>
+                  <button type="button" class="home-voc-inline-close" data-home-voc-close aria-label="닫기">×</button>
+                </div>
+              </div>
+              <div class="home-voc-media-layer home-voc-media-layer--thumb" data-home-voc-thumb-layer>
+                <div class="home-voc-image-wrap">
+                  <img src="assets/분할면 바이오닷.png" alt="바이오닷 사례" class="home-voc-image" loading="lazy" decoding="async" />
+                  <span class="home-voc-play-btn" aria-hidden="true">
+                    <span class="home-voc-play-btn__ring">
+                      <span class="home-voc-play-btn__tri"></span>
+                    </span>
+                  </span>
+                </div>
+                <button type="button" class="home-voc-inline-play" data-home-voc-play aria-label="(주)바이오닷 사례 영상 재생"></button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="home-voc-cell home-voc-cell--empty home-voc-cell--empty-bridge home-voc-cell--row3-up home-voc-cell--pair3-text"
+            data-home-voc-story-url="story-testimonial-3.html"
+            role="link"
+            tabindex="0"
+            aria-label="(주)바이오닷 사례 스토리 보기 (새 창)"
+          >
+            <div class="home-voc-empty-content">
+              <p class="home-voc-company-name">(주)바이오닷 한현진 대표</p>
+              <p class="home-voc-quote">핵심 인재가 퇴사한다고 할 때 매우 혼란스러웠습니다. 성과로 몰아붙였던 조직에는 이제 가인지를 통해 균형잡힌 조직문화가 자리잡았고 지방의 제조 기업임에도 AI에 능숙한 창의적인 인재가 모이는 기업이 되었습니다.</p>
+              <div class="home-voc-actions">
+                <a
+                  href="story-testimonial-3.html"
+                  class="home-voc-text-btn"
+                  onclick="window.open(this.href, 'testimonialsStoryPopup', 'width=1080,height=860,scrollbars=yes,resizable=yes'); return false;"
+                >스토리 보기</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-logo-rotation-section" id="logo-rotation" aria-labelledby="home-logo-rotation-heading">
+      <div class="container home-logo-rotation-container">
+        <h2 id="home-logo-rotation-heading" class="sr-only">로고 로테이션 섹션</h2>
+        <div class="home-logo-rotation-grid" role="list" aria-label="로고 표시 자리 6개">
+          <div class="home-logo-slot" role="listitem" data-logo-slot="1">
+            <img class="home-logo-slot-image" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="home-logo-slot" role="listitem" data-logo-slot="2">
+            <img class="home-logo-slot-image" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="home-logo-slot" role="listitem" data-logo-slot="3">
+            <img class="home-logo-slot-image" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="home-logo-slot" role="listitem" data-logo-slot="4">
+            <img class="home-logo-slot-image" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="home-logo-slot" role="listitem" data-logo-slot="5">
+            <img class="home-logo-slot-image" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="home-logo-slot" role="listitem" data-logo-slot="6">
+            <img class="home-logo-slot-image" alt="" loading="lazy" decoding="async" />
+          </div>
+        </div>
+        <div class="home-logo-rotation-more-wrap">
+          <a href="consulting.html?industry=all#industry-heading" class="home-logo-rotation-more-btn">산업별 고객 더 보기</a>
+        </div>
+        <div class="corporate-education-intro-cta-wrap">
+          <a
+            class="corporate-education-intro-cta"
+            href="story-inquiry-popup.html"
+            onclick="window.open(this.href, 'educationInquiryPopup', 'width=836,height=900,scrollbars=yes,resizable=yes'); return false;"
+          >
+            컨설팅 문의하기
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-diagnosis-section" id="diagnosis" aria-labelledby="home-diagnosis-heading">
+      <div class="container home-diagnosis-container">
+        <h2 id="home-diagnosis-heading" class="home-diagnosis-title">우리 기업 진단하기(free)</h2>
+        <p class="home-diagnosis-subtitle">5,400개 기업 데이터에 기반한 경영 진단입니다.</p>
+        <div class="home-diagnosis-image-list" aria-label="진단 섹션 이미지">
+          <article class="consulting-voc-box home-diagnosis-image-slot">
+            <a
+              class="home-diagnosis-slot-link"
+              href="diagnosis-gainge-management.html"
+              onclick="window.open(this.href, 'diagnosisGaingeManagement', 'width=836,height=900,scrollbars=yes,resizable=yes'); return false;"
+              aria-label="가인지 경영 진단(약식) 새 창에서 시작"
+            >
+              <img
+                src="assets/진단 블럭 1.jpg"
+                alt=""
+                class="home-diagnosis-slot-img"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="home-diagnosis-slot-overlay" aria-hidden="true"></div>
+              <div class="home-diagnosis-slot-content">
+                <div class="home-diagnosis-slot-text">
+                  <h3 class="home-diagnosis-slot-title">
+                    <span class="home-diagnosis-slot-title-text">가인지 경영 진단</span
+                    ><span class="home-diagnosis-slot-title-note"> (약식)</span>
+                  </h3>
+                  <p class="home-diagnosis-slot-desc">
+                    기업의 가치경영, 인재경영, 지식경영을 총 60개 문항으로 진단합니다. (20분)
+                  </p>
+                </div>
+                <div class="home-diagnosis-slot-actions">
+                  <span class="home-diagnosis-slot-btn">진단 시작하기</span>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="consulting-voc-box home-diagnosis-image-slot">
+            <a
+              class="home-diagnosis-slot-link"
+              href="diagnosis-leadership.html"
+              onclick="window.open(this.href, 'diagnosisLeadership', 'width=836,height=900,scrollbars=yes,resizable=yes'); return false;"
+              aria-label="기업 리더십 진단(약식) 새 창에서 시작"
+            >
+              <img
+                src="assets/진단 블럭 2.jpg"
+                alt=""
+                class="home-diagnosis-slot-img"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="home-diagnosis-slot-overlay" aria-hidden="true"></div>
+              <div class="home-diagnosis-slot-content">
+                <div class="home-diagnosis-slot-text">
+                  <h3 class="home-diagnosis-slot-title">
+                    <span class="home-diagnosis-slot-title-text">기업 리더십 진단</span
+                    ><span class="home-diagnosis-slot-title-note"> (약식)</span>
+                  </h3>
+                  <p class="home-diagnosis-slot-desc">
+                    리더십 역량의 다섯 가지 요소를 총 24개 문항으로 진단합니다. (7분)
+                  </p>
+                </div>
+                <div class="home-diagnosis-slot-actions">
+                  <span class="home-diagnosis-slot-btn">진단 시작하기</span>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="consulting-voc-box home-diagnosis-image-slot">
+            <a
+              class="home-diagnosis-slot-link"
+              href="diagnosis-organizational-dynamism.html"
+              onclick="window.open(this.href, 'diagnosisOrganizationalDynamism', 'width=836,height=900,scrollbars=yes,resizable=yes'); return false;"
+              aria-label="조직 역동성 진단(약식) 새 창에서 시작"
+            >
+              <img
+                src="assets/진단 블럭 3.jpg"
+                alt=""
+                class="home-diagnosis-slot-img"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="home-diagnosis-slot-overlay" aria-hidden="true"></div>
+              <div class="home-diagnosis-slot-content">
+                <div class="home-diagnosis-slot-text">
+                  <h3 class="home-diagnosis-slot-title">
+                    <span class="home-diagnosis-slot-title-text">조직 역동성 진단</span
+                    ><span class="home-diagnosis-slot-title-note"> (약식)</span>
+                  </h3>
+                  <p class="home-diagnosis-slot-desc">
+                    기업의 성과에 작동하는 5개 요소를 총 40개 문항으로 진단합니다. (15분)
+                  </p>
+                </div>
+                <div class="home-diagnosis-slot-actions">
+                  <span class="home-diagnosis-slot-btn">진단 시작하기</span>
+                </div>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div
+      class="home-voc-dim"
+      id="home-voc-dim"
+      data-home-voc-dim
+      hidden
+      aria-hidden="true"
+      aria-label="영상 닫기(배경 클릭)"
+    ></div>
+  </main>
+
+  <!-- 메인 히어로 영상 (HOME_HERO_VIDEO_URL · mp4 또는 embed URL) -->
+  <div class="community-video-popup" id="home-hero-video-popup" role="dialog" aria-modal="true" aria-label="소개 영상" hidden>
+    <div class="community-video-popup-backdrop"></div>
+    <div class="community-video-popup-inner">
+      <button type="button" class="community-video-popup-close" aria-label="닫기">&times;</button>
+      <div class="community-video-popup-body">
+        <iframe class="community-video-popup-iframe" title="소개 영상" allowfullscreen hidden></iframe>
+        <video
+          class="testimonial-popup-video-native"
+          controls
+          playsinline
+          preload="metadata"
+          title="소개 영상"
+          hidden
+        ></video>
+        <div class="home-testimonial-video-placeholder">
+          <p>영상이 준비 중입니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-top-row">
+        <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
+          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+        </a>
+        <div class="footer-social-icons" aria-label="SNS 바로가기">
+          <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
+            <img src="assets/1.png" alt="" />
+          </a>
+          <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
+            <img src="assets/푸터 인스타.png" alt="" />
+          </a>
+          <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
+            <img src="assets/푸터 블로그.png" alt="" />
+          </a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-legal-line">
+          (주)가인지캠퍼스 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 639-88-00543 &nbsp;|&nbsp; 통신판매업신고: 제 2017-서울마포-1383호
+        </p>
+        <p class="footer-legal-line">
+          이메일: <a href="mailto:gainge.cs@gainge.com" target="_blank" rel="noopener noreferrer">gainge.cs@gainge.com</a> &nbsp;|&nbsp; 대표번호: <a href="tel:02-337-0691" target="_blank" rel="noopener noreferrer">02-337-0691</a> &nbsp;|&nbsp; 주소: 서울특별시 마포구 토정로 16 2층
+        </p>
+        <p class="footer-copyright">© 2026 가인지컨설팅그룹. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/page-init-home.js"></script>
+  <!-- data/home.json 과 동기화. file:// 에서 메인 히어로·로고 등 폴백 -->
+  <script type="application/json" id="home-page-data">
+{
+  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "heroVideoUrl": "assets/메인페이지.mp4",
+  "heroRotationImages": [
+    "assets/images/메인페이지1.jpg",
+    "assets/images/메인페이지2.jpg",
+    "assets/images/메인페이지3.jpg",
+    "assets/images/메인페이지4.jpg",
+    "assets/images/메인페이지5.jpg"
+  ],
+  "logoSlotImages": {
+    "1": [
+      "assets/customer-logos/삼성전자.png",
+      "assets/customer-logos/폭스바겐그룹코리아.png",
+      "assets/customer-logos/포스코.png",
+      "assets/customer-logos/신한은행.png",
+      "assets/customer-logos/농심.png"
+    ],
+    "2": [
+      "assets/customer-logos/대웅제약.png",
+      "assets/customer-logos/코스메카코리아.png",
+      "assets/customer-logos/서울재활병원.png",
+      "assets/customer-logos/웅비메디텍.png",
+      "assets/customer-logos/바이오세라.png"
+    ],
+    "3": [
+      "assets/customer-logos/다비치안경.png",
+      "assets/customer-logos/꿈비.png",
+      "assets/customer-logos/헤세드코리아.png",
+      "assets/customer-logos/실란트로.png",
+      "assets/customer-logos/벨라코리아.png"
+    ],
+    "4": [
+      "assets/customer-logos/엔씨소프트.png",
+      "assets/customer-logos/대원미디어.png",
+      "assets/customer-logos/아소비교육.png",
+      "assets/customer-logos/어셔어학원.png",
+      "assets/customer-logos/프라미스에듀.png"
+    ],
+    "5": [
+      "assets/customer-logos/한국수자원공사.png",
+      "assets/customer-logos/대한무역투자진흥공사.png",
+      "assets/customer-logos/굿피플인터네셔널.png",
+      "assets/customer-logos/유니세프.png",
+      "assets/customer-logos/금호건설.png"
+    ],
+    "6": [
+      "assets/customer-logos/태향.png",
+      "assets/customer-logos/끌리메.png",
+      "assets/customer-logos/준오헤어.png",
+      "assets/customer-logos/청밀.png",
+      "assets/customer-logos/한성산기.png",
+      "assets/customer-logos/명신.png"
+    ]
+  },
+  "homeTestimonialVideoUrls": {
+    "1": "https://youtu.be/uNRDkKpbWQs",
+    "2": "https://youtu.be/ZxaHLlL2ESg",
+    "3": "https://youtu.be/Dz3ya3PD9eU"
+  },
+  "homeStoryPageUrls": {
+    "1": "",
+    "2": "",
+    "3": ""
+  }
+}
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

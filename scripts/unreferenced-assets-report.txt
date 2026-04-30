@@ -1,0 +1,173 @@
+=== 코드·데이터에서 참조되지 않는 assets 파일 (163개) ===
+
+assets/20250912-00005782.png
+assets/BU 리더 사진.jpg
+assets/CC클래스 스케치.mp4
+assets/DSCF4916.JPG
+assets/IST06693.JPG
+assets/common-footer-sns.png
+assets/customer-logos/(재)한국건설산업연구원.png
+assets/customer-logos/(주)미주교육문화진흥회.png
+assets/customer-logos/(주)에스에이치피.png
+assets/customer-logos/(주)에스엘씨.png
+assets/customer-logos/BNK금융지주.png
+assets/customer-logos/CSI.png
+assets/customer-logos/DB생명.png
+assets/customer-logos/F&F.png
+assets/customer-logos/KEC.png
+assets/customer-logos/kotra.svg
+assets/customer-logos/ㅇ.png
+assets/customer-logos/거목종합건설.png
+assets/customer-logos/경기북부상공회의소.png
+assets/customer-logos/경향신문.png
+assets/customer-logos/고감도.png
+assets/customer-logos/광양시가족센터.png
+assets/customer-logos/교보생명.png
+assets/customer-logos/국민은행.png
+assets/customer-logos/그린시스템.png
+assets/customer-logos/나비타월드.png
+assets/customer-logos/나인벨.png
+assets/customer-logos/내셔널모터스.png
+assets/customer-logos/네오딘.png
+assets/customer-logos/닥터코스.png
+assets/customer-logos/달콤수학.png
+assets/customer-logos/대구사회연구소.jpeg
+assets/customer-logos/대운글로벌.png
+assets/customer-logos/대일이엔씨.png
+assets/customer-logos/대한육계(순살만공격).svg
+assets/customer-logos/더아이제이.png
+assets/customer-logos/더파운더즈.png
+assets/customer-logos/덕산코트랜.png
+assets/customer-logos/디뉴먼트.png
+assets/customer-logos/디자인에보.jpg
+assets/customer-logos/디케이아이테크놀로지.png
+assets/customer-logos/로직스몬.png
+assets/customer-logos/마이하우스.png
+assets/customer-logos/메디비젼.png
+assets/customer-logos/메디클러스.png
+assets/customer-logos/메디플로우.png
+assets/customer-logos/메이쿱.png
+assets/customer-logos/몬데인컨설팅 .png
+assets/customer-logos/무신사.png
+assets/customer-logos/바른컨설팅.png
+assets/customer-logos/바이텍정보통신.png
+assets/customer-logos/벤처기업협회.jpeg
+assets/customer-logos/소프트캠프.png
+assets/customer-logos/신성컨트롤.png
+assets/customer-logos/신정.png
+assets/customer-logos/신한라이프.png
+assets/customer-logos/실리콘투.png
+assets/customer-logos/씨앤피물류.png
+assets/customer-logos/씽크소프트.png
+assets/customer-logos/아르케.png
+assets/customer-logos/아이비김영.png
+assets/customer-logos/아이티센글로벌.webp
+assets/customer-logos/아티리즈과사람.png
+assets/customer-logos/앤바이오니아.png
+assets/customer-logos/어반플롯건축사무소.png
+assets/customer-logos/에너텍.png
+assets/customer-logos/에이스바이오팜.png
+assets/customer-logos/에이스엔지니어링.png
+assets/customer-logos/에이앤유디자인.png
+assets/customer-logos/에이치앤피로직스.png
+assets/customer-logos/에이치투.png
+assets/customer-logos/에코프로.png
+assets/customer-logos/엔큐리티.png
+assets/customer-logos/오시리스.png
+assets/customer-logos/와이컨설팅.png
+assets/customer-logos/요꼬가와전기.webp
+assets/customer-logos/우신.png
+assets/customer-logos/우신시스템.png
+assets/customer-logos/웅진북센.png
+assets/customer-logos/웰킵스.png
+assets/customer-logos/위드텍.png
+assets/customer-logos/유니코로직스.png
+assets/customer-logos/유봄성형외과 .png
+assets/customer-logos/이팝소프트.png
+assets/customer-logos/일사천리시스템.png
+assets/customer-logos/자신만만.png
+assets/customer-logos/재단법인 세종특별자치시 사회서비스원.png
+assets/customer-logos/정림건축.png
+assets/customer-logos/정림건축종합건축사사무소.png
+assets/customer-logos/제이엔와이.png
+assets/customer-logos/제이준코스메틱.png
+assets/customer-logos/주식회사 씨앤에스.png
+assets/customer-logos/주식회사 에이치투.png
+assets/customer-logos/주식회사케이로지.png
+assets/customer-logos/주식회사티앤에스.png
+assets/customer-logos/지란지교데이터.png
+assets/customer-logos/지앤코.png
+assets/customer-logos/지엔씨에너지.png
+assets/customer-logos/지피클럽.png
+assets/customer-logos/참프레.jpeg
+assets/customer-logos/초기투자액셀러레이터.png
+assets/customer-logos/컴트리.png
+assets/customer-logos/케이엠통상.png
+assets/customer-logos/코스모코스.svg
+assets/customer-logos/테크윈.png
+assets/customer-logos/팀어스건축사무소.jpg
+assets/customer-logos/퓨어엔비텍.png
+assets/customer-logos/피케이밸브.jpg
+assets/customer-logos/하이비젼시스템.png
+assets/customer-logos/한국음반산업협회.png
+assets/customer-logos/한국음반산업협회.svg
+assets/customer-logos/한국인사관리협회.png
+assets/customer-logos/한만두.png
+assets/customer-logos/한솔PNS.jpg
+assets/customer-logos/한화오션엔지니어링.png
+assets/images/책 표지 샘플 이미지 5.jpg
+assets/images/책 표지 샘플 이미지 6.jpg
+assets/가인지 로고 흰색.png
+assets/가인지 메인 컬러.jpg
+assets/가인지 비전 이미지 - 복사본.JPG
+assets/가인지TV 배너 썸네일.jpg
+assets/가인지경영 인사말 섹션 배경 - 복사본.jpg
+assets/가인지경영 페이지 메인 사진.jpg
+assets/간증 이미지 샘플 4.jpg
+assets/그레이스 HH_컬러.png
+assets/기업교육 히어로 섹션 원본 (1).jpg
+assets/기업교육 히어로 섹션 원본 (2).jpg
+assets/기업교육 히어로 섹션 원본 (3).jpg
+assets/기업교육 히어로 섹션 원본 (4).jpg
+assets/기업교육 히어로 섹션 원본 (5).jpg
+assets/누끼 로고3.png
+assets/로빈 누끼.png
+assets/마리아 비전 원본.jpg
+assets/메인페이지 썸네일 7.jpg
+assets/메인페이지3 - 복사본.jpg
+assets/브랜딩컬러 2.png
+assets/비즈니스 로드맵.png
+assets/사진_2023 양화진의 아침 (2275).JPG
+assets/사진_2023 양화진의 아침 (713).JPG
+assets/사진_2023 양화진의 아침 (877).JPG
+assets/선언 이미지 후보 2.jpg
+assets/선언 이미지.JPG
+assets/션 누끼.png
+assets/실란트로.png
+assets/연결 유투브 임시 썸네일 1.jpg
+assets/연결 유투브 임시 썸네일 2.jpg
+assets/연결 유투브 임시 썸네일 3.jpg
+assets/이녹 누끼 컬러.png
+assets/인사말 샘플.jpg
+assets/인사말 임시 샘프.jpg
+assets/일 원칙.jpg
+assets/조셉 누끼_컬러.jpg
+assets/조셉 누끼_컬러.png
+assets/차별화.jpg
+assets/커뮤니티 초대 샘플 ( (1).JPG
+assets/커뮤니티 초대 샘플 2.fixed.jpg
+assets/커뮤니티 초대 샘플 5-2.JPG
+assets/커뮤니티 초대 샘플 후보.JPG
+assets/컨설팅 소개 페이지 단체 사진 임시 (2).jpg
+assets/컨설팅 소개 페이지 단체 사진 임시 3 후보.jpg
+assets/컨설팅 소개 페이지 단체 사진 임시 6 후보.jpg
+assets/컨설팅 소개 페이지 단체 사진 임시 후보.jpg
+assets/헤더용 신규 로고.png
+
+--- 포함된 참조 규칙 ---
+• 정적 문자열: 프로젝트 내 .html .css .js .json .csv 등에서 따옴표·url() 안의 assets/… 및 ../assets/…
+• 진단: diagnosis-data/type_assets.csv 의 imageFileName → assets/diagnosis/…
+• 컨설팅 로고: consulting.html 의 industry-logo-name 등 기업명과 일치하는 customer-logos 파일
+• 경로 대소문자는 Windows 기준으로 동일하면 참조된 것으로 간주
+
+삭제 전: 스크립트가 동적 로드·런타임 조합 경로는 포착하지 못할 수 있습니다.

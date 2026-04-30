@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고객 스토리</title>
+  <style>
+    :root {
+      --branding-color-1: #005eff;
+      --branding-color-2: #8eff00;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .story-title-section {
+      min-height: 43.2vh;
+      min-height: 43.2dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.01rem, 2.54vh, 1.78rem) 1rem;
+      box-sizing: border-box;
+    }
+
+    .story-title-content {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(2rem, 3.5vw, 3rem);
+      transform: translateY(clamp(1.6rem, 4vh, 3rem));
+    }
+
+    .story-title-heading {
+      margin: 0;
+      text-align: center;
+      font-size: calc(clamp(0.95rem, 2vw, 1.6rem) * 1.2);
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #ffffff;
+    }
+
+    .story-title-attribution {
+      margin: 0;
+      width: 100%;
+      max-width: none;
+      align-self: center;
+      text-align: center;
+      font-size: calc(clamp(0.72rem, 0.3vw + 0.65rem, 0.82rem) * 1.3);
+      font-weight: 500;
+      line-height: 1.4;
+      color: #e5e7eb;
+      letter-spacing: -0.01em;
+    }
+
+    .story-video-section {
+      padding: clamp(1.2rem, 3vw, 2.2rem) 1rem clamp(3.2rem, 6vw, 4.6rem);
+      box-sizing: border-box;
+    }
+
+    .story-concern-section {
+      padding: clamp(2.2rem, 4.5vw, 3.4rem) 1rem clamp(2.2rem, 4.2vw, 3.2rem);
+      box-sizing: border-box;
+    }
+
+    .story-request-section {
+      padding: clamp(1.2rem, 3vw, 2.2rem) 1rem clamp(2.2rem, 4.2vw, 3.2rem);
+      box-sizing: border-box;
+    }
+
+    .story-concern-grid {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 3fr 7fr;
+      gap: clamp(0.9rem, 2vw, 1.6rem);
+      align-items: stretch;
+    }
+
+    .story-concern-grid--reverse {
+      grid-template-columns: 7fr 3fr;
+    }
+
+    .story-concern-media {
+      margin: 0;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #0b0b0b;
+    }
+
+    .story-concern-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      object-fit: cover;
+    }
+
+    .story-concern-copy {
+      margin: 0;
+      width: 92%;
+      justify-self: end;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.03);
+      padding: clamp(1rem, 2.2vw, 1.5rem);
+      color: #e5e7eb;
+      font-size: clamp(0.95rem, 1.15vw, 1.06rem);
+      line-height: 1.72;
+      letter-spacing: -0.01em;
+      box-sizing: border-box;
+      text-align: justify;
+      text-align-last: left;
+      text-justify: inter-character;
+      word-break: break-all;
+      overflow-wrap: anywhere;
+    }
+
+    .story-concern-grid--reverse .story-concern-copy {
+      justify-self: start;
+    }
+
+    .story-concern-copy p {
+      margin: 0;
+      text-indent: 0.5em;
+    }
+
+    .story-concern-copy p + p {
+      margin-top: 1em;
+    }
+
+    .story-concern-copy strong {
+      font-weight: 700;
+      color: #93c5fd;
+      text-shadow: 0 0 1px rgba(15, 23, 42, 0.35);
+    }
+
+    .story-request-section .story-concern-media {
+      transform: translateX(-0.55rem);
+    }
+
+    .story-concern-section--concern .story-concern-copy {
+      transform: translateX(0.4rem);
+    }
+
+    /* 경험 섹션(태향 스토리 3): 원본 비율 유지 + 크기만 소폭 축소 */
+    .story-experience-section .story-concern-media {
+      width: 110%;
+      justify-self: start;
+      aspect-ratio: auto;
+      background: transparent;
+      transform: translateY(0.35rem);
+    }
+
+    .story-experience-section .story-concern-image {
+      height: auto;
+      min-height: 0;
+      object-fit: contain;
+    }
+
+    .story-experience-section .story-concern-copy {
+      width: 92%;
+      transform: translate(1.35rem, 0.05rem);
+    }
+
+    @media (max-width: 768px) {
+      .story-concern-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .story-voc-section {
+      padding: clamp(0.9rem, 2vw, 1.4rem) 1rem clamp(2.6rem, 4.8vw, 3.8rem);
+      box-sizing: border-box;
+    }
+
+    .story-voc-content {
+      width: min(960px, 100%);
+      margin: clamp(0.45rem, 1.2vw, 0.8rem) auto 0;
+      color: #e5e7eb;
+      font-size: clamp(1rem, 1.45vw, 1.2rem);
+      line-height: 1.75;
+      letter-spacing: -0.01em;
+      text-align: left;
+    }
+
+    .story-video-frame {
+      position: relative;
+      width: min(960px, 100%);
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      line-height: 0;
+      background: #000000;
+    }
+
+    .story-video-overlay {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .story-video-thumb {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-video-play-btn {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(64px, 9vw, 94px);
+      height: clamp(64px, 9vw, 94px);
+      border-radius: 999px;
+      border: 4px solid #ffffff;
+      background: rgba(0, 0, 0, 0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      box-sizing: border-box;
+    }
+
+    .story-video-play-btn::before {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      margin-left: 0.7rem;
+      border-top: 1.75em solid transparent;
+      border-bottom: 1.75em solid transparent;
+      border-left: 2.8em solid #ffffff;
+    }
+
+    .story-video-player {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      background: #000000;
+    }
+
+    .story-youtube-embed {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: #000000;
+    }
+
+    .story-youtube-embed .story-video-player {
+      border: 0;
+      vertical-align: top;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .story-video-embed-close {
+      position: absolute;
+      top: 0.35rem;
+      right: 0.35rem;
+      z-index: 3;
+      margin: 0;
+      padding: 0.1em 0.35em;
+      border: 0;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.55);
+      color: #ffffff;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .story-video-embed-close:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    .consulting-solution-cta-wrap {
+      margin-top: clamp(5.6rem, 9.6vh, 6.9rem);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .consulting-solution-inquiry-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem 1.65rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #000000;
+      background: var(--branding-color-2);
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-sizing: border-box;
+      transform: scale(1);
+      transform-origin: center;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.25s ease;
+    }
+
+    .consulting-solution-inquiry-btn:hover {
+      background: var(--branding-color-1);
+      color: #ffffff;
+      border-color: var(--branding-color-1);
+      transform: scale(1.06);
+    }
+
+    .consulting-solution-inquiry-btn:focus {
+      outline: none;
+    }
+
+    .consulting-solution-inquiry-btn:focus-visible {
+      outline: 2px solid var(--branding-color-2);
+      outline-offset: 3px;
+    }
+
+    .consulting-solution-inquiry-btn:hover:focus-visible {
+      outline-color: #ffffff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .consulting-solution-inquiry-btn {
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .consulting-solution-inquiry-btn:hover {
+        transform: none;
+      }
+    }
+
+    .story-principles-section {
+      background-color: #000000;
+      color: #ffffff;
+      padding: clamp(2.2rem, 4.6vw, 3.4rem) 1rem clamp(5.4rem, 9.2vw, 7rem);
+      box-sizing: border-box;
+    }
+
+    .story-principles-container {
+      width: min(960px, 100%);
+      margin: 0 auto;
+    }
+
+    .story-principles-footer-logo {
+      display: block;
+      width: min(260px, 62%);
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+  </style>
+</head>
+<body>
+  <main aria-label="고객 스토리 페이지">
+    <section class="story-title-section" aria-label="스토리 타이틀 섹션">
+      <div class="story-title-content">
+        <h1 class="story-title-heading">"가치, 인재, 지식 경영의 밸런스로 지금은 100대 기업을 바라봅니다."</h1>
+        <p class="story-title-attribution">(주)태향 이수기 대표</p>
+      </div>
+    </section>
+
+    <section class="story-voc-section" aria-label="VOC 섹션">
+      <p class="story-voc-content">
+        사업을 정리해야 할지 고민하던 시기가 있었습니다.<br />
+        혼자서 모든 결정의 무게를 짊어지자 앞으로 나아갈 힘이 들지 않았고, 외롭고 막연한 마음이 커졌습니다.<br />
+        기업의 가치·인재·지식을 어떻게 균형잡아야 할지 갈피를 잡기 어려웠습니다.
+      </p>
+    </section>
+
+    <section class="story-video-section" aria-label="영상 섹션">
+      <div class="story-video-frame" data-inline-video data-story-youtube="https://youtu.be/uNRDkKpbWQs">
+        <button type="button" class="story-video-overlay" aria-label="영상 재생">
+          <img class="story-video-thumb" src="assets/간증 이미지 샘플 1.jpg" alt="태향 영상 썸네일" />
+          <span class="story-video-play-btn" aria-hidden="true"></span>
+        </button>
+        <div class="story-youtube-embed" hidden>
+          <iframe
+            class="story-video-player"
+            title="태향 간증 영상"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+          <button type="button" class="story-video-embed-close" aria-label="닫기">×</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-concern-section story-concern-section--concern" aria-label="고민 섹션">
+      <div class="story-concern-grid">
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/태향 스토리 1.png" alt="태향 스토리 고민 섹션 이미지" />
+        </figure>
+        <article class="story-concern-copy">
+          <p>
+            처음 사업을 시작했을 때, 저는 이 기업으로 사회에 기여하고 선한 영향력을 전하고 싶었습니다. 하지만 현실은 냉혹했습니다. 경영의 한계에 부딪힐 때마다 대표라는 자리는 늘 제게 맞지 않는 옷처럼 느껴졌습니다.
+          </p>
+          <p>
+            만약, 회사가 나아가야 할 방향이 옳다면 일도 순조롭게 풀려야 한다고 믿었지만, 상황은 정반대로 흘러갔습니다. 사업은 어려워졌고, 직원들과의 관계는 점점 꼬여만 갔습니다. 마음이 조급해지자 제 언행은 날카로워졌습니다.
+          </p>
+          <p>
+            결국 "내가 사람을 잘못 본 것일까, <strong>내가 경영자로서 자격이 있는 것일까</strong>"라는 깊은 회의감에 빠져 회사를 정리할 고민까지 하게 됐습니다.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="story-request-section" aria-label="의뢰 섹션">
+      <div class="story-concern-grid story-concern-grid--reverse">
+        <article class="story-concern-copy">
+          <p>
+            경영을 포기하려던 그 때 우연히 김경민 대표님의 강의를 듣게 되었습니다. 강의 내용 중 우리 기업과 같은 조직이 겪는 문제를 해결하고 변화를 도울 수 있다는 대목이 눈에 들어왔습니다.
+          </p>
+          <p>
+            당시 저는 제 개인의 노력만으로는 더 이상 돌파구를 찾을 수 없는 상태였습니다. '가인지컨설팅이 우리 기업의 문제를 개선해 준다면 <strong>다시 한번 도전해 볼 수 있겠다</strong>'는 실낱같은 희망이 생겼습니다.
+          </p>
+          <p>
+            저는 그 길로 김경민 대표님께 도움을 요청했습니다. 대표님은 가인지 컨설턴트를 태향으로 보내주셨고, 그것은 우리 태향이 지금의 모습으로 성장하게 되는 전환점이었습니다.
+          </p>
+        </article>
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/태향 스토리 2.jpg" alt="태향 스토리 의뢰 섹션 이미지" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="story-concern-section story-concern-section--concern story-experience-section" aria-label="경험 섹션">
+      <div class="story-concern-grid">
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/태향 스토리 3.png" alt="태향 스토리 경험 섹션 이미지" />
+        </figure>
+        <article class="story-concern-copy">
+          <p>
+            가인지 컨설턴트는 단순한 조언자를 넘어, 경영자인 저보다 더 우리 고객을 깊이 이해하고 우리 구성원들의 성장을 진심으로 고민하는 파트너였습니다.
+          </p>
+          <p>
+            그와 함께한 시간 중 기억에 남는 것은 전략 회의가 아니라 땀 흘리던 현장의 순간들입니다. 모두 퇴근한 늦은 밤까지 둘이 남아 조직의 문제를 토론하던 시간, 새로운 브랜드를 런칭하기 위해 새벽에 계란 농장으로 달려가 함께 물건을 실어 나르던 기억이 생생합니다. 고난을 함께한 전우 같은 느낌이랄까요?
+          </p>
+          <p>
+            컨설턴트가 실무 현장에서 보여준 헌신적인 모습을 보며 저는 힘을 얻었습니다. 이는 제가 경영 지식을 체계적으로 습득하고 현장에 적용하는 데 큰 동기부여가 되었습니다. 그리고 <strong>그의 존재는 저에게 응원과 위로가 되었습니다.</strong>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="story-request-section" aria-label="변화 섹션">
+      <div class="story-concern-grid story-concern-grid--reverse">
+        <article class="story-concern-copy">
+          <p>
+            컨설팅 과정에서 제가 경험한 변화는 경영자로서의 '회복 탄력성'을 얻은 것입니다. <strong>누군가의 지지와 응원 속에 어려움을 이겨낸 과정이 경영자로서 저를 성장시킨 것 같아요.</strong> 이제는 어떤 위기가 닥쳐도 예전처럼 흔들리지 않고 묵묵히 나갈 수 있는 단단함이 생겼습니다.
+          </p>
+          <p>
+            또한, 그 모든 과정 속에서 저는 경영의 핵심인 '가치, 인재, 지식'의 균형을 명확히 깨닫게 되었습니다. 기업에는 고객가치를 바탕으로 적합한 인재를 세우고, 그들이 성과를 낼 수 있도록 지식 자산을 축적하는 구조가 만들어졌습니다.
+          </p>
+          <p>
+            이제 주변에서도 이제는 조직이 훨씬 안정되었고, 대표로서 좋은 리더십을 가졌다는 이야기를 종종 듣게 됩니다.
+          </p>
+        </article>
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/태향 스토리 4.png" alt="태향 스토리 변화 섹션 이미지" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="story-concern-section" aria-label="비전 섹션">
+      <div class="story-concern-grid">
+        <figure class="story-concern-media">
+          <img class="story-concern-image" src="assets/태향 스토리 5.png" alt="태향 스토리 비전 섹션 이미지" />
+        </figure>
+        <article class="story-concern-copy">
+          <p>
+            태향은 이제 국내 100대 기업 진입이라는 구체적인 목표를 향해 나아가고 있습니다. 앞으로 <strong>5년 안에 매출 100억 규모의 5개 계열사를 세우고, 이를 성공적인 사업 모델로 정착시킬 계획</strong>입니다.
+          </p>
+          <p>
+            그러나 저에게 있어서는, 숫자로 표현되는 성과보다 더 중요한 목표는 우리 기업을 통해 건강한 리더들을 배출하는 것입니다. 구성원들이 이곳에서 경영 철학을 배우고 성장하여, 어디서든 영향력을 발휘하는 리더로 서는 모습을 꿈꿉니다.
+          </p>
+          <p>
+            그리고 우리는 단순히 상품을 판매하는 회사를 넘어, 건강한 비전을 생성하고 전파하는 <strong>'비전 제조 기업'으로서 세상에 선한 영향력</strong>을 일으키고자 합니다.
+          </p>
+        </article>
+      </div>
+      <p class="consulting-solution-cta-wrap">
+        <a href="story-inquiry-popup.html" class="consulting-solution-inquiry-btn" data-story-inquiry>컨설팅 문의하기</a>
+      </p>
+    </section>
+
+    <section class="story-principles-section" aria-label="핵심원리 섹션">
+      <div class="story-principles-container">
+        <img class="story-principles-footer-logo" src="assets/하단 로고.png" alt="하단 로고" />
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var root = document.querySelector("[data-inline-video]");
+      if (!root) return;
+
+      var watchUrl = root.getAttribute("data-story-youtube") || "";
+      var overlay = root.querySelector(".story-video-overlay");
+      var embedWrap = root.querySelector(".story-youtube-embed");
+      var iframe = embedWrap && embedWrap.querySelector(".story-video-player");
+      var closeBtn = embedWrap && embedWrap.querySelector(".story-video-embed-close");
+      if (!overlay || !embedWrap || !iframe) return;
+
+      function toEmbed(u) {
+        var s = (u || "").trim();
+        var m = s.match(/youtu\.be\/([^?&#]+)/i);
+        if (m) {
+          return (
+            "https://www.youtube.com/embed/" +
+            m[1] +
+            "?rel=0&modestbranding=1&playsinline=1&autoplay=1"
+          );
+        }
+        m = s.match(/[?&]v=([^?&#]+)/i);
+        if (m) {
+          return (
+            "https://www.youtube.com/embed/" +
+            m[1] +
+            "?rel=0&modestbranding=1&playsinline=1&autoplay=1"
+          );
+        }
+        return s;
+      }
+
+      function closeEmbed() {
+        iframe.setAttribute("src", "");
+        embedWrap.setAttribute("hidden", "hidden");
+        overlay.removeAttribute("hidden");
+      }
+
+      overlay.addEventListener("click", function () {
+        overlay.setAttribute("hidden", "hidden");
+        embedWrap.removeAttribute("hidden");
+        iframe.setAttribute("src", toEmbed(watchUrl));
+      });
+
+      if (closeBtn) closeBtn.addEventListener("click", closeEmbed);
+
+      var inquiryBtn = document.querySelector("[data-story-inquiry]");
+      if (inquiryBtn) {
+        inquiryBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          var inquiryUrl = inquiryBtn.getAttribute("href") || "story-inquiry-popup.html";
+          window.open(inquiryUrl, "_blank", "noopener,noreferrer,width=980,height=860");
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

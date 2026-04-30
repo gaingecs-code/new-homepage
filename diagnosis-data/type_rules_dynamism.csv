@@ -1,0 +1,11 @@
+diagnosisId,typeGroup,typeId,typeLabel,targetSectionId,priority,ruleDescription,,
+dynamism,STRENGTH,S_VISION,비전정렬 강점,vision_align,1,1차 섹션 평균 1위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,STRENGTH,S_INNO,혁신행동 강점,innovation,2,1차 섹션 평균 1위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,STRENGTH,S_SUPP,지원적 리더십 강점,support_lead,3,1차 섹션 평균 1위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,STRENGTH,S_PSYC,심리적 안전감 강점,psych_safety,4,1차 섹션 평균 1위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,STRENGTH,S_EFFI,업무 효능감 강점,efficacy,5,1차 섹션 평균 1위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,GROWTH,G_VISION,비전정렬 성장포인트,vision_align,6,1차 섹션 평균 5위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,GROWTH,G_INNO,혁신행동 성장포인트,innovation,7,1차 섹션 평균 5위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,GROWTH,G_SUPP,지원적 리더십 성장포인트,support_lead,8,1차 섹션 평균 5위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,GROWTH,G_PSYC,심리적 안전감 성장포인트,psych_safety,9,1차 섹션 평균 5위 (1:표준편차소,2:랜덤,3:priority)
+dynamism,GROWTH,G_EFFI,업무 효능감 성장포인트,efficacy,10,1차 섹션 평균 5위 (1:표준편차소,2:랜덤,3:priority)

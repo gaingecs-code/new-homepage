@@ -1,0 +1,612 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>가인지경영</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 상단 고정 헤더 -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+      </a>
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="메뉴 열기">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="gainge-management.html" class="nav-current">가인지컨설팅그룹</a></li>
+          <li><a href="consulting.html">컨설팅 서비스</a></li>
+          <li><a href="testimonials.html">고객 사례</a></li>
+          <li><a href="corporate-education.html">기업교육</a></li>
+          <li><a href="community.html">경영자 커뮤니티</a></li>
+          <li><a href="about.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="header-actions-top">
+          <button type="button" class="pill-cta-button" data-header-diagnosis>기업 진단하기<span class="pill-cta-badge">Free</span></button>
+          <button type="button" class="pill-cta-button" data-gainge-campus>가인지캠퍼스 바로가기</button>
+          <button class="header-auth-button">로그인/회원가입</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="gainge-management-main" id="main-content">
+    <section class="gainge-greeting-section" aria-label="인사말">
+      <div class="gainge-greeting-frame">
+        <div class="gainge-greeting-stack">
+          <div class="gainge-greeting-column-wrap">
+            <div class="gainge-greeting-bg" aria-hidden="true"></div>
+            <div class="gainge-greeting-hero">
+              <div class="gainge-greeting-content">
+                <h1 class="gainge-greeting-title">
+                  <span class="gainge-greeting-title-line">비즈니스는</span>
+                  <span class="gainge-greeting-title-line">사랑입니다</span>
+                </h1>
+                <div class="gainge-greeting-flex-spacer" aria-hidden="true"></div>
+                <div class="gainge-greeting-article">
+                  <div class="gainge-greeting-article-inner">
+                    <div class="gainge-greeting-body-box">
+                      <p class="gainge-greeting-body-p">
+                        이 말은 그저 좋은 말이 아닙니다. 우리가 지금까지 5,400여개 경영 현장에서 경영자들과 함께 증명한 경영의 새로운 패러다임입니다.
+                      </p>
+                      <p class="gainge-greeting-body-p">
+                        많은 이들이 &lsquo;기업의 존재 목적은 이윤의 창출&rsquo;이라고 말합니다. 이 관점은 자본주의의 성장을 만들었지만, 심지어 경영자 자신 조차도 기업을 위한 이윤 창출의 도구가 되어버렸습니다. 동시에, 기업은 고객 및 직원과 이윤 배분을 놓고 끝없는 줄다리기에서 벗어나지 못합니다.
+                      </p>
+                      <div
+                        class="gainge-greeting-expand"
+                        id="gainge-greeting-expand"
+                        aria-hidden="true"
+                      >
+                        <div class="gainge-greeting-expand-clip">
+                          <div class="gainge-greeting-expand-inner">
+                            <p class="gainge-greeting-body-p">
+                              그러나 현대 경영학의 아버지라 불리는 피터 드러커의 관점처럼, 우리는 이러한 세상에 &lsquo;기업의 존재 목적은 고객가치의 창출이며, 이윤은 여기에 따라오는 부가적인 가치 증명의 증거&rsquo;라고 말합니다.
+                            </p>
+                            <p class="gainge-greeting-body-p">
+                              기업의 존재 목적이 &lsquo;고객가치의 창출&rsquo;이 될 때, 고객은 돈을 내는 구매자를 넘어 한 명의 인격이 되며, 직원은 계약관계가 아닌 같은 가치를 창출하는 동료가 됩니다. 이 관점의 변화는 기업의 모든 의사결정과 조직문화를 바꿔놓습니다.
+                            </p>
+                            <p class="gainge-greeting-body-p">
+                              우리는 이 경영 패러다임을 실제로 사용할 수 있는 경영 도구와 방법론으로 만들었습니다. 그리고 지금까지 5,400개 기업이 이 방법으로 변화를 경험했습니다. 이제 우리는 모든 기업이 비즈니스는 사랑입니다라고 말하는 날을 만들어가고 있습니다.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="gainge-greeting-actions">
+                      <button
+                        type="button"
+                        class="gainge-greeting-toggle-btn"
+                        id="gainge-greeting-toggle"
+                        aria-expanded="false"
+                        aria-controls="gainge-greeting-expand"
+                      >
+                        열어보기
+                      </button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 여백 섹션: 텍스트·이미지 없음, 기본 높이는 본문 약 3줄 분량(.gainge-spacer-section) -->
+    <section
+      class="gainge-spacer-section"
+      role="presentation"
+      aria-hidden="true"
+    ></section>
+
+    <section class="gainge-vision-section" aria-labelledby="gainge-vision-heading">
+      <h2 id="gainge-vision-heading" class="sr-only">비전</h2>
+      <div class="container gainge-vision-section-inner">
+        <div class="gainge-vision-media">
+          <img
+            src="assets/가인지 비전 이미지.JPG"
+            alt="가인지 비전"
+            class="gainge-vision-img"
+            decoding="async"
+          />
+        </div>
+        <div class="gainge-vision-text-area">
+          <p class="gainge-vision-tagline">세상을 바꾸는 1,000명의 경영자</p>
+          <div class="gainge-vision-body-box">
+            <p class="gainge-vision-body-text">
+              우리는 &lsquo;비즈니스는 사랑&rsquo;임을 실천하며, 이윤을 넘어 고객가치의 창출을 꿈꾸는 경영자를 세워가고 있습니다. &lsquo;우리의 일상과 시대를 변화시킬 1,000명의 경영자&rsquo;는 우리가 바라보는 비전이며, 우리가 지금 이 일터에 서 있는 이유입니다.
+            </p>
+            <div
+              class="gainge-vision-expand"
+              id="gainge-vision-expand"
+              aria-hidden="true"
+            >
+              <div class="gainge-vision-expand-clip">
+                <div class="gainge-vision-expand-inner">
+                  <p class="gainge-vision-expand-p">
+                    세상을 실제로 바꾸는 것은 정치인, 사상가이기에 앞서 &lsquo;경영자&rsquo;입니다. IBM이 최초로 상용화 한 스마트폰은 우리의 일상을 바꿔놓았고, 제프 베조스가 보여준 이커머스는 이미 우리의 일상이 되었습니다. 심지어 일론 머스크는 인류의 우주 시대를 열어간다고 합니다.
+                  </p>
+                  <p class="gainge-vision-expand-p">
+                    우리의 일상은 국가적 구호와 도덕적 교훈보다, 우리가 직접 체감하는 상품과 서비스에 의해 만들어지기 때문입니다. 더불어 상품과 서비스를 통해 경영자들이 현실화하는 미래의 비전은 우리의 삶을 다음 단계로 끌어올리고 있습니다.
+                  </p>
+                  <p class="gainge-vision-expand-p">
+                    그러므로 우리는 경영자를 통해 세상을 바라보며, 경영자를 통해 달라질 내일을 꿈꿉니다.
+                    <strong>경영자는 언제나 우리 제1의 고객이며, 우리가 이 사명을 지속하는 이유가 됩니다.</strong>
+                    우리는 더 나은 내일을 바라보기 때문입니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="gainge-vision-actions">
+            <button
+              type="button"
+              class="gainge-vision-toggle-btn"
+              id="gainge-vision-toggle"
+              aria-expanded="false"
+              aria-controls="gainge-vision-expand"
+            >
+              열어보기
+            </button>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="gainge-mgmt-about-section" aria-labelledby="gainge-mgmt-about-heading">
+      <div class="container gainge-mgmt-about-inner">
+        <div class="gainge-mgmt-about-grid">
+          <div class="gainge-mgmt-about-copy">
+            <h2 id="gainge-mgmt-about-heading" class="gainge-mgmt-about-title">
+              가인지 경영 방법론
+            </h2>
+            <div class="gainge-mgmt-about-body-box">
+              <p class="gainge-mgmt-about-p">
+                가인지 경영은 사업의 성과를 맺도록 하는 경영의 도구이며, 가치경영, 인재경영, 지식경영의 머릿글자를 따서 만든 표현입니다.
+              </p>
+              <p class="gainge-mgmt-about-p">
+                가인지컨설팅그룹은 가인지 경영을 실천하는 방법을 54개로 정립했고 이 방법을 기업 현장에 적용함으로서 5,400개 이상의 기업을 도왔습니다.
+              </p>
+              <div
+                class="gainge-mgmt-about-expand"
+                id="gainge-mgmt-about-expand"
+                aria-hidden="true"
+              >
+                <div class="gainge-mgmt-about-expand-clip">
+                  <div class="gainge-mgmt-about-expand-inner">
+                    <p class="gainge-mgmt-about-expand-p">
+                      가치경영은 기업의 존재 목적인 고객가치를 정의하고, 모든 구성원이 고객가치라는 공통의 사명에 몰입하도록 이끄는 경영 방법입니다. 가치경영은 고객의 선택을 받는 상품과 서비스로 열매를 맺습니다.
+                    </p>
+                    <p class="gainge-mgmt-about-expand-p">
+                      인재경영은 탁월한 인재를 선발하고, 인재를 성장시키는 경영 방법을 뜻합니다. 여기에는 인재의 채용, 선발, 양성, 배치 및 조직문화의 조성까지 포함됩니다. 인재경영은 기업의 지속성과 성장 잠재력의 열매를 만듭니다.
+                    </p>
+                    <p class="gainge-mgmt-about-expand-p">
+                      지식경영은 사업 성과를 창출하는 경영 지식, 직무 지식 등을 발견하고, 축적하고, 활용함으로서 직접적인 사업 성과를 창출하는 경영 방법을 의미합니다. 이는 직접적인 경영 목표의 달성 및 우상향하는 사업 추세선의 열매로 이어집니다.
+                    </p>
+                    <p class="gainge-mgmt-about-expand-p gainge-mgmt-about-expand-p--closing">
+                      가인지 경영은 기업이 속한 산업과 기업의 성숙도를 떠나 모든 기업에 적용 가능한 보편적인 경영의 원리입니다. 가인지 경영의 54개 구체적 방법은 가인지가 더불어 제공하는 산업, 직무 영역 컨설팅과 더불어 <strong>5,400여 기업에서 성과로 증명되었습니다.</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="gainge-mgmt-about-actions">
+              <button
+                type="button"
+                class="gainge-mgmt-about-toggle-btn"
+                id="gainge-mgmt-about-toggle"
+                aria-expanded="false"
+                aria-controls="gainge-mgmt-about-expand"
+              >
+                열어보기
+              </button>
+            </p>
+          </div>
+          <div class="gainge-mgmt-about-media">
+            <img
+              src="assets/누끼 로고.png"
+              alt="가인지"
+              class="gainge-mgmt-about-img gainge-mgmt-about-img--logo"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gainge-business-section" aria-labelledby="gainge-business-heading">
+      <div class="container gainge-business-inner">
+        <h2 id="gainge-business-heading" class="gainge-business-section-title">가인지 사업 영역</h2>
+        <p class="gainge-business-section-hint">클릭하면 소개가 열립니다.</p>
+        <div class="gainge-business-rows" role="group" aria-label="사업 선택">
+          <div class="gainge-business-row">
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="consulting"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">컨설팅</span>
+            </button>
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="coaching"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">코칭</span>
+            </button>
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="edu-platform"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">온라인<br />교육 플랫폼</span>
+            </button>
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="corporate-education"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">기업 교육</span>
+            </button>
+          </div>
+          <div class="gainge-business-row">
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="community"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">커뮤니티</span>
+            </button>
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="headhunting"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">헤드헌팅</span>
+            </button>
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="investment"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">투자·인큐베이팅</span>
+            </button>
+            <button
+              type="button"
+              class="gainge-business-circle"
+              data-gainge-business="publishing"
+              aria-expanded="false"
+              aria-controls="gainge-business-detail"
+            >
+              <span class="gainge-business-circle-label">출판/언론사업</span>
+            </button>
+          </div>
+        </div>
+        <div
+          id="gainge-business-detail"
+          class="gainge-business-detail"
+          aria-hidden="true"
+        >
+          <div class="gainge-business-detail-clip">
+            <div class="gainge-business-detail-inner">
+              <div
+                class="gainge-business-detail-panel"
+                aria-label="사업 소개 상세 영역"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gainge-declaration-section" aria-labelledby="gainge-declaration-heading">
+      <h2 id="gainge-declaration-heading" class="sr-only">선언</h2>
+      <div class="container gainge-declaration-inner">
+        <div class="gainge-declaration-grid">
+          <div class="gainge-declaration-media">
+            <img
+              src="assets/선언 이미지 후보.JPG"
+              alt="가인지 선언"
+              class="gainge-declaration-img"
+              decoding="async"
+            />
+          </div>
+          <div class="gainge-declaration-copy">
+            <div class="gainge-declaration-body-box">
+              <div class="gainge-declaration-intro-wrap">
+                <p class="gainge-declaration-lead"><strong>우리의 약속</strong></p>
+                <p class="gainge-declaration-p">
+                  우리는 기업의 존재 목적이 고객가치의 창출임을 믿습니다. 경영활동은 고객에게 최고의 것을 제공하는 사랑의 실천입니다. 경영자와 직원은 같은 사명에 동참하며 사랑을 실천하는 동료입니다.
+                </p>
+              </div>
+              <div
+                class="gainge-declaration-expand"
+                id="gainge-declaration-expand"
+                aria-hidden="true"
+              >
+                <div class="gainge-declaration-expand-clip">
+                  <div class="gainge-declaration-expand-inner">
+                    <p class="gainge-declaration-p">
+                      &lsquo;가인지 경영&rsquo;은 우리가 기업에 제공하는 최선의 사랑입니다. 가치적 구호가 아닌, 실무적 방법과 도구로 우리는 기업 현장을 바꿔갑니다. 고객이 우리에게 도움을 요청하는 모든 영역이 우리가 나아갈 사업 영역입니다.
+                    </p>
+                    <p class="gainge-declaration-p">
+                      우리는 사업을 넘어 가치를 지향합니다. 우리는 기업을 도움으로 세상을 사랑으로 바꿔가는 일에 참여합니다.
+                      <strong>우리는 기업의 존재 목적과 일의 의미가 &lsquo;사랑&rsquo;으로 재정의 된 세상을 꿈꿉니다.</strong>
+                    </p>
+                    <p class="gainge-declaration-p">
+                      경영자는 우리의 고객이며, 우리는 경영자가 바른 경영을 하는 것에 필요한 모든 것이 우리가 제공할 고객가치의 주제입니다. 우리는 경영자와 함께합니다.
+                    </p>
+                    <p class="gainge-declaration-p gainge-declaration-p--closing">
+                      &lsquo;비즈니스는 사랑&rsquo;입니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="gainge-declaration-actions">
+              <button
+                type="button"
+                class="gainge-declaration-toggle-btn"
+                id="gainge-declaration-toggle"
+                aria-expanded="false"
+                aria-controls="gainge-declaration-expand"
+              >
+                열어보기
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gainge-principles-section" aria-labelledby="gainge-principles-heading">
+      <div class="container gainge-principles-inner">
+        <h2 id="gainge-principles-heading" class="gainge-principles-title">가인지가 일하는 원칙</h2>
+        <div class="gainge-principles-content">
+          <div class="gainge-principles-list">
+            <article class="gainge-principles-block">
+              <p class="gainge-principles-number">01</p>
+              <div class="gainge-principles-main">
+                <h3 class="gainge-principles-block-title">People : 사람을 향한 집중</h3>
+                <p class="gainge-principles-block-desc">
+                  우리는 사람의 존재적 필요에 관심을 갖고 가치를 전하기 위해 존재합니다.
+                </p>
+              </div>
+            </article>
+            <article class="gainge-principles-block">
+              <p class="gainge-principles-number">02</p>
+              <div class="gainge-principles-main">
+                <h3 class="gainge-principles-block-title">Growth : 일을 통한 성장</h3>
+                <p class="gainge-principles-block-desc">
+                  우리는 현장성에 기반해 성장하며, "Always day one 마인드"를 가집니다.
+                </p>
+              </div>
+            </article>
+            <article class="gainge-principles-block">
+              <p class="gainge-principles-number">03</p>
+              <div class="gainge-principles-main">
+                <h3 class="gainge-principles-block-title">Love : 과정을 통한 사랑 실천</h3>
+                <p class="gainge-principles-block-desc">
+                  우리는 고객의 요청을 넘어, 무엇이 고객을 향한 사랑일지 고민하고 실천합니다.
+                </p>
+              </div>
+            </article>
+            <article class="gainge-principles-block">
+              <p class="gainge-principles-number">04</p>
+              <div class="gainge-principles-main">
+                <h3 class="gainge-principles-block-title">Value : 돈이 아닌 가치</h3>
+                <p class="gainge-principles-block-desc">
+                  우리는 수익을 넘어 고객가치를 창출하는 것을 목적으로 일합니다.
+                </p>
+              </div>
+            </article>
+            <article class="gainge-principles-block">
+              <p class="gainge-principles-number">05</p>
+              <div class="gainge-principles-main">
+                <h3 class="gainge-principles-block-title">Coalition : 탁월함을 넘는 감동</h3>
+                <p class="gainge-principles-block-desc">
+                  우리는 고객의 문제를 해결하고, 고객의 일터와 삶에 감동을 불어넣습니다.
+                </p>
+              </div>
+            </article>
+            <article class="gainge-principles-block">
+              <p class="gainge-principles-number">06</p>
+              <div class="gainge-principles-main">
+                <h3 class="gainge-principles-block-title">Principle : 원칙 속에서 살기</h3>
+                <p class="gainge-principles-block-desc">
+                  우리는 우리가 선포한 원칙을 지키며, 말과 지식이 아닌 실천으로 말합니다.
+                </p>
+              </div>
+            </article>
+            <article class="gainge-principles-block">
+              <p class="gainge-principles-number">07</p>
+              <div class="gainge-principles-main">
+                <h3 class="gainge-principles-block-title">Knowledge : 지식탐험대</h3>
+                <p class="gainge-principles-block-desc">
+                  우리는 지식을 탐구하며 탁월한 리더들이 축적한 지식과 노하우 위에서 일합니다.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gainge-explore-section" aria-labelledby="gainge-explore-heading">
+      <div class="container gainge-explore-inner">
+        <h2 id="gainge-explore-heading" class="gainge-explore-title">
+          가인지 더 알아보기
+        </h2>
+        <a
+          class="gainge-youtube-banner-link"
+          href="https://www.youtube.com/@gaingetv"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="가인지TV 유튜브 채널 새 창에서 열기"
+        >
+          <span class="gainge-youtube-banner-inner">
+            <span class="gainge-youtube-banner-copy">
+              <span class="gainge-youtube-banner-title">가인지TV</span>
+              <span class="gainge-youtube-banner-desc">유튜브 채널 바로가기</span>
+            </span>
+          </span>
+        </a>
+
+        <h3 class="gainge-books-heading">대표 도서</h3>
+
+        <div
+          id="gainge-books-carousel"
+          class="gainge-books-carousel"
+          role="region"
+          aria-roledescription="캐러셀"
+          aria-label="가인지 대표 도서"
+        >
+          <div
+            class="gainge-books-carousel-dots"
+            role="tablist"
+            aria-label="도서 번호 선택"
+          ></div>
+          <div class="gainge-books-carousel-viewport">
+            <button
+              type="button"
+              class="gainge-books-carousel-arrow gainge-books-carousel-arrow--prev"
+              id="gainge-books-carousel-prev"
+              aria-label="이전 도서"
+            >
+              <span class="gainge-books-carousel-arrow-icon" aria-hidden="true">&lt;</span>
+            </button>
+            <button
+              type="button"
+              class="gainge-books-carousel-arrow gainge-books-carousel-arrow--next"
+              id="gainge-books-carousel-next"
+              aria-label="다음 도서"
+            >
+              <span class="gainge-books-carousel-arrow-icon" aria-hidden="true">&gt;</span>
+            </button>
+            <div class="gainge-books-carousel-mask">
+              <div class="gainge-books-carousel-track" id="gainge-books-carousel-track"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-top-row">
+        <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
+          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+        </a>
+        <div class="footer-social-icons" aria-label="SNS 바로가기">
+          <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
+            <img src="assets/1.png" alt="" />
+          </a>
+          <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
+            <img src="assets/푸터 인스타.png" alt="" />
+          </a>
+          <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
+            <img src="assets/푸터 블로그.png" alt="" />
+          </a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-legal-line">
+          (주)가인지캠퍼스 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 639-88-00543 &nbsp;|&nbsp; 통신판매업신고: 제 2017-서울마포-1383호
+        </p>
+        <p class="footer-legal-line">
+          이메일: <a href="mailto:gainge.cs@gainge.com" target="_blank" rel="noopener noreferrer">gainge.cs@gainge.com</a> &nbsp;|&nbsp; 대표번호: <a href="tel:02-337-0691" target="_blank" rel="noopener noreferrer">02-337-0691</a> &nbsp;|&nbsp; 주소: 서울특별시 마포구 토정로 16 2층
+        </p>
+        <p class="footer-copyright">© 2026 가인지컨설팅그룹. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/site-data.js"></script>
+  <!-- data/books.json 과 동기화. file:// 등에서 fetch 불가 시 대표 도서 캐러셀 폴백 -->
+  <script type="application/json" id="books-data">
+{
+  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "items": [
+    {
+      "id": "book-1",
+      "title": "가인지 경영",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 1.jpg",
+      "link": "https://gainge.com/contents/products/216",
+      "createdAt": "2026-04-28T00:00:00.000Z",
+      "updatedAt": "2026-04-28T00:00:00.000Z"
+    },
+    {
+      "id": "book-2",
+      "title": "비즈니스는 사랑입니다",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 2.jpg",
+      "link": "https://gainge.com/contents/products/693",
+      "createdAt": "2026-04-28T00:00:00.000Z",
+      "updatedAt": "2026-04-28T00:00:00.000Z"
+    },
+    {
+      "id": "book-3",
+      "title": "조직 역동성",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 7.jpg",
+      "link": "https://product.kyobobook.co.kr/detail/S000214793562",
+      "createdAt": "2026-04-28T00:00:00.000Z",
+      "updatedAt": "2026-04-28T00:00:00.000Z"
+    },
+    {
+      "id": "book-4",
+      "title": "OKR 파",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 3.jpg",
+      "link": "https://gainge.com/contents/products/996",
+      "createdAt": "2026-04-28T00:00:00.000Z",
+      "updatedAt": "2026-04-28T00:00:00.000Z"
+    },
+    {
+      "id": "book-5",
+      "title": "언더백 경영 인사이드 아웃",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 4.jpg",
+      "link": "https://gainge.com/contents/products/995",
+      "createdAt": "2026-04-28T00:00:00.000Z",
+      "updatedAt": "2026-04-28T00:00:00.000Z"
+    },
+    {
+      "id": "book-6",
+      "title": "메시지의 품격",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 8.jpg",
+      "link": "https://gainge.com/contents/products/998",
+      "createdAt": "2026-04-28T00:00:00.000Z",
+      "updatedAt": "2026-04-28T00:00:00.000Z"
+    }
+  ]
+}
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

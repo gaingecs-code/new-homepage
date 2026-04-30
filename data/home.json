@@ -1,0 +1,66 @@
+{
+  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "heroVideoUrl": "assets/메인페이지.mp4",
+  "heroRotationImages": [
+    "assets/images/메인페이지1.jpg",
+    "assets/images/메인페이지2.jpg",
+    "assets/images/메인페이지3.jpg",
+    "assets/images/메인페이지4.jpg",
+    "assets/images/메인페이지5.jpg"
+  ],
+  "logoSlotImages": {
+    "1": [
+      "assets/customer-logos/삼성전자.png",
+      "assets/customer-logos/폭스바겐그룹코리아.png",
+      "assets/customer-logos/포스코.png",
+      "assets/customer-logos/신한은행.png",
+      "assets/customer-logos/농심.png"
+    ],
+    "2": [
+      "assets/customer-logos/대웅제약.png",
+      "assets/customer-logos/코스메카코리아.png",
+      "assets/customer-logos/서울재활병원.png",
+      "assets/customer-logos/웅비메디텍.png",
+      "assets/customer-logos/바이오세라.png"
+    ],
+    "3": [
+      "assets/customer-logos/다비치안경.png",
+      "assets/customer-logos/꿈비.png",
+      "assets/customer-logos/헤세드코리아.png",
+      "assets/customer-logos/실란트로.png",
+      "assets/customer-logos/벨라코리아.png"
+    ],
+    "4": [
+      "assets/customer-logos/엔씨소프트.png",
+      "assets/customer-logos/대원미디어.png",
+      "assets/customer-logos/아소비교육.png",
+      "assets/customer-logos/어셔어학원.png",
+      "assets/customer-logos/프라미스에듀.png"
+    ],
+    "5": [
+      "assets/customer-logos/한국수자원공사.png",
+      "assets/customer-logos/대한무역투자진흥공사.png",
+      "assets/customer-logos/굿피플인터네셔널.png",
+      "assets/customer-logos/유니세프.png",
+      "assets/customer-logos/금호건설.png"
+    ],
+    "6": [
+      "assets/customer-logos/태향.png",
+      "assets/customer-logos/끌리메.png",
+      "assets/customer-logos/준오헤어.png",
+      "assets/customer-logos/청밀.png",
+      "assets/customer-logos/한성산기.png",
+      "assets/customer-logos/명신.png"
+    ]
+  },
+  "homeTestimonialVideoUrls": {
+    "1": "https://youtu.be/uNRDkKpbWQs",
+    "2": "https://youtu.be/ZxaHLlL2ESg",
+    "3": "https://youtu.be/Dz3ya3PD9eU"
+  },
+  "homeStoryPageUrls": {
+    "1": "",
+    "2": "",
+    "3": ""
+  }
+}

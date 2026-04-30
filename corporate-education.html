@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>기업교육</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    crossorigin
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="corporate-education-page">
+  <!-- 상단 고정 헤더 (다른 페이지와 동일 구조) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html#hero" class="logo">
+        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+      </a>
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="메뉴 열기">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="gainge-management.html">가인지컨설팅그룹</a></li>
+          <li><a href="consulting.html">컨설팅 서비스</a></li>
+          <li><a href="testimonials.html">고객 사례</a></li>
+          <li><a href="corporate-education.html" class="nav-current">기업교육</a></li>
+          <li><a href="community.html">경영자 커뮤니티</a></li>
+          <li><a href="about.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="header-actions-top">
+          <button type="button" class="pill-cta-button" data-header-diagnosis>기업 진단하기<span class="pill-cta-badge">Free</span></button>
+          <button type="button" class="pill-cta-button" data-gainge-campus>가인지캠퍼스 바로가기</button>
+          <button class="header-auth-button">로그인/회원가입</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="corporate-education-main" aria-label="기업교육">
+    <!-- 첫 섹션: 히어로 — 컨설팅 첫 섹션과 동일 구조, 이미지 5장 로테이션 -->
+    <section
+      class="consulting-group-photo-section corporate-education-hero"
+      aria-label="기업교육 히어로"
+      data-corporate-education-group-hero
+      role="region"
+    >
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-a" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-b" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-overlay" aria-hidden="true"></div>
+      <div class="consulting-group-photo-content">
+        <h1 class="consulting-group-photo-title">Growth in Value</h1>
+      </div>
+    </section>
+
+    <section class="corporate-education-hero-dots-section" aria-label="히어로 도트 네비게이션">
+      <div class="container">
+      <div class="consulting-group-photo-dots" role="tablist" aria-label="히어로 이미지 선택">
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-corporate-education-hero-dot data-corporate-education-hero-index="0" aria-selected="true" aria-label="이미지 1 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-corporate-education-hero-dot data-corporate-education-hero-index="1" aria-selected="false" aria-label="이미지 2 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-corporate-education-hero-dot data-corporate-education-hero-index="2" aria-selected="false" aria-label="이미지 3 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-corporate-education-hero-dot data-corporate-education-hero-index="3" aria-selected="false" aria-label="이미지 4 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-corporate-education-hero-dot data-corporate-education-hero-index="4" aria-selected="false" aria-label="이미지 5 보기"></button>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      기업교육 대시보드: 텍스트만 4×2 그리드(상단 지표명·하단 지표값). 이미지/도형 없음.
+      Admin 연동 예정. 훅: section[data-corporate-education-dashboard], [data-corporate-education-stat]
+    -->
+    <section
+      class="consulting-dashboard-section corporate-education-dashboard-section"
+      aria-label="기업교육 지표"
+      data-corporate-education-dashboard
+    >
+      <div class="dashboard-bg"></div>
+      <div class="dashboard-overlay"></div>
+      <div class="container">
+        <div class="dashboard-content corporate-education-dashboard-content">
+          <div class="corporate-education-dashboard-grid" role="group" aria-label="기업교육 핵심 지표">
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--label" data-corporate-education-stat="cumulative-companies">누적 교육 기업</div>
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--label" data-corporate-education-stat="nps">강의 만족도</div>
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--label" data-corporate-education-stat="repurchase-rate">교육 재구매율</div>
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--label" data-corporate-education-stat="cumulative-learners">누적 수강생 수</div>
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--value" data-corporate-education-stat="cumulative-companies">1,200+</div>
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--value" data-corporate-education-stat="nps">4.8/5.0</div>
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--value" data-corporate-education-stat="repurchase-rate">70%</div>
+            <div class="corporate-education-dashboard-cell corporate-education-dashboard-cell--value" data-corporate-education-stat="cumulative-learners">50,000+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 차별화 섹션 -->
+    <section
+      class="corporate-education-differentiation-section"
+      aria-labelledby="corporate-education-differentiation-heading"
+      data-corporate-education-differentiation
+    >
+      <div class="container corporate-education-differentiation-container">
+        <h2 id="corporate-education-differentiation-heading" class="corporate-education-differentiation-title">
+          가인지 기업교육의 매력
+        </h2>
+
+        <div class="corporate-education-differentiation-top" role="list" aria-label="차별화 핵심 포인트">
+          <article class="corporate-education-differentiation-point" role="listitem">
+            <span class="corporate-education-differentiation-point-num">1</span>
+            <strong class="corporate-education-differentiation-point-title">Field-driven</strong>
+            <span class="corporate-education-differentiation-point-body">
+              컨설팅에서 발견한 기업의 고민을<br />
+              <strong class="corporate-education-differentiation-point-body-em">컨설턴트가 교육</strong>으로 풀어냅니다.
+            </span>
+          </article>
+          <article class="corporate-education-differentiation-point" role="listitem">
+            <span class="corporate-education-differentiation-point-num">2</span>
+            <strong class="corporate-education-differentiation-point-title">The 'Aha' Moment</strong>
+            <span class="corporate-education-differentiation-point-body">
+              풍부한 실습과 네트워킹으로<br />
+              참여자의 <strong class="corporate-education-differentiation-point-body-em">'아하!' 모먼트</strong>를 만듭니다.
+            </span>
+          </article>
+          <article class="corporate-education-differentiation-point" role="listitem">
+            <span class="corporate-education-differentiation-point-num">3</span>
+            <strong class="corporate-education-differentiation-point-title">Call to Action</strong>
+            <span class="corporate-education-differentiation-point-body">
+              교육이 실무에 바로 적용되도록<br />
+              정확한 <strong class="corporate-education-differentiation-point-body-em">액션 포인트</strong>를 요청합니다.
+            </span>
+          </article>
+          <article class="corporate-education-differentiation-point" role="listitem">
+            <span class="corporate-education-differentiation-point-num">4</span>
+            <strong class="corporate-education-differentiation-point-title">Context-aware</strong>
+            <span class="corporate-education-differentiation-point-body">
+              참여 기업의 역량과 상황을 파악하고,<br />
+              <strong class="corporate-education-differentiation-point-body-em">기업에 맞게</strong> 교육을 설계합니다.
+            </span>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOC: 고객 감동 포인트 — 현장 사진(커뮤니티 간증과 동일 컴포넌트) -->
+    <section
+      class="corporate-education-voc-section"
+      aria-labelledby="corporate-education-voc-heading"
+      data-admin-section="corporateEducationVoc"
+    >
+      <div class="container">
+        <h2 id="corporate-education-voc-heading" class="corporate-education-voc-section-title" data-admin-field="vocTitle">가인지 교육 현장 리뷰</h2>
+
+        <div class="corporate-education-voc-grid" aria-label="고객 감동 포인트 카드" data-admin-collection="vocCards">
+          <div class="corporate-education-voc-flow-track" role="list">
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-1"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#원온원 코칭 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 1.jpg" alt="가인지 교육 현장 카드 이미지 1" loading="eager" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">원온원 코칭 교육은 마음 따뜻해지는 시간이었습니다. 누군가의 이야기를 진심으로 듣고, 마음에 공감하고 지지해주는 것이 얼마나 큰 힘이 되는지 느꼈습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-2"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#원온원 코칭 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 2.jpg" alt="가인지 교육 현장 카드 이미지 2" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">현장에서 바로 적용해볼 수 있는 실습이 특히 인상 깊었어요. 교육을 받으며 '왜 이 과정이 좀 더 일찍 열리지 않았을까?'하는 생각이 들 정도로, 제게 꼭 필요한 배움이었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-3"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#OKR 코치 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 3.jpg" alt="가인지 교육 현장 카드 이미지 3" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">이 과정이 방법론이라면 강의만으로도 충분할 수 있을 것 같아요. 그러나 제가 막상 교육 받아보니 단순한 방법론을 넘은 회사 안에서 사람과 함께 성장할 수 있는 비법서 같았습니다. 인사이트를 많이 얻었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-4"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#OKR 코치 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 4.jpg" alt="가인지 교육 현장 카드 이미지 4" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">이제는 조직 안에서 목표에 대해 더 깊이 있는 대화를 시작할 수 있을 것 같습니다. OKR을 제대로 이해하고 적용해보고 싶은 분들에게 꼭 추천하고 싶은 교육입니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-5"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#OKR 코치 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 5.jpg" alt="가인지 교육 현장 카드 이미지 5" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">실습과 토론을 통해 목표를 만들어보고 생각을 나눴습니다. 같은 내용을 듣고도 사람마다 접근 방식이 다른 것을 보며 OKR이 단순한 도구가 아니라 조직의 대화를 바꾸는 방법이라는 생각이 들었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-6"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#팀장 스쿨</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 6.jpg" alt="가인지 교육 현장 카드 이미지 6" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">팀원에게 내가 기대하는 바를 명확하게 전달하는 방법과 어떻게 그를 격려하고 과업을 요청해야 하는지 실무적인 방법을 얻어갑니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-7"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#팀장 스쿨</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 7.jpg" alt="가인지 교육 현장 카드 이미지 7" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">팀원의 유형별로 대화하는 방식이 달라야 한다는 것을 깨달았습니다. 얼마나 팀원을 이해하고 그의 유형에 맞게 대화할 수 있느냐가 팀장의 역량이라는 생각이 듭니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-8"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#직장인 학교</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 8.jpg" alt="가인지 교육 현장 카드 이미지 8" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">도움이 되는 내용들이 많았습니다. 대표님께서 저를 이 교육에 보내신 이유도 알게 된 것 같습니다 좋은 경험하고 갑니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-9"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#직장인 학교</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 9.jpg" alt="가인지 교육 현장 카드 이미지 9" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">회사에서 어떻게 자신의 성장 목표를 설정하고 이를 실천할 수 있는지 배웠습니다. 팀장님이 저에게 말씀하셨던 것들이 보다 이해됐고, 제가 어떻게 해야하는지 방향을 찾을 수 있었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-10"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#강점 기반 영업 워크샵</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 10.jpg" alt="가인지 교육 현장 카드 이미지 10" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">지금까지 자신에 대해 자세히 살펴본적은 없던 것 같아요. 하지만 이번에는 회사에서 보내서 왔고, 교육을 들은 것 뿐임에도 자산에 대해 생각해볼 수 있게 된 시간이 된 것은 분명합니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-11"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#면접관 교육 워크샵</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 11.jpg" alt="가인지 교육 현장 카드 이미지 11" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">면접에서 사용할 수 있는 질문의 방법과 면접의 기술이 이렇게 다양한지 몰랐습니다. 여기에서 배운 면접관의 기술과 방법을 한 번 써먹어 보고 싶어요.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" data-admin-item-key="voc-template-card-12"><p class="corporate-education-voc-flow-template-tag" data-admin-field="tagText">#원온원 코칭 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" data-admin-field="image" src="assets/카드 12.jpg" alt="가인지 교육 현장 카드 이미지 12" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text" data-admin-field="vocText">교육은 단순한 이론이 아니라 '훈련'이었습니다. 실제 상황을 기반으로 질문하고, 대화 흐름을 설계하고, 피드백을 주고받으며, 제가 얼마나 습관적으로 판단하고 조언하려 했는지를 깨달았어요.</p></article>
+
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#원온원 코칭 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 1.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">원온원 코칭 교육은 마음 따뜻해지는 시간이었습니다. 누군가의 이야기를 진심으로 듣고, 마음에 공감하고 지지해주는 것이 얼마나 큰 힘이 되는지 느꼈습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#원온원 코칭 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 2.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">현장에서 바로 적용해볼 수 있는 실습이 특히 인상 깊었어요. 교육을 받으며 '왜 이 과정이 좀 더 일찍 열리지 않았을까?'하는 생각이 들 정도로, 제게 꼭 필요한 배움이었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#OKR 코치 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 3.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">이 과정이 방법론이라면 강의만으로도 충분할 수 있을 것 같아요. 그러나 제가 막상 교육 받아보니 단순한 방법론을 넘은 회사 안에서 사람과 함께 성장할 수 있는 비법서 같았습니다. 인사이트를 많이 얻었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#OKR 코치 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 4.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">이제는 조직 안에서 목표에 대해 더 깊이 있는 대화를 시작할 수 있을 것 같습니다. OKR을 제대로 이해하고 적용해보고 싶은 분들에게 꼭 추천하고 싶은 교육입니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#OKR 코치 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 5.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">실습과 토론을 통해 목표를 만들어보고 생각을 나눴습니다. 같은 내용을 듣고도 사람마다 접근 방식이 다른 것을 보며 OKR이 단순한 도구가 아니라 조직의 대화를 바꾸는 방법이라는 생각이 들었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#팀장 스쿨</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 6.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">팀원에게 내가 기대하는 바를 명확하게 전달하는 방법과 어떻게 그를 격려하고 과업을 요청해야 하는지 실무적인 방법을 얻어갑니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#팀장 스쿨</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 7.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">팀원의 유형별로 대화하는 방식이 달라야 한다는 것을 깨달았습니다. 얼마나 팀원을 이해하고 그의 유형에 맞게 대화할 수 있느냐가 팀장의 역량이라는 생각이 듭니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#직장인 학교</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 8.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">도움이 되는 내용들이 많았습니다. 대표님께서 저를 이 교육에 보내신 이유도 알게 된 것 같습니다 좋은 경험하고 갑니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#직장인 학교</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 9.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">회사에서 어떻게 자신의 성장 목표를 설정하고 이를 실천할 수 있는지 배웠습니다. 팀장님이 저에게 말씀하셨던 것들이 보다 이해됐고, 제가 어떻게 해야하는지 방향을 찾을 수 있었습니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#강점 기반 영업 워크샵</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 10.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">지금까지 자신에 대해 자세히 살펴본적은 없던 것 같아요. 하지만 이번에는 회사에서 보내서 왔고, 교육을 들은 것 뿐임에도 자산에 대해 생각해볼 수 있게 된 시간이 된 것은 분명합니다.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#면접관 교육 워크샵</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 11.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">면접에서 사용할 수 있는 질문의 방법과 면접의 기술이 이렇게 다양한지 몰랐습니다. 여기에서 배운 면접관의 기술과 방법을 한 번 써먹어 보고 싶어요.</p></article>
+            <article class="corporate-education-voc-flow-template-card" role="listitem" aria-hidden="true"><p class="corporate-education-voc-flow-template-tag">#원온원 코칭 자격증 과정</p><div class="corporate-education-voc-flow-template-image-frame"><img class="corporate-education-voc-flow-template-image" src="assets/카드 12.jpg" alt="" loading="lazy" decoding="async" /></div><p class="corporate-education-voc-flow-template-text">교육은 단순한 이론이 아니라 '훈련'이었습니다. 실제 상황을 기반으로 질문하고, 대화 흐름을 설계하고, 피드백을 주고받으며, 제가 얼마나 습관적으로 판단하고 조언하려 했는지를 깨달았어요.</p></article>
+            </div>
+        </div>
+
+        <!-- 현장 사진: 커뮤니티 간증 섹션과 동일 마크업·스크립트(js/community-testimony-photos.js). 이미지 1~11은 assets에 추가 후 경로만 맞추면 됩니다. -->
+        <div
+          class="community-testimony-photos corporate-education-voc-photos"
+          data-community-testimony-photos
+          data-testimony-autoplay="true"
+          data-testimony-autoplay-ms="2500"
+          data-admin-collection="vocPhotos"
+          role="region"
+          aria-label="기업교육 현장 사진"
+        >
+          <div class="community-testimony-photo-stage">
+            <div class="community-testimony-photo-track">
+              <img class="community-testimony-photo-img is-active" src="assets/images/교육 VOC 섹션 1.jpg" alt="가인지 기업교육 현장 사진 1" loading="eager" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 2.jpg" alt="가인지 기업교육 현장 사진 2" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 3.jpg" alt="가인지 기업교육 현장 사진 3" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 4.jpg" alt="가인지 기업교육 현장 사진 4" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 5.jpg" alt="가인지 기업교육 현장 사진 5" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 6.jpg" alt="가인지 기업교육 현장 사진 6" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 7.jpg" alt="가인지 기업교육 현장 사진 7" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 8.jpg" alt="가인지 기업교육 현장 사진 8" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 9.jpg" alt="가인지 기업교육 현장 사진 9" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 10.jpg" alt="가인지 기업교육 현장 사진 10" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/images/교육 VOC 섹션 11.jpg" alt="가인지 기업교육 현장 사진 11" loading="lazy" decoding="async" />
+            </div>
+            <button type="button" class="community-testimony-nav community-testimony-nav--prev" aria-label="이전 사진">
+              <span aria-hidden="true">&lt;</span>
+            </button>
+            <button type="button" class="community-testimony-nav community-testimony-nav--next" aria-label="다음 사진">
+              <span aria-hidden="true">&gt;</span>
+            </button>
+          </div>
+          <div class="community-testimony-photo-dots" role="tablist" aria-label="사진 선택">
+            <button type="button" class="community-testimony-dot is-current" role="tab" aria-selected="true" aria-label="사진 1" data-testimony-photo-index="0"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 2" data-testimony-photo-index="1"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 3" data-testimony-photo-index="2"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 4" data-testimony-photo-index="3"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 5" data-testimony-photo-index="4"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 6" data-testimony-photo-index="5"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 7" data-testimony-photo-index="6"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 8" data-testimony-photo-index="7"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 9" data-testimony-photo-index="8"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 10" data-testimony-photo-index="9"></button>
+            <button type="button" class="community-testimony-dot" role="tab" aria-selected="false" aria-label="사진 11" data-testimony-photo-index="10"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 교육 소개 섹션 -->
+    <section class="corporate-education-intro-section" aria-labelledby="corporate-education-intro-heading" data-admin-section="corporateEducationIntro">
+      <div class="container">
+        <h2 id="corporate-education-intro-heading" class="corporate-education-intro-title" data-admin-field="introTitle">교육 프로그램 소개</h2>
+        <!-- Admin integration notes:
+          - section: data-admin-section
+          - repeatable block/card: data-admin-item-key
+          - repeatable list root: data-admin-collection
+          - editable field: data-admin-field (image, overview, target, schedule, link)
+          - delete flow: remove element by data-admin-item-key
+          - 썸네일별 "교육 종료" 오버레이: data/corporate-education-programs.json 의 items[].ended (Admin JSON 내보내기와 동일)
+        -->
+
+        <div class="corporate-education-intro-block" data-admin-item-key="intro-block-certification">
+          <h3 class="corporate-education-intro-block-title" data-admin-field="blockTitle">자격증 과정</h3>
+
+          <div class="corporate-education-intro-items" role="list" aria-label="자격증 과정 소개" data-admin-collection="introCards">
+            <article class="corporate-education-intro-item" role="listitem" data-admin-item-key="cert-1">
+              <div class="corporate-education-intro-media">
+                <img
+                  class="corporate-education-intro-image"
+                  data-admin-field="image"
+                  src="assets/images/교육페이지 소개 1.png"
+                  alt="자격증 과정 교육 소개 1"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="corporate-education-intro-overlay" aria-hidden="true">
+                  <div class="corporate-education-intro-overlay-content">
+                    <div class="corporate-education-intro-tags" aria-hidden="true">
+                      <span class="corporate-education-intro-tag">#1on1미팅</span>
+                      <span class="corporate-education-intro-tag">#리더십</span>
+                      <span class="corporate-education-intro-tag">#성과관리자</span>
+                    </div>
+                    <div class="corporate-education-intro-overview-container">
+                      <p class="corporate-education-intro-overlay-text" data-admin-field="overview">
+                        1on1 미팅을 통해 성과관리와 동기부여의 방법을 알게 됩니다.<br />
+                        조직 구성원의 변화를 경험하십시오.
+                      </p>
+                    </div>
+                    <div class="corporate-education-intro-target-container">
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 피드백을 잘 하고 싶은 CEO</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 문화와 성과를 창출하는 중간관리자</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 효율적으로 팀을 이끌고 싶은 책임자</p>
+                    </div>
+                    <div class="corporate-education-intro-meta-container">
+                      <p class="corporate-education-intro-meta" data-admin-field="schedule">연 6회. 회당 2일 총 12시간 운영</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="corporate-education-intro-link"
+                data-admin-field="link"
+                href="https://gainge.com/contents/products/687"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                더 알아보기
+              </a>
+            </article>
+
+            <article class="corporate-education-intro-item" role="listitem" data-admin-item-key="cert-2">
+              <div class="corporate-education-intro-media">
+                <img
+                  class="corporate-education-intro-image"
+                  data-admin-field="image"
+                  src="assets/images/교육 페이지 소개 2.png"
+                  alt="자격증 과정 교육 소개 2"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="corporate-education-intro-overlay" aria-hidden="true">
+                  <div class="corporate-education-intro-overlay-content">
+                    <div class="corporate-education-intro-tags" aria-hidden="true">
+                      <span class="corporate-education-intro-tag">#OKR</span>
+                      <span class="corporate-education-intro-tag">#성과관리</span>
+                      <span class="corporate-education-intro-tag">#코칭자격증</span>
+                    </div>
+                    <div class="corporate-education-intro-overview-container">
+                      <p class="corporate-education-intro-overlay-text" data-admin-field="overview">
+                        기업에서 OKR을 설계하고 퍼실리테이팅 할 수 있게 됩니다.<br />
+                        기업에 OKR의 효과를 불어넣으십시오.
+                      </p>
+                    </div>
+                    <div class="corporate-education-intro-target-container">
+                      <p class="corporate-education-intro-target" data-admin-field="target">- KPI의 한계를 느끼는 경영자</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- OKR 도입 후 운영에서 막힌 리더</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- OKR을 조직에 안착시켜야 하는 인사팀장</p>
+                    </div>
+                    <div class="corporate-education-intro-meta-container">
+                      <p class="corporate-education-intro-meta" data-admin-field="schedule">연 4회. 회당 2일 총 16시간 운영</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="corporate-education-intro-link"
+                data-admin-field="link"
+                href="https://gainge.com/contents/products/576"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                더 알아보기
+              </a>
+            </article>
+          </div>
+        </div>
+
+        <div class="corporate-education-intro-block" data-admin-item-key="intro-block-onboarding">
+          <h3 class="corporate-education-intro-block-title" data-admin-field="blockTitle">직급별 교육</h3>
+
+          <div class="corporate-education-intro-items" role="list" aria-label="온보딩 교육 소개" data-admin-collection="introCards">
+            <article class="corporate-education-intro-item" role="listitem" data-admin-item-key="onboarding-1">
+              <div class="corporate-education-intro-media">
+                <img
+                  class="corporate-education-intro-image"
+                  data-admin-field="image"
+                  src="assets/images/교육 페이지 소개 3.png"
+                  alt="온보딩 교육 소개 3"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="corporate-education-intro-overlay" aria-hidden="true">
+                  <div class="corporate-education-intro-overlay-content">
+                    <div class="corporate-education-intro-tags" aria-hidden="true">
+                      <span class="corporate-education-intro-tag">#팀장교육</span>
+                      <span class="corporate-education-intro-tag">#리더교육</span>
+                      <span class="corporate-education-intro-tag">#중간관리자</span>
+                    </div>
+                    <div class="corporate-education-intro-overview-container">
+                      <p class="corporate-education-intro-overlay-text" data-admin-field="overview">
+                        팀장은 개인이 아니라 팀으로 일해야 합니다.<br />
+                        실무자를 넘어 리더로 나아가십시오.
+                      </p>
+                    </div>
+                    <div class="corporate-education-intro-target-container">
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 리더가 되고싶은 실무형 CEO</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 새롭게 임명된 임원</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 팀을 잘 이끌고 싶은 팀장</p>
+                    </div>
+                    <div class="corporate-education-intro-meta-container">
+                      <p class="corporate-education-intro-meta" data-admin-field="schedule">연 6회. 회당 1일 총 6시간 30분.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="corporate-education-intro-link"
+                data-admin-field="link"
+                href="https://gainge.com/contents/products/764"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                더 알아보기
+              </a>
+            </article>
+
+            <article class="corporate-education-intro-item" role="listitem" data-admin-item-key="onboarding-2">
+              <div class="corporate-education-intro-media">
+                <img
+                  class="corporate-education-intro-image"
+                  data-admin-field="image"
+                  src="assets/images/교육 페이지 소개 4.png"
+                  alt="온보딩 교육 소개 4"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="corporate-education-intro-overlay" aria-hidden="true">
+                  <div class="corporate-education-intro-overlay-content">
+                    <div class="corporate-education-intro-tags" aria-hidden="true">
+                      <span class="corporate-education-intro-tag">#신입교육</span>
+                      <span class="corporate-education-intro-tag">#직장생활</span>
+                      <span class="corporate-education-intro-tag">#업무기본기</span>
+                    </div>
+                    <div class="corporate-education-intro-overview-container">
+                      <p class="corporate-education-intro-overlay-text" data-admin-field="overview">
+                        일하는 방법과 조직 소통을 재대로 시작해야 합니다.<br />
+                        태도, 소통, 성장습관을 여기에서 만드십시오.
+                      </p>
+                    </div>
+                    <div class="corporate-education-intro-target-container">
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 프로페셔널하게 성장시킬 직원</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 일하는 자세와 습관을 다듬을 직원</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 기업 온보딩 프로그램을 만들 인사담당자</p>
+                    </div>
+                    <div class="corporate-education-intro-meta-container">
+                      <p class="corporate-education-intro-meta" data-admin-field="schedule">연 5회. 회당 총 6시간.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="corporate-education-intro-link"
+                data-admin-field="link"
+                href="https://gainge.com/contents/products/766"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                더 알아보기
+              </a>
+            </article>
+          </div>
+        </div>
+
+        <div class="corporate-education-intro-block" data-admin-item-key="intro-block-workshop">
+          <h3 class="corporate-education-intro-block-title" data-admin-field="blockTitle">직무별 교육</h3>
+
+          <div class="corporate-education-workshop-carousel" data-corporate-education-workshop-carousel>
+            <div class="corporate-education-workshop-viewport" data-workshop-carousel-viewport tabindex="0">
+              <div class="corporate-education-intro-items corporate-education-intro-items--workshop" role="list" aria-label="직무별 교육 소개" data-admin-collection="introCards">
+            <article class="corporate-education-intro-item" role="listitem" data-admin-item-key="workshop-1">
+              <div class="corporate-education-intro-media">
+                <img
+                  class="corporate-education-intro-image"
+                  data-admin-field="image"
+                  src="assets/images/교육 페이지 소개 5.png"
+                  alt="워크샵 교육 소개"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="corporate-education-intro-overlay" aria-hidden="true">
+                  <div class="corporate-education-intro-overlay-content">
+                    <div class="corporate-education-intro-tags" aria-hidden="true">
+                      <span class="corporate-education-intro-tag">#면접관교육</span>
+                      <span class="corporate-education-intro-tag">#면접스킬</span>
+                      <span class="corporate-education-intro-tag">#인재채용</span>
+                    </div>
+                    <div class="corporate-education-intro-overview-container">
+                      <p class="corporate-education-intro-overlay-text" data-admin-field="overview">
+                        채용은 기업의 성과와 조직문화에 직결됩니다.<br />
+                        면접관 교육으로 채용 실패를 예방하십시오.
+                      </p>
+                    </div>
+                    <div class="corporate-education-intro-target-container">
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 채용이 고민인 기업 CEO</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 좋은 인재를 발견하고 싶은 리더와 팀장</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 면접관 역할을 처음 맡는 실무자</p>
+                    </div>
+                    <div class="corporate-education-intro-meta-container">
+                      <p class="corporate-education-intro-meta" data-admin-field="schedule">4월 15일(수) 오후 1시 ~ 오후 6시. 가인지 벙커(서울시 토정로 16. 2F)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="corporate-education-intro-link"
+                data-admin-field="link"
+                href="https://gainge.com/contents/products/1008"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                더 알아보기
+              </a>
+            </article>
+            <article class="corporate-education-intro-item" role="listitem" data-admin-item-key="workshop-2">
+              <div class="corporate-education-intro-media">
+                <img
+                  class="corporate-education-intro-image"
+                  data-admin-field="image"
+                  src="assets/images/교육페이지 소개 6.png"
+                  alt="강점 영업 Clifton Strengths for Sales 교육 소개"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="corporate-education-intro-overlay" aria-hidden="true">
+                  <div class="corporate-education-intro-overlay-content">
+                    <div class="corporate-education-intro-tags" aria-hidden="true">
+                      <span class="corporate-education-intro-tag">#강점영업</span>
+                      <span class="corporate-education-intro-tag">#세일즈코칭</span>
+                      <span class="corporate-education-intro-tag">#영업교육</span>
+                    </div>
+                    <div class="corporate-education-intro-overview-container">
+                      <p class="corporate-education-intro-overlay-text" data-admin-field="overview">
+                        Clifton Strengths for Sales 진단을 기반으로<br />
+                        나의 영업 방식을 설계하고 실행법을 만드십시오.
+                      </p>
+                    </div>
+                    <div class="corporate-education-intro-target-container">
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 영업 업무를 수행하는 실무자</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 자신에게 맞는 영업 스타일을 찾는 경영자와 실무자</p>
+                      <p class="corporate-education-intro-target" data-admin-field="target">- 영업팀의 성과를 높이고 싶은 경영자, 팀장</p>
+                    </div>
+                    <div class="corporate-education-intro-meta-container">
+                      <p class="corporate-education-intro-meta" data-admin-field="schedule">
+                        6월 13일(토), 6월 27일(토) 오후 2시 ~ 5시. 가인지벙커(서울시 토정로 16. 2F)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="corporate-education-intro-link"
+                data-admin-field="link"
+                href="https://gainge.com/contents/products/974"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                더 알아보기(아직 워크샵 신청은 열리지 않았습니다.)
+              </a>
+            </article>
+              </div>
+            </div>
+            <button type="button" class="community-testimony-nav community-testimony-nav--prev corporate-education-workshop-nav corporate-education-workshop-nav--prev" aria-label="이전 교육 카드">
+              <span aria-hidden="true">&lt;</span>
+            </button>
+            <button type="button" class="community-testimony-nav community-testimony-nav--next corporate-education-workshop-nav corporate-education-workshop-nav--next" aria-label="다음 교육 카드">
+              <span aria-hidden="true">&gt;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="corporate-education-intro-cta-wrap">
+          <a
+            class="corporate-education-intro-cta"
+            href="story-inquiry-popup.html"
+            onclick="window.open(this.href, 'educationInquiryPopup', 'width=760,height=900,scrollbars=yes,resizable=yes'); return false;"
+          >
+            교육 문의하기
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 교육 캘린더 섹션: 커뮤니티 캘린더 구조를 동일 사용(독립 관리용) -->
+    <section class="community-calendar-section corporate-education-calendar-section" aria-label="기업교육 캘린더" data-admin-section="corporateEducationCalendar">
+      <div class="container">
+        <p class="community-calendar-title" data-admin-field="calendarTitle">기업교육 캘린더</p>
+        <p class="community-calendar-guide" data-admin-field="calendarGuide">정확한 교육일정은 가인지캠퍼스 교육페이지를 확인해주세요.</p>
+        <!-- Admin integration notes:
+          - section: data-admin-section="corporateEducationCalendar"
+          - editable field: data-admin-field (calendarTitle, calendarGuide, programTitle, programMeta, programPlace, cellValue, cellLink, cellNote)
+          - repeatable row: data-admin-item-key
+          - repeatable row collection: data-admin-collection="calendarRows"
+          - 이 캘린더는 community.html 캘린더와 별도 데이터로 관리합니다.
+        -->
+        <div class="community-calendar-grid" role="table" aria-label="연간 기업교육 캘린더" data-admin-collection="calendarRows">
+          <div class="community-calendar-row community-calendar-row--head" role="row" data-admin-item-key="calendar-head">
+            <div class="community-calendar-cell community-calendar-cell--program" role="columnheader">프로그램</div>
+            <div class="community-calendar-cell" role="columnheader">1월</div>
+            <div class="community-calendar-cell" role="columnheader">2월</div>
+            <div class="community-calendar-cell" role="columnheader">3월</div>
+            <div class="community-calendar-cell" role="columnheader">4월</div>
+            <div class="community-calendar-cell" role="columnheader">5월</div>
+            <div class="community-calendar-cell" role="columnheader">6월</div>
+            <div class="community-calendar-cell" role="columnheader">7월</div>
+            <div class="community-calendar-cell" role="columnheader">8월</div>
+            <div class="community-calendar-cell" role="columnheader">9월</div>
+            <div class="community-calendar-cell" role="columnheader">10월</div>
+            <div class="community-calendar-cell" role="columnheader">11월</div>
+            <div class="community-calendar-cell" role="columnheader">12월</div>
+          </div>
+
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-4">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">OKR<br />코치자격증</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">4일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">6일</span> <span class="community-calendar-pill" data-admin-field="cellValue">13일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">15일</span> <span class="community-calendar-pill" data-admin-field="cellValue">22일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">28일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">4일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-5">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">원온원<br />코치자격증</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">3일</span> <span class="community-calendar-pill" data-admin-field="cellValue">10일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">1일</span> <span class="community-calendar-pill" data-admin-field="cellValue">18일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">27일</span> <span class="community-calendar-pill" data-admin-field="cellValue">3일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-6">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">팀장스쿨</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">4일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">29일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">10일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">19일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">14일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">2일</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-7">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">직장인 학교</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">22일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">8일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">8일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">9일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">18일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-8">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">가인지 파운더스</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">24일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-10">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">면접관 교육</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">15일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-11">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">강점 기반<br />영업 워크샵</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">14일<br />21일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">13일</span> <span class="community-calendar-pill" data-admin-field="cellValue">27일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+          </div>
+
+          <div class="community-calendar-row" role="row" data-admin-item-key="education-row-12">
+            <div class="community-calendar-cell community-calendar-cell--program" role="rowheader">
+              <strong class="community-calendar-program-title" data-admin-field="programTitle">평가 보상 워크샵</strong>
+            </div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">26일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-pill" data-admin-field="cellValue">2일</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+            <div class="community-calendar-cell"><span class="community-calendar-dash" data-admin-field="cellValue">-</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 인사말: 커뮤니티 페이지 인사말과 동일 마크업·타이포(consulting-representative-greeting 톤) -->
+    <section
+      class="community-maria-section consulting-representative-greeting corporate-education-greeting-section"
+      aria-labelledby="corporate-education-greeting-heading"
+      data-admin-section="corporateEducationGreeting"
+    >
+      <div class="container">
+        <div class="community-maria-grid">
+          <div class="community-maria-cell community-maria-cell--left">
+            <img
+              src="assets/타일러 누끼.png"
+              alt="가인지 기업교육 담당 타일러"
+              class="community-maria-image"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="community-maria-cell community-maria-cell--right">
+            <div class="community-maria-title-block">
+              <p class="community-maria-title" id="corporate-education-greeting-heading" data-admin-field="greetingTitle">성장을 통해<br />성과를 경험하라!</p>
+            </div>
+            <div class="community-maria-greeting community-maria-greeting--summary" data-admin-collection="greetingParagraphs">
+              <div class="community-maria-summary-text">
+                <div class="community-maria-chunk" data-admin-item-key="greeting-p1">
+                  <span class="community-maria-summary-line">반갑습니다.</span>
+                  <span class="community-maria-summary-line">가인지 기업교육 총괄 남요셉 리더입니다.</span>
+                </div>
+                <div class="community-maria-chunk" data-admin-item-key="greeting-p2">
+                  <span class="community-maria-summary-line">자전거를 타본 일이 있으십니까?</span>
+                  <span class="community-maria-summary-line">앞바퀴를 돌려도 뒷바퀴가 돌지 않으면 자전거는 나가지 않더군요.</span>
+                </div>
+                <div class="community-maria-chunk" data-admin-item-key="greeting-p3">
+                  <span class="community-maria-summary-line">기업도 비슷한 것 같습니다.</span>
+                  <span class="community-maria-summary-line">결국 조직 내에서 이를 실행할 인재의 역량이 뒷받침되어야</span>
+                  <span class="community-maria-summary-line">그제서야 사업의 성과가 나오기 시작합니다.</span>
+                </div>
+                <div class="community-maria-chunk" data-admin-item-key="greeting-p4">
+                  <span class="community-maria-summary-line">그렇기에 기업의 앞바퀴는 사업과 전략이고,</span>
+                  <span class="community-maria-summary-line">뒷바퀴는 인재와 문화입니다.</span>
+                </div>
+                <div class="community-maria-chunk" data-admin-item-key="greeting-p5">
+                  <span class="community-maria-summary-line">우리의 기업교육을 통해 기업의 뒷바퀴를 견고히 하고</span>
+                  <span class="community-maria-summary-line">기업이 추구하는 고객가치를 향해</span>
+                  <span class="community-maria-summary-line">앞으로 힘차게 달려나가십시오!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-top-row">
+        <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
+          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+        </a>
+        <div class="footer-social-icons" aria-label="SNS 바로가기">
+          <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
+            <img src="assets/1.png" alt="" />
+          </a>
+          <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
+            <img src="assets/푸터 인스타.png" alt="" />
+          </a>
+          <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
+            <img src="assets/푸터 블로그.png" alt="" />
+          </a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-legal-line">
+          (주)가인지캠퍼스 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 639-88-00543 &nbsp;|&nbsp; 통신판매업신고: 제 2017-서울마포-1383호
+        </p>
+        <p class="footer-legal-line">
+          이메일: <a href="mailto:gainge.cs@gainge.com" target="_blank" rel="noopener noreferrer">gainge.cs@gainge.com</a> &nbsp;|&nbsp; 대표번호: <a href="tel:02-337-0691" target="_blank" rel="noopener noreferrer">02-337-0691</a> &nbsp;|&nbsp; 주소: 서울특별시 마포구 토정로 16 2층
+        </p>
+        <p class="footer-copyright">© 2026 가인지컨설팅그룹. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/site-data.js"></script>
+  <script>
+    (function () {
+      var root = document.querySelector("[data-corporate-education-group-hero]");
+      if (!root) return;
+
+      var layers = root.querySelectorAll(".consulting-group-photo-bg");
+      if (!layers || layers.length < 2) return;
+
+      var dots = document.querySelectorAll(".corporate-education-main [data-corporate-education-hero-dot]");
+
+      var photos = [
+        "assets/기업교육 히어로 섹션 샘플 (1).jpg",
+        "assets/기업교육 히어로 섹션 샘플 (2).jpg",
+        "assets/기업교육 히어로 섹션 샘플 (3).jpg",
+        "assets/기업교육 히어로 섹션 샘플 (4).jpg",
+        "assets/기업교육 히어로 섹션 샘플 (5).jpg"
+      ];
+      var n = photos.length;
+      if (!n) return;
+
+      var currentPhotoIdx = 0;
+      var activeLayerIdx = 0;
+      var timer = null;
+      var firstTimer = null;
+      var AUTO_MS = 2600;
+      var FADE_MS = 1500;
+      var FIRST_FADE_IN_MS = 620;
+      var FIRST_ROTATION_CROSSFADE_MS = 300;
+      var isFirstRotation = true;
+      var reduceMotion =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduceMotion) {
+        AUTO_MS = 5000;
+        FADE_MS = 0;
+      }
+
+      function runWhenImagesReady(done) {
+        var pending = n;
+        if (pending === 0) {
+          done();
+          return;
+        }
+        function one() {
+          pending -= 1;
+          if (pending <= 0) done();
+        }
+        for (var i = 0; i < n; i++) {
+          var img = new Image();
+          img.onload = one;
+          img.onerror = one;
+          img.src = photos[i];
+        }
+      }
+
+      function setLayerBg(layer, url) {
+        var safe = encodeURI(url).replace(/'/g, "%27");
+        var u = 'url("' + safe + '")';
+        var main = layer.querySelector(".consulting-group-photo-bg-main");
+        if (main) main.style.backgroundImage = u;
+        layer.classList.remove("consulting-group-photo-bg--blur-fill");
+      }
+
+      function updateDots() {
+        if (!dots || !dots.length) return;
+        dots.forEach(function (dot) {
+          var i = parseInt(dot.getAttribute("data-corporate-education-hero-index"), 10);
+          var on = i === currentPhotoIdx;
+          dot.classList.toggle("is-current", on);
+          dot.setAttribute("aria-selected", on ? "true" : "false");
+        });
+      }
+
+      function goTo(targetIdx) {
+        targetIdx = ((targetIdx % n) + n) % n;
+        if (targetIdx === currentPhotoIdx) {
+          schedule();
+          return;
+        }
+
+        if (isFirstRotation) {
+          isFirstRotation = false;
+          layers[0].style.transitionDuration = "";
+          layers[1].style.transitionDuration = "";
+        }
+
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        setLayerBg(layers[incomingLayerIdx], photos[targetIdx]);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = targetIdx;
+        activeLayerIdx = incomingLayerIdx;
+        updateDots();
+        schedule();
+      }
+
+      function showInitial() {
+        var first = layers[0];
+        setLayerBg(first, photos[0]);
+        setLayerBg(layers[1], photos[1 % n]);
+        layers[1].classList.remove("is-active");
+        if (!reduceMotion) {
+          first.style.transitionDuration = FIRST_FADE_IN_MS / 1000 + "s";
+        }
+        window.requestAnimationFrame(function () {
+          first.classList.add("is-active");
+          if (!reduceMotion) {
+            function clearFirstFadeDuration(e) {
+              if (e && e.propertyName !== "opacity") return;
+              first.removeEventListener("transitionend", clearFirstFadeDuration);
+              first.style.transitionDuration = "";
+            }
+            first.addEventListener("transitionend", clearFirstFadeDuration);
+            window.setTimeout(clearFirstFadeDuration, FIRST_FADE_IN_MS + 120);
+          }
+        });
+      }
+
+      function next() {
+        var nextPhotoIdx = (currentPhotoIdx + 1) % n;
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        var useShortFirstRotation = !reduceMotion && isFirstRotation;
+        if (useShortFirstRotation) {
+          layers[0].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+          layers[1].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+        }
+
+        setLayerBg(layers[incomingLayerIdx], photos[nextPhotoIdx]);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = nextPhotoIdx;
+        activeLayerIdx = incomingLayerIdx;
+
+        if (useShortFirstRotation) {
+          isFirstRotation = false;
+          window.setTimeout(function () {
+            layers[0].style.transitionDuration = "";
+            layers[1].style.transitionDuration = "";
+          }, FIRST_ROTATION_CROSSFADE_MS + 80);
+        }
+        updateDots();
+      }
+
+      function clear() {
+        if (firstTimer !== null) {
+          window.clearTimeout(firstTimer);
+          firstTimer = null;
+        }
+        if (timer !== null) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function schedule() {
+        clear();
+        var firstDelay = Math.max(0, AUTO_MS - FADE_MS);
+        firstTimer = window.setTimeout(function () {
+          next();
+          timer = window.setInterval(next, AUTO_MS);
+          firstTimer = null;
+        }, firstDelay);
+      }
+
+      function pause() {
+        clear();
+      }
+
+      function resume() {
+        schedule();
+      }
+
+      runWhenImagesReady(function () {
+        showInitial();
+        updateDots();
+        schedule();
+      });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          var i = parseInt(dot.getAttribute("data-corporate-education-hero-index"), 10);
+          if (Number.isNaN(i)) return;
+          goTo(i);
+        });
+      });
+
+      root.addEventListener("focusin", pause);
+      root.addEventListener("focusout", function (e) {
+        if (!root.contains(e.relatedTarget)) resume();
+      });
+    })();
+  </script>
+  <script src="js/community-testimony-photos.js"></script>
+  <script src="js/corporate-education-workshop-carousel.js"></script>
+  <!-- file:// 등 fetch 불가 시: 최소 items(id, ended) 또는 Admin 내보낸 corporate-education-programs.json 일부를 붙여 넣어 유지 -->
+  <script type="application/json" id="corporate-education-programs-data">
+{
+  "items": [
+    { "id": "cert-1", "ended": false },
+    { "id": "cert-2", "ended": false },
+    { "id": "onboarding-1", "ended": false },
+    { "id": "onboarding-2", "ended": false },
+    { "id": "workshop-1", "ended": true },
+    { "id": "workshop-2", "ended": true }
+  ]
+}
+  </script>
+  <script src="js/corporate-education-intro-ended.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

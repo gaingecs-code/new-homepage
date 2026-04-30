@@ -1,0 +1,32 @@
+export const mockInquiries = [
+  {
+    id: "inq_001",
+    createdAt: "2026-04-23T08:10:00.000Z",
+    updatedAt: "2026-04-23T08:10:00.000Z",
+    company: "태스트컴퍼니",
+    name: "홍길동 대표",
+    phone: "010-1111-2222",
+    email: "hong@example.com",
+    message: "조직문화 개선 컨설팅을 문의드립니다.",
+  },
+  {
+    id: "inq_002",
+    createdAt: "2026-04-22T04:20:00.000Z",
+    updatedAt: "2026-04-22T04:20:00.000Z",
+    company: "샘플주식회사",
+    name: "김영희 팀장",
+    phone: "010-3333-4444",
+    email: "kim@example.com",
+    message: "리더십 진단과 교육 연계가 가능한지 궁금합니다.",
+  },
+  {
+    id: "inq_003",
+    createdAt: "2026-04-20T10:35:00.000Z",
+    updatedAt: "2026-04-20T10:35:00.000Z",
+    company: "바이오닷",
+    name: "한현진 대표",
+    phone: "010-7777-8888",
+    email: "ceo@biodot.kr",
+    message: "성과관리 고도화를 위한 미팅을 요청합니다.",
+  },
+];

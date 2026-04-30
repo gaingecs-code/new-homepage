@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>기업 리더십 진단 (약식)</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="diagnosis-standalone-body">
+  <main class="diagnosis-standalone-main" aria-label="기업 리더십 진단 (약식)">
+    <h1 class="diagnosis-standalone-title">기업 리더십 진단 (약식)</h1>
+    <div id="diagnosis-app" data-diagnosis-id="leadership">
+      <section id="diagnosis-intro-panel" class="diagnosis-intro">
+        <div class="diagnosis-intro-placeholder diagnosis-intro-copy" role="note">
+          <p>
+            기업 리더십 진단 결과를 통해 응답자는 리더십의 6가지 영역 중
+            <strong>리더로서 자신이 잘 하고 있는 영역과 보다 보완해야 할 영역을 발견할 수 있습니다.</strong>
+          </p>
+          <p>
+            통상 총 24개 문항에 대한 응답과 현장 인터뷰를 분석하며, 리더로서의 성장을 위한 종합적인 진단과 제안이 이뤄집니다.
+          </p>
+          <p>
+            온라인 약식 검사 또한 동일한 문항으로 구성되며. 1점(부정)에서 5점(긍정) 척도의 응답을 통해 리더십을 측정합니다. 약 7분의 진단을 통해 더 좋은 리더십을 위한 성장 주제를 발견해보십시오.
+          </p>
+        </div>
+        <button type="button" class="diagnosis-start-btn" id="diagnosis-start-btn">
+          진단 시작하기
+        </button>
+      </section>
+      <div id="diagnosis-questions-root" hidden></div>
+    </div>
+  </main>
+  <script defer src="js/diagnosis-inline-data.js"></script>
+  <script defer src="js/diagnosis-engine.js"></script>
+</body>
+</html>

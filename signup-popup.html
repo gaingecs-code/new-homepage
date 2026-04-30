@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원가입</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="story-popup-body">
+  <main class="story-page-main signup-popup-main" aria-label="회원가입">
+    <div class="container story-page-container">
+      <section class="story-inquiry-card signup-popup-card">
+        <h1 class="story-inquiry-title">회원가입</h1>
+        <p class="story-inquiry-desc">가인지캠퍼스의 회원정보 규정과 가입시 입력 정보 항목과 동일하게 이후 재조정합니다. </p>
+
+        <form class="signup-popup-form" id="signup-form" action="#" method="post">
+          <div class="signup-field">
+            <label class="signup-label" for="signup-id">ID</label>
+            <div class="signup-id-row">
+              <input
+                id="signup-id"
+                name="signupId"
+                type="text"
+                autocomplete="username"
+                required
+              />
+              <button type="button" class="signup-dup-btn" id="check-dup-btn">
+                중복 체크
+              </button>
+            </div>
+            <p class="signup-status" id="dup-status" aria-live="polite"></p>
+          </div>
+
+          <div class="signup-field">
+            <label class="signup-label" for="signup-pw">PW</label>
+            <input
+              id="signup-pw"
+              name="signupPw"
+              type="password"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <div class="signup-field">
+            <label class="signup-label" for="signup-pw2">PW 확인</label>
+            <input
+              id="signup-pw2"
+              name="signupPw2"
+              type="password"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <div class="story-inquiry-actions signup-actions">
+            <button type="submit" class="story-page-cta" id="signup-submit">회원가입</button>
+          </div>
+        </form>
+
+        <div class="story-inquiry-actions signup-actions-bottom" style="margin-top: 1rem;">
+          <button type="button" class="story-inquiry-close" onclick="window.close()">창 닫기</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      // 개발자가 실제 gainge 연동용 API URL을 여기에 넣어주세요.
+      // 예)
+      // window.GAINGE_CHECK_ID_API_URL = "https://gainge.com/api/check-id";
+      // window.GAINGE_SIGNUP_API_URL = "https://gainge.com/api/signup";
+      var CHECK_ID_API_URL = window.GAINGE_CHECK_ID_API_URL || "";
+      var SIGNUP_API_URL = window.GAINGE_SIGNUP_API_URL || "";
+
+      var form = document.getElementById("signup-form");
+      var idInput = document.getElementById("signup-id");
+      var pwInput = document.getElementById("signup-pw");
+      var pw2Input = document.getElementById("signup-pw2");
+      var checkBtn = document.getElementById("check-dup-btn");
+      var dupStatus = document.getElementById("dup-status");
+      var submitBtn = document.getElementById("signup-submit");
+
+      var isIdAvailable = false;
+
+      function setStatus(msg, isError) {
+        if (!dupStatus) return;
+        dupStatus.textContent = msg;
+        dupStatus.classList.toggle("is-error", !!isError);
+        dupStatus.classList.toggle("is-success", !isError && !!msg);
+      }
+
+      async function checkDup() {
+        if (!CHECK_ID_API_URL) {
+          setStatus("ID 중복 체크는 API URL 설정 후 진행됩니다.", true);
+          isIdAvailable = false;
+          return;
+        }
+
+        var userId = String(idInput.value || "").trim();
+        if (!userId) {
+          setStatus("ID를 입력해주세요.", true);
+          isIdAvailable = false;
+          return;
+        }
+
+        setStatus("중복 확인 중입니다...", false);
+        try {
+          var res = await fetch(CHECK_ID_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: userId })
+          });
+          if (!res.ok) throw new Error("check-id http " + res.status);
+
+          var data = await res.json();
+          // 기대 응답:
+          // { available: true } 또는 { duplicated: true } 등
+          if (typeof data.available === "boolean") {
+            isIdAvailable = data.available;
+          } else if (typeof data.duplicated === "boolean") {
+            isIdAvailable = !data.duplicated;
+          } else {
+            // 응답 스펙이 다를 수 있으니 일단 실패로 처리
+            isIdAvailable = false;
+          }
+
+          if (isIdAvailable) setStatus("사용 가능한 ID입니다.", false);
+          else setStatus("이미 사용 중인 ID입니다.", true);
+        } catch (err) {
+          setStatus("중복 확인에 실패했습니다. 잠시 후 다시 시도해주세요.", true);
+          isIdAvailable = false;
+          console.error(err);
+        }
+      }
+
+      if (checkBtn) {
+        checkBtn.addEventListener("click", function () {
+          checkDup();
+        });
+      }
+
+      if (form) {
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          var userId = String(idInput.value || "").trim();
+          var pw = String(pwInput.value || "");
+          var pw2 = String(pw2Input.value || "");
+
+          if (!userId || !pw || !pw2) return;
+          if (pw !== pw2) {
+            setStatus("PW 확인이 일치하지 않습니다.", true);
+            return;
+          }
+          if (!isIdAvailable) {
+            setStatus("먼저 ID 중복 체크를 완료해주세요.", true);
+            return;
+          }
+
+          if (!SIGNUP_API_URL) {
+            setStatus("회원가입 제출은 API URL 설정 후 진행됩니다.", true);
+            return;
+          }
+
+          if (submitBtn) submitBtn.disabled = true;
+
+          try {
+            var res = await fetch(SIGNUP_API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userId: userId,
+                password: pw,
+                // 필요 시 gainge가 요구하는 추가 필드 추가
+              })
+            });
+
+            if (!res.ok) throw new Error("signup http " + res.status);
+
+            setStatus("회원가입이 완료되었습니다. 창을 닫습니다.", false);
+            form.reset();
+            isIdAvailable = false;
+            window.close();
+          } catch (err) {
+            setStatus("회원가입 처리에 실패했습니다. 잠시 후 다시 시도해주세요.", true);
+            console.error(err);
+          } finally {
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>가인지 경영 진단 (약식)</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="diagnosis-standalone-body">
+  <main class="diagnosis-standalone-main" aria-label="가인지 경영 진단 (약식)">
+    <h1 class="diagnosis-standalone-title">가인지 경영 진단 (약식)</h1>
+    <div id="diagnosis-app" data-diagnosis-id="gainge_mgmt">
+      <section id="diagnosis-intro-panel" class="diagnosis-intro">
+        <div class="diagnosis-intro-placeholder diagnosis-intro-copy" role="note">
+          <p>
+            <strong>가인지 경영 진단은 기업의 가치·인재·지식 경영을 30개의 세부 주제로 진단합니다.</strong>
+            온라인 약식 검사는 동일한 문항으로 구성되나, 7개 주제로 진단 결과를 안내합니다.
+          </p>
+          <p>
+            통상 기업 구성원이 참여하는 60개 문항의 온라인 응답과 현장 인터뷰를 종합하며, 이를 바탕으로 기업 성장을 위한 구체적인 전략과 실천 계획이 도출됩니다.
+          </p>
+          <p>
+            응답자는 1점(부정)에서 5점(긍정) 사이의 척도로 응답하여 조직의 가치, 인재, 지식 경영의 상태를 정밀하게 측정하게 됩니다. 약 20분의 진단을 통해 우리 기업의 핵심 강점과 최우선 보완점을 한 가지씩 확인할 수 있습니다.
+          </p>
+        </div>
+        <button type="button" class="diagnosis-start-btn" id="diagnosis-start-btn">
+          진단 시작하기
+        </button>
+      </section>
+      <div id="diagnosis-questions-root" hidden></div>
+    </div>
+  </main>
+  <script defer src="js/diagnosis-inline-data.js"></script>
+  <script defer src="js/diagnosis-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>컨설팅 소개</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    crossorigin
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 상단 고정 헤더 (메인페이지와 동일) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+      </a>
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="메뉴 열기">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="gainge-management.html">가인지컨설팅그룹</a></li>
+          <li><a href="consulting.html" class="nav-current">컨설팅 서비스</a></li>
+          <li><a href="testimonials.html">고객 사례</a></li>
+          <li><a href="corporate-education.html">기업교육</a></li>
+          <li><a href="community.html">경영자 커뮤니티</a></li>
+          <li><a href="about.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="header-actions-top">
+          <button type="button" class="pill-cta-button" data-header-diagnosis>기업 진단하기<span class="pill-cta-badge">Free</span></button>
+          <button type="button" class="pill-cta-button" data-gainge-campus>가인지캠퍼스 바로가기</button>
+          <button class="header-auth-button">로그인/회원가입</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="consulting-main" aria-label="컨설팅 소개">
+    <!-- 단체 사진 섹션 (첫 섹션): 배경형 4장 로테이션 + 반투명 오버레이 -->
+    <section
+      class="consulting-group-photo-section"
+      aria-label="컨설팅 소개 단체 사진"
+      data-consulting-group-hero
+      role="region"
+    >
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-a" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-bg consulting-group-photo-bg-b" aria-hidden="true">
+        <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+        <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+      </div>
+      <div class="consulting-group-photo-overlay" aria-hidden="true"></div>
+      <div class="consulting-group-photo-content">
+        <h1 class="consulting-group-photo-title">Business is LOVE</h1>
+      </div>
+    </section>
+
+    <!-- 대시보드: 3열 지표 + 누적 지표 -->
+    <section class="consulting-stats-dashboard" aria-label="컨설팅 핵심 지표">
+      <div class="consulting-group-photo-dots" role="tablist" aria-label="히어로 이미지 선택">
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-consulting-hero-dot data-consulting-hero-index="0" aria-selected="true" aria-label="이미지 1 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-consulting-hero-dot data-consulting-hero-index="1" aria-selected="false" aria-label="이미지 2 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-consulting-hero-dot data-consulting-hero-index="2" aria-selected="false" aria-label="이미지 3 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-consulting-hero-dot data-consulting-hero-index="3" aria-selected="false" aria-label="이미지 4 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-consulting-hero-dot data-consulting-hero-index="4" aria-selected="false" aria-label="이미지 5 보기"></button>
+        <button type="button" class="consulting-group-photo-dot" role="tab" data-consulting-hero-dot data-consulting-hero-index="5" aria-selected="false" aria-label="이미지 6 보기"></button>
+      </div>
+      <div class="container">
+        <div class="consulting-stats-dashboard-inner">
+          <div class="consulting-stats-dashboard-row consulting-stats-dashboard-row--single" role="group" aria-label="누적 컨설팅 기업 수">
+            <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--label">누적 컨설팅 기업 수</p>
+            <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--value">5,400+</p>
+          </div>
+          <div class="consulting-stats-dashboard-row consulting-stats-dashboard-row--triple" role="group" aria-label="기업 수 지표">
+            <div class="consulting-stats-dashboard-pair">
+              <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--label">컨설팅 기업 수</p>
+              <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--value">810+</p>
+            </div>
+            <div class="consulting-stats-dashboard-pair">
+              <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--label">코칭 기업 수</p>
+              <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--value">1,350+</p>
+            </div>
+            <div class="consulting-stats-dashboard-pair">
+              <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--label">워크샵/교육 기업 수</p>
+              <p class="consulting-stats-dashboard-cell consulting-stats-dashboard-cell--value">3,240+</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOC 섹션: 영상보기 버튼 → 간증 영상 모달 (CONSULTING_VOC_VIDEO_URLS) -->
+    <section class="consulting-voc-section" aria-label="VOC">
+      <div class="container">
+        <div class="consulting-voc-list">
+          <article class="consulting-voc-item">
+            <h3 class="consulting-voc-above-title">고객 스토리</h3>
+            <div
+              class="consulting-voc-box"
+              data-consulting-voc-bg="1"
+              data-consulting-voc-story-url="story-testimonial-1.html"
+              role="link"
+              tabindex="0"
+              aria-label="(주) 태향 스토리 페이지 열기"
+            >
+              <blockquote class="consulting-voc-quote">
+                <p class="consulting-voc-quote-body">“폐업을 고민하던 시기, 가인지를 만나고 다시 일어설 힘을 얻었습니다.<br />지금 우리는 1,000억 매출과 5개 자회사를 가진 기업을 목표로 하게 되었습니다.”</p>
+                <div class="consulting-voc-meta-row">
+                  <cite class="consulting-voc-attribution">(주) 태향</cite>
+                  <div class="consulting-voc-actions">
+                    <button
+                      type="button"
+                      class="consulting-voc-video-btn"
+                      data-consulting-voc-video="1"
+                      aria-label="(주) 태향 간증 영상 재생"
+                    >
+                      영상보기
+                    </button>
+                    <a
+                      href="story-testimonial-1.html"
+                      class="consulting-voc-video-btn consulting-voc-story-link"
+                      data-consulting-voc-story
+                      aria-label="(주) 태향 스토리 보기 (새 창)"
+                    >
+                      스토리 보기
+                    </a>
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+          </article>
+          <article class="consulting-voc-item">
+            <div
+              class="consulting-voc-box"
+              data-consulting-voc-bg="2"
+              data-consulting-voc-story-url="story-testimonial-2.html"
+              role="link"
+              tabindex="0"
+              aria-label="(주) 실란트로 스토리 페이지 열기"
+            >
+              <blockquote class="consulting-voc-quote">
+                <p class="consulting-voc-quote-body">“가인지를 통해 저는 경영에 찾아온 의미의 상실을 이겨낼 수 있었고<br />컨설팅 동안 매출은 120억에서 약 4배 성장했고, 3개의 사내벤처가 시작되었습니다.”</p>
+                <div class="consulting-voc-meta-row">
+                  <cite class="consulting-voc-attribution">(주) 실란트로</cite>
+                  <div class="consulting-voc-actions">
+                    <button
+                      type="button"
+                      class="consulting-voc-video-btn"
+                      data-consulting-voc-video="2"
+                      aria-label="(주) 실란트로 간증 영상 재생"
+                    >
+                      영상보기
+                    </button>
+                    <a
+                      href="story-testimonial-2.html"
+                      class="consulting-voc-video-btn consulting-voc-story-link"
+                      data-consulting-voc-story
+                      aria-label="(주) 실란트로 스토리 보기 (새 창)"
+                    >
+                      스토리 보기
+                    </a>
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+          </article>
+          <article class="consulting-voc-item">
+            <div
+              class="consulting-voc-box"
+              data-consulting-voc-bg="3"
+              data-consulting-voc-story-url="story-testimonial-3.html"
+              role="link"
+              tabindex="0"
+              aria-label="(주) 바이오닷 스토리 페이지 열기"
+            >
+              <blockquote class="consulting-voc-quote">
+                <p class="consulting-voc-quote-body">“가인지를 경험하고 나서 직원들이 스스로 성과지표를 만들기 시작했습니다.<br />그리고 우리는 B2B에서 B2C로 사업을 확장했고 AI에도 능숙한 기업이 되었습니다.”</p>
+                <div class="consulting-voc-meta-row">
+                  <cite class="consulting-voc-attribution">(주)바이오닷</cite>
+                  <div class="consulting-voc-actions">
+                    <button
+                      type="button"
+                      class="consulting-voc-video-btn"
+                      data-consulting-voc-video="3"
+                      aria-label="(주)바이오닷 간증 영상 재생"
+                    >
+                      영상보기
+                    </button>
+                    <a
+                      href="story-testimonial-3.html"
+                      class="consulting-voc-video-btn consulting-voc-story-link"
+                      data-consulting-voc-story
+                      aria-label="(주)바이오닷 스토리 보기 (새 창)"
+                    >
+                      스토리 보기
+                    </a>
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- BU리더 섹션 (참고: 좌측 텍스트 / 우측 세로 이미지) -->
+    <section class="consulting-bu-leader-section" aria-label="BU 리더">
+      <div class="container">
+        <div class="consulting-bu-leader-panel">
+          <div class="consulting-bu-leader-text">
+            <h2 class="consulting-bu-leader-title">가인지 컨설팅의 매력</h2>
+            <div class="consulting-bu-leader-points">
+              <div class="consulting-bu-leader-block">
+                <h3 class="consulting-bu-leader-subtitle">
+                  <span class="consulting-bu-leader-num">1</span>
+                  <span class="consulting-bu-leader-subtitle-label">"우리의 컨설팅은 리포트로 끝나지 않습니다."</span>
+                </h3>
+                <p class="consulting-bu-leader-desc">대기업 현장에서 검증된 실행 프로세스를 통해 조직의 실질적인 변화를 직접 이끌어냅니다. 정교한 기획에 집요한 실행력을 더해, 고객사가 목표로 하는 가시적인 성과를 현실로 만들어냅니다.</p>
+              </div>
+              <hr class="consulting-bu-leader-divider" aria-hidden="true" />
+              <div class="consulting-bu-leader-block">
+                <h3 class="consulting-bu-leader-subtitle">
+                  <span class="consulting-bu-leader-num">2</span>
+                  <span class="consulting-bu-leader-subtitle-label">"구성원과 함께 호흡하며 실행의 전 과정을 책임집니다."</span>
+                </h3>
+                <p class="consulting-bu-leader-desc">비즈니스 현장 깊숙이 파고들어, 실무진이 마주한 난관을 함께 돌파합니다. 구성원의 고민을 나누며 조직 내부에서부터 스스로 변화할 수 있는 지속 가능한 성장 동력을 함께 구축합니다.</p>
+              </div>
+              <hr class="consulting-bu-leader-divider" aria-hidden="true" />
+              <div class="consulting-bu-leader-block">
+                <h3 class="consulting-bu-leader-subtitle">
+                  <span class="consulting-bu-leader-num">3</span>
+                  <span class="consulting-bu-leader-subtitle-label">"경영자의 목표를 향해 함께 나아가는 지지자가 됩니다."</span>
+                </h3>
+                <p class="consulting-bu-leader-desc">정해진 수행 범위를 넘어, 경영자가 겪는 고난과 삶의 무게를 함꼐합니다. 신뢰를 바탕으로 곁을 지키며, 경영자가 꿈꾸는 미래를 함께 설계하고 든든한 지지자로서 경영자와 함꼐 걷습니다.</p>
+              </div>
+            </div>
+          </div>
+          <div class="consulting-bu-leader-image-wrap">
+            <img src="assets/BU 리더 사진 샘플2.png" alt="가인지 컨설팅 BU 리더" class="consulting-bu-leader-image" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 박스 섹션: 컨설팅 솔루션 12개 -->
+    <section
+      class="consulting-solution-box-section"
+      aria-labelledby="consulting-solution-heading"
+      aria-describedby="consulting-solution-desc"
+    >
+      <div class="container">
+        <h2 id="consulting-solution-heading" class="consulting-solution-section-heading">컨설팅 서비스</h2>
+        <p id="consulting-solution-desc" class="consulting-solution-section-desc">
+          각 주제에 마우스를 올리면 설명이 나옵니다.
+        </p>
+        <div class="consulting-solution-grid-wrap">
+          <div id="consulting-roadmap-panel" class="consulting-roadmap-panel" data-consulting-roadmap-panel hidden aria-live="polite">
+            <button
+              type="button"
+              class="consulting-roadmap-close-btn"
+              data-consulting-roadmap-close
+              aria-label="비즈니스 로드맵 닫기"
+            >
+              x
+            </button>
+            <iframe
+              class="consulting-roadmap-frame"
+              data-consulting-roadmap-frame
+              src=""
+              title="비즈니스 로드맵"
+              loading="lazy"
+            ></iframe>
+            <p class="consulting-roadmap-empty" data-consulting-roadmap-empty hidden>
+              비즈니스 로드맵 PDF 경로를 연결하면 이 영역에 표시됩니다.
+            </p>
+          </div>
+          <div class="consulting-solution-grid">
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">01.</span>
+                <h3 class="consulting-solution-title">비전워크샵</h3>
+              </div>
+              <p class="consulting-solution-summary">경영진과 기업 구성원이 함께<br />기업 사명과 비전을 정립함으로<br />사명중심적 조직을 만듭니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">02.</span>
+                <h3 class="consulting-solution-title">경영 전략 수립</h3>
+              </div>
+              <p class="consulting-solution-summary">환경, 시장, 기업을 분석하고<br />기업의 궁극적 목적을 달성할<br />전략 목표, 수행 계획을 만듭니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">03.</span>
+                <h3 class="consulting-solution-title">조직화 컨설팅</h3>
+              </div>
+              <p class="consulting-solution-summary">경영 목표, 중장기 전략에 정렬된<br />중장기 조직구조를 설계하고<br />운영 전략을 수립합니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">04.</span>
+                <h3 class="consulting-solution-title">OKR 성과관리</h3>
+              </div>
+              <p class="consulting-solution-summary">전사, 각 팀의 OKR을 수립하고<br />OKR 성과관리를 코칭함으로<br />도전적인 목표를 달성합니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">05.</span>
+                <h3 class="consulting-solution-title">리더십 코칭</h3>
+              </div>
+              <p class="consulting-solution-summary">산업, 경영 전문가의 코칭을 통해<br />경영진 및 팀장 등 리더들이<br />인사이트를 얻고 실행하게 됩니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">06.</span>
+                <h3 class="consulting-solution-title">시장 전략 수립</h3>
+              </div>
+              <p class="consulting-solution-summary">시장과 상품 분석에 기초해<br />브랜딩, 마케팅, 상품 개발 및<br />상품 운영 전략을 수립합니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">07.</span>
+                <h3 class="consulting-solution-title">EVP, CDP 설계</h3>
+              </div>
+              <p class="consulting-solution-summary">조직진단에 기초해<br />인재 양성 계획을 수립, 운영하고<br />성숙한 조직문화를 만듭니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">08.</span>
+                <h3 class="consulting-solution-title">평가보상 설계</h3>
+              </div>
+              <p class="consulting-solution-summary">기업과 시장 상황을 진단하고<br />급여테이블, 연봉 협상 체계 등<br />평가보상 구조를 수립합니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">09.</span>
+                <h3 class="consulting-solution-title">조직문화 설계</h3>
+              </div>
+              <p class="consulting-solution-summary">경영 철학과 비전에 근거해<br />조직문화를 설계하고 내재화로<br />목적 중심적 조직을 만듭니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">10.</span>
+                <h3 class="consulting-solution-title">온라인 마케팅</h3>
+              </div>
+              <p class="consulting-solution-summary">마케팅 상황을 분석하고<br />즉각적인 매출로 이어지는<br />마케팅을 설계, 수행합니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--swap">
+            <div class="consulting-solution-swap">
+              <div class="consulting-solution-face">
+                <span class="consulting-solution-num">11.</span>
+                <h3 class="consulting-solution-title">헤드헌팅·채용설계</h3>
+              </div>
+              <p class="consulting-solution-summary">기업이 채용하기 어려운 인재를<br />대신 발굴, 채용하며<br />마케팅 관점의 채용을 설계합니다.</p>
+            </div>
+          </div>
+          <div class="consulting-solution-box consulting-solution-box--highlight">
+            <span class="consulting-solution-highlight-text">
+              그외 <span class="consulting-solution-highlight-stat">54</span>개<br />가인지컨설팅그룹의<br />컨설팅 주제
+            </span>
+          </div>
+          </div>
+        </div>
+        <div class="consulting-solution-cta-wrap">
+          <button
+            type="button"
+            class="consulting-solution-roadmap-btn consulting-solution-roadmap-btn--fixed"
+            data-consulting-roadmap-toggle
+            aria-expanded="false"
+            aria-controls="consulting-roadmap-panel"
+          >
+            비즈니스 로드맵 보기
+          </button>
+          <a
+            href="story-inquiry-popup.html"
+            class="consulting-solution-roadmap-btn consulting-solution-roadmap-btn--fixed"
+            data-open-inquiry-popup
+            >컨설팅 문의하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 산업 섹션: 산업별 고객사 로고 -->
+    <section class="consulting-extra-section" aria-labelledby="industry-heading">
+      <div class="container consulting-extra-inner">
+        <header class="industry-section-header">
+          <h2 id="industry-heading" class="industry-section-title">산업별 고객사</h2>
+          <p class="industry-select-prompt" data-industry-select-prompt>산업 분류를 선택하면 해당 분야 고객사가 표시됩니다.</p>
+        </header>
+
+        <div class="industry-filter-wrap">
+          <div class="industry-filter" role="tablist" aria-label="산업 필터">
+            <button type="button" class="industry-chip industry-chip--all" data-industry-filter="all" aria-pressed="false">
+              전체
+            </button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="소비재·F&amp;B·뷰티" aria-pressed="false">소비재·F&amp;B·뷰티</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="ICT·전자" aria-pressed="false">ICT·전자</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="모빌리티·산업재" aria-pressed="false">모빌리티·산업재</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="건설·에너지" aria-pressed="false">건설·에너지</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="바이오·헬스케어" aria-pressed="false">바이오·헬스케어</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="유통·라이프스타일" aria-pressed="false">유통·라이프스타일</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="콘텐츠·교육·미디어" aria-pressed="false">콘텐츠·교육·미디어</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="금융" aria-pressed="false">금융</button>
+            <button type="button" class="industry-chip industry-chip--category" data-industry-filter="공공" aria-pressed="false">공공영역·NGO</button>
+          </div>
+        </div>
+
+        <p class="industry-grid-empty" data-industry-empty hidden>이 산업 카테고리에 표시할 고객사가 아직 없습니다. 곧 반영될 예정입니다.</p>
+
+        <div class="industry-logo-grid" data-industry-grid>
+          <!-- 전체 보기 전용 대표 18장(17 + 그 외) -->
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">삼성전자</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">포스코</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">폭스바겐그룹코리아</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">농심</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">엔씨소프트</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">대웅제약</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">신한은행</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">현대백화점</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">코스메카코리아</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">네오오토</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">금호건설</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">다비치안경</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국수자원공사</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국해비타트</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">서울재활병원</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">실란트로</p>
+          </article>
+          <article class="industry-logo-card" data-industry-all-showcase="1" data-all-showcase-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">태향</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--all-rest" data-industry-all-showcase="1" data-all-showcase-index="18" aria-label="그 외 5,400개 고객 기업">
+            <span class="consulting-solution-highlight-text">
+              그 외<br />
+              <span class="consulting-solution-highlight-stat">5,400개</span><br />
+              고객 기업
+            </span>
+          </article>
+          <!-- 고객사 카드: data-industry = 산업 칩 값과 동일 · 로고는 이후 파일명으로 연결 예정 -->
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">농심</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">동서식품</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">샘표식품</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">천일식품</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">코스메카코리아</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">토니모리</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한만두식품</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">희스토리푸드</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">매홍엘앤에프</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">주안에프엔비</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">거룩한일오삼</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">농업법인회사 밭</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">태향</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">본느</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">바이오제닉스</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">바이오닷</p>
+          </article>
+          <article class="industry-logo-card" data-industry="소비재·F&amp;B·뷰티" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">오로라모바일</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="소비재·F&amp;B·뷰티" aria-label="소비재·F&amp;B·뷰티 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">삼성전자</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">삼성전기</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">엘지전자</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">엘지이노텍</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">엘지유플러스</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">안랩</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국요꼬가와전기</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">대주전자재료</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">제이오</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">심텍</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">삼우전자정밀</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">소프트자이온</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">메이팜소프트</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">영림원소프트랩</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">하이비전시스템</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">옵토전자</p>
+          </article>
+          <article class="industry-logo-card" data-industry="ICT·전자" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">우주일렉트로닉스</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="ICT·전자" aria-label="ICT·전자 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">폭스바겐그룹코리아</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">현대자동차</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">현대모비스</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">기아</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">내쇼날모터스</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">네오오토</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">포스코</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">엘지화학</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">윌로펌프</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">진흥테크</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한성산기</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">서울폐차산업</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">명신</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">비츠로이엠</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">성진테크원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">삼우</p>
+          </article>
+          <article class="industry-logo-card" data-industry="모빌리티·산업재" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">차봇모빌리티</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="모빌리티·산업재" aria-label="모빌리티·산업재 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한화엔지니어링</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">이에스엔지니어링</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">더휴</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">루트에너지</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">반석기초이앤씨</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">삼우통상</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">금호건설</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">제이엔와이종합건설</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">텐나인건설</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">국보디자인</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">신정개발</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">일신환경</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">에이앤유디자인그룹<br />건축사사무소</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">정립건축<br />종합건축사사무소</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">어반플롯건축사사무소</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">부현전기</p>
+          </article>
+          <article class="industry-logo-card" data-industry="건설·에너지" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">원일공조</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="건설·에너지" aria-label="건설·에너지 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">대웅제약</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">동국제약</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">비씨월드제약</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">킴스제약</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">웅비메디텍</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">경일메디칼</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">신한메디칼</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">네오딘바이오벳</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">제이투케이바이오</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">바이오세라</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">바이오피던스</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">바이오오케스트라</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">서울재활병원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">여수애양병원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">사랑플러스병원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">유봄성형외과</p>
+          </article>
+          <article class="industry-logo-card" data-industry="바이오·헬스케어" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">알프스치과의원</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="바이오·헬스케어" aria-label="바이오·헬스케어 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">현대백화점</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">다비치안경</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">꿈비</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">헤세드코리아</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">실란트로</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">벨라코리아</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">아모스프로페셔널</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">리함</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">끌리메</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">성화물산</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">부영물산</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">대화엠피</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">청밀</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">완벽한우리들</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">자신만만<br />렌터카보험연구소</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">헤어썸</p>
+          </article>
+          <article class="industry-logo-card" data-industry="유통·라이프스타일" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">준오헤어</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="유통·라이프스타일" aria-label="유통·라이프스타일 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">엔씨소프트</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">대원미디어</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">누리미디어</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">인터웍스미디어</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">비욘드그룹</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">바나나코퍼레이션</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">클래스101</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">어셔어학원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">아소비교육</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">아트리즈과사람학원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">달콤교육</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">프라미스에듀</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">열린문디자인</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">엑스퍼트 컨설팅</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="15" data-company-logo-name="프라임스톤컨설팅">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">프라임스톤 컨설팅</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">노무법인 바른컨설팅</p>
+          </article>
+          <article class="industry-logo-card" data-industry="콘텐츠·교육·미디어" data-company-index="17" data-company-logo-name="몬데인컨설팅">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">몬데인 컨설팅</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="콘텐츠·교육·미디어" aria-label="콘텐츠·교육·미디어 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">신한은행</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">신한금융투자</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">신한리츠운용</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">하나은행</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">하나증권</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">하나자산신탁</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">비앤케이금융지주</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">두나미스자산운용</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">교보생명보험</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">DB생명보험</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">신한라이프생명보험</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">동양생명금융서비스</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">춘천신용협동조합</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">위너스세무회계</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="15">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">세무법인 엠지</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">세무법인 넥스트</p>
+          </article>
+          <article class="industry-logo-card" data-industry="금융" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">경리법인 일조</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="금융" aria-label="금융 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="1">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국수자원공사</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="2">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">대한무역투자진흥공사</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="3">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">경기주택도시공사</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="4">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">경기콘텐츠진흥원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="5">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국산업단지공단</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="6">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국과학창의재단</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="7">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">굿피플인터네셔널</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="8">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국해비타트</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="9">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">밀알복지재단</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="10">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">기아대책</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="11">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">월드비전</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="12">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">유니세프</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="13">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">광양시 가족센터</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="14">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">한국지체장애인협회</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="15" data-company-logo-name="경기도노인일자리 지원센터">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">경기도노인일자리<br />지원센터</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="16">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">동진생명연구원</p>
+          </article>
+          <article class="industry-logo-card" data-industry="공공" data-company-index="17">
+            <div class="industry-logo-mark industry-logo-mark--brand" aria-hidden="true">
+              <span class="industry-logo-placeholder">로고</span>
+            </div>
+            <p class="industry-logo-name">전자조달연구원</p>
+          </article>
+          <article class="industry-logo-card industry-logo-card--ellipsis" data-industry="공공" aria-label="공공 분야 그 외 다수 고객사">
+            <span class="industry-logo-ellipsis-char" aria-hidden="true">···</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 초청 섹션 -->
+    <section id="invitation" class="section invitation-section" aria-label="초청 섹션">
+      <div class="container">
+        <div class="invitation-inner">
+          <div class="invitation-image-wrap">
+            <img src="assets/손 내민 남자.png" alt="손 내민 남자" class="invitation-image" />
+          </div>
+          <div class="invitation-text">
+            <p class="invitation-message">
+              &quot;경영의 가치와 성공을 누리는 삶이<br>
+              지금 당신에게 시작됩니다.&quot;
+            </p>
+            <div class="invitation-actions">
+              <a href="index.html#home-diagnosis-heading" class="invitation-btn">기업 진단하기(Free)</a>
+              <a href="story-inquiry-popup.html" class="invitation-btn" data-open-inquiry-popup>컨설팅 문의하기</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-top-row">
+        <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
+          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+        </a>
+        <div class="footer-social-icons" aria-label="SNS 바로가기">
+          <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
+            <img src="assets/1.png" alt="" />
+          </a>
+          <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
+            <img src="assets/푸터 인스타.png" alt="" />
+          </a>
+          <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
+            <img src="assets/푸터 블로그.png" alt="" />
+          </a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-legal-line">
+          (주)가인지캠퍼스 &nbsp;|&nbsp; 대표자: 김경민 &nbsp;|&nbsp; 사업자등록번호: 639-88-00543 &nbsp;|&nbsp; 통신판매업신고: 제 2017-서울마포-1383호
+        </p>
+        <p class="footer-legal-line">
+          이메일: <a href="mailto:gainge.cs@gainge.com" target="_blank" rel="noopener noreferrer">gainge.cs@gainge.com</a> &nbsp;|&nbsp; 대표번호: <a href="tel:02-337-0691" target="_blank" rel="noopener noreferrer">02-337-0691</a> &nbsp;|&nbsp; 주소: 서울특별시 마포구 토정로 16 2층
+        </p>
+        <p class="footer-copyright">© 2026 가인지컨설팅그룹. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 컨설팅 VOC·로드맵: data/consulting-page.json, #consulting-page-data, 기본값 순 -->
+  <div class="community-video-popup" id="consulting-voc-video-popup" role="dialog" aria-modal="true" aria-label="간증 영상" hidden>
+    <div class="community-video-popup-backdrop"></div>
+    <div class="community-video-popup-inner">
+      <button type="button" class="community-video-popup-close" aria-label="닫기">&times;</button>
+      <div class="community-video-popup-body">
+        <iframe
+          class="community-video-popup-iframe"
+          title="간증 영상"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+          hidden
+        ></iframe>
+        <video
+          class="consulting-voc-video-native"
+          controls
+          playsinline
+          preload="metadata"
+          title="간증 영상"
+          hidden
+        ></video>
+        <div class="home-testimonial-video-placeholder">
+          <p>영상이 준비 중입니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/site-data.js"></script>
+  <!-- data/consulting-page.json 과 동기화. file:// 폴백 -->
+  <script type="application/json" id="consulting-page-data">
+{
+  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "vocVideoUrls": {
+    "1": "https://youtu.be/uNRDkKpbWQs",
+    "2": "https://youtu.be/ZxaHLlL2ESg",
+    "3": "https://youtu.be/Dz3ya3PD9eU"
+  },
+  "businessRoadmapPdfUrl": "assets/비즈니스 로드맵.pdf",
+  "businessRoadmapAspectRatio": 0.57
+}
+  </script>
+  <script>
+    (function () {
+      var root = document.querySelector("[data-consulting-group-hero]");
+      if (!root) return;
+
+      var layers = root.querySelectorAll(".consulting-group-photo-bg");
+      if (!layers || layers.length < 2) return;
+
+      var dots = document.querySelectorAll(".consulting-main [data-consulting-hero-dot]");
+
+      var photos = [
+        "assets/컨설팅 소개 페이지 단체 사진 임시.jpg",
+        "assets/컨설팅 소개 페이지 단체 사진 임시 2.jpg",
+        "assets/컨설팅 소개 페이지 단체 사진 임시 3.jpg",
+        "assets/컨설팅 소개 페이지 단체 사진 임시 4.jpg",
+        "assets/컨설팅 소개 페이지 단체 사진 임시 5.jpg",
+        "assets/컨설팅 소개 페이지 단체 사진 임시 6.jpg"
+      ];
+      var n = photos.length;
+      if (!n) return;
+
+      var currentPhotoIdx = 0;
+      var activeLayerIdx = 0;
+      var timer = null;
+      var firstTimer = null;
+      var AUTO_MS = 2600;
+      var FADE_MS = 1500;
+      /** 최초 로드 시 첫 배경만 페이드인 (이후 전환은 아래 첫 로테이션·기본값 참고) */
+      var FIRST_FADE_IN_MS = 620;
+      /** 첫 로테이션(이미지 1→2) 크로스페이드만; 그 다음부터는 CSS 0.65s */
+      var FIRST_ROTATION_CROSSFADE_MS = 300;
+      var isFirstRotation = true;
+      var reduceMotion =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduceMotion) {
+        AUTO_MS = 5000;
+        FADE_MS = 0;
+      }
+
+      function preload() {
+        for (var i = 0; i < n; i++) {
+          var img = new Image();
+          img.src = photos[i];
+        }
+      }
+
+      function setLayerBg(layer, url, photoIndex) {
+        var u = "url(\"" + url + "\")";
+        var fill = layer.querySelector(".consulting-group-photo-bg-fill");
+        var main = layer.querySelector(".consulting-group-photo-bg-main");
+        if (fill) fill.style.backgroundImage = u;
+        if (main) main.style.backgroundImage = u;
+        var useBlurFill =
+          typeof photoIndex === "number" && photoIndex >= 1;
+        layer.classList.toggle("consulting-group-photo-bg--blur-fill", useBlurFill);
+      }
+
+      function updateDots() {
+        if (!dots || !dots.length) return;
+        dots.forEach(function (dot) {
+          var i = parseInt(dot.getAttribute("data-consulting-hero-index"), 10);
+          var on = i === currentPhotoIdx;
+          dot.classList.toggle("is-current", on);
+          dot.setAttribute("aria-selected", on ? "true" : "false");
+        });
+      }
+
+      function goTo(targetIdx) {
+        targetIdx = ((targetIdx % n) + n) % n;
+        if (targetIdx === currentPhotoIdx) {
+          schedule();
+          return;
+        }
+
+        if (isFirstRotation) {
+          isFirstRotation = false;
+          layers[0].style.transitionDuration = "";
+          layers[1].style.transitionDuration = "";
+        }
+
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        setLayerBg(layers[incomingLayerIdx], photos[targetIdx], targetIdx);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = targetIdx;
+        activeLayerIdx = incomingLayerIdx;
+        updateDots();
+        schedule();
+      }
+
+      function showInitial() {
+        var first = layers[0];
+        setLayerBg(first, photos[0], 0);
+        setLayerBg(layers[1], photos[1 % n], 1 % n);
+        layers[1].classList.remove("is-active");
+        if (!reduceMotion) {
+          first.style.transitionDuration = FIRST_FADE_IN_MS / 1000 + "s";
+        }
+        window.requestAnimationFrame(function () {
+          first.classList.add("is-active");
+          if (!reduceMotion) {
+            function clearFirstFadeDuration(e) {
+              if (e && e.propertyName !== "opacity") return;
+              first.removeEventListener("transitionend", clearFirstFadeDuration);
+              first.style.transitionDuration = "";
+            }
+            first.addEventListener("transitionend", clearFirstFadeDuration);
+            window.setTimeout(clearFirstFadeDuration, FIRST_FADE_IN_MS + 120);
+          }
+        });
+      }
+
+      function next() {
+        var nextPhotoIdx = (currentPhotoIdx + 1) % n;
+        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
+        var outgoingLayerIdx = activeLayerIdx;
+
+        var useShortFirstRotation = !reduceMotion && isFirstRotation;
+        if (useShortFirstRotation) {
+          layers[0].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+          layers[1].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
+        }
+
+        setLayerBg(layers[incomingLayerIdx], photos[nextPhotoIdx], nextPhotoIdx);
+        layers[incomingLayerIdx].classList.add("is-active");
+        layers[outgoingLayerIdx].classList.remove("is-active");
+
+        currentPhotoIdx = nextPhotoIdx;
+        activeLayerIdx = incomingLayerIdx;
+
+        if (useShortFirstRotation) {
+          isFirstRotation = false;
+          window.setTimeout(function () {
+            layers[0].style.transitionDuration = "";
+            layers[1].style.transitionDuration = "";
+          }, FIRST_ROTATION_CROSSFADE_MS + 80);
+        }
+        updateDots();
+      }
+
+      function clear() {
+        if (firstTimer !== null) {
+          window.clearTimeout(firstTimer);
+          firstTimer = null;
+        }
+        if (timer !== null) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function schedule() {
+        clear();
+        var firstDelay = AUTO_MS;
+        firstTimer = window.setTimeout(function () {
+          next();
+          timer = window.setInterval(next, AUTO_MS);
+          firstTimer = null;
+        }, firstDelay);
+      }
+
+      function pause() {
+        clear();
+      }
+
+      function resume() {
+        schedule();
+      }
+
+      preload();
+      showInitial();
+      updateDots();
+      schedule();
+
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          var i = parseInt(dot.getAttribute("data-consulting-hero-index"), 10);
+          if (Number.isNaN(i)) return;
+          goTo(i);
+        });
+      });
+
+      root.addEventListener("focusin", pause);
+      root.addEventListener("focusout", function (e) {
+        if (!root.contains(e.relatedTarget)) resume();
+      });
+    })();
+  </script>
+  <script>
+    (function () {
+      var btns = document.querySelectorAll("[data-open-inquiry-popup]");
+      if (!btns.length) return;
+      btns.forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          var url = btn.getAttribute("href") || "story-inquiry-popup.html";
+          window.open(url, "_blank", "noopener,noreferrer,width=980,height=860");
+        });
+      });
+    })();
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 / 회원가입</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="story-popup-body">
+  <main class="login-popup-main" aria-label="로그인">
+    <div class="container login-popup-container">
+      <!-- 배경/로고/이미지는 추후 assets에 넣고 연결할 예정입니다. -->
+      <img
+        class="login-popup-hero-image"
+        src="assets/로그인 페이지 이미지.jpg"
+        alt="로그인 페이지 이미지"
+      />
+
+      <p class="login-popup-bottom-text">우리는 사랑으로 일하고, 성공하는 기업을 만들어갑니다. </p>
+      <section class="login-popup-panel" aria-label="로그인 폼">
+        <div class="login-popup-brand">
+          <p class="login-popup-slogan">Business is LOVE.</p>
+          <p class="login-popup-welcome">Welcome to 가인지 Connect</p>
+        </div>
+
+        <div class="login-popup-login-grid">
+          <div class="login-popup-left">
+            <form class="login-popup-form" id="login-form" action="#" method="post">
+              <div class="login-popup-field">
+                <label for="login-id" class="sr-only">ID</label>
+                <input
+                  id="login-id"
+                  name="loginId"
+                  type="text"
+                  autocomplete="username"
+                  placeholder="ID"
+                  required
+                />
+              </div>
+              <div class="login-popup-field">
+                <label for="login-pw" class="sr-only">PW</label>
+                <input
+                  id="login-pw"
+                  name="loginPw"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="PW"
+                  required
+                />
+              </div>
+
+              <!-- 실제 로그인 기능은 연동 후 구현 -->
+          <button type="submit" class="login-popup-primary-btn">로그인</button>
+            </form>
+
+            <div class="login-popup-links" aria-label="계정 관련 링크">
+              <button type="button" class="login-popup-text-btn" data-login-action="signup">회원가입</button>
+              <button type="button" class="login-popup-text-btn" data-login-action="find">ID/PW 찾기</button>
+            </div>
+          </div>
+
+          <div class="login-popup-right-logo" aria-hidden="true">
+            <img src="assets/가인지 로고.png" alt="가인지" class="login-popup-side-logo" />
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById("login-form");
+      if (form) {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+        });
+      }
+    })();
+
+    // 로그인 팝업: 회원가입 버튼 → 별도 팝업 페이지로 연결
+    (function () {
+      var signupBtn = document.querySelector('[data-login-action="signup"]');
+      if (!signupBtn) return;
+
+      signupBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.open(
+          "signup-popup.html",
+          "_blank",
+          "noopener,noreferrer,width=1100,height=900"
+        );
+      });
+    })();
+  </script>
+</body>
+</html>
+

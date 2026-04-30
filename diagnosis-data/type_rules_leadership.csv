@@ -1,0 +1,13 @@
+diagnosisId,typeGroup,typeId,typeLabel,targetSectionId,priority,ruleDescription
+leadership,STRENGTH,S_TIME,시간관리 강점,time_mgmt,1,"RANK==1 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,STRENGTH,S_CONT,공헌집중 강점,contribution,2,"RANK==1 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,STRENGTH,S_STRG,강점활용 강점,strengths,3,"RANK==1 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,STRENGTH,S_PRIO,우선순위 강점,priority,4,"RANK==1 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,STRENGTH,S_DECI,의사결정 강점,decision,5,"RANK==1 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,STRENGTH,S_CORE,핵심가치 강점,core_values,6,"RANK==1 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,GROWTH,G_TIME,시간관리 성장포인트,time_mgmt,7,"RANK==6 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,GROWTH,G_CONT,공헌집중 성장포인트,contribution,8,"RANK==6 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,GROWTH,G_STRG,강점활용 성장포인트,strengths,9,"RANK==6 (1:랜람, 2:표준편차소, 3:priority)"
+leadership,GROWTH,G_PRIO,우선순위 성장포인트,priority,10,"RANK==6 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,GROWTH,G_DECI,의사결정 성장포인트,decision,11,"RANK==6 (1:랜덤, 2:표준편차소, 3:priority)"
+leadership,GROWTH,G_CORE,핵심가치 성장포인트,core_values,12,"RANK==6 (1:랜덤, 2:표준편차소, 3:priority)"

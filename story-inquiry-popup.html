@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>컨설팅 문의</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="story-popup-body">
+  <main class="story-page-main story-inquiry-main" aria-label="컨설팅 문의">
+    <div class="container story-page-container">
+      <section class="story-inquiry-card">
+        <img
+          class="story-inquiry-hero-image"
+          src="assets/문의하기.png"
+          alt="문의하기"
+        />
+        <h1 class="story-inquiry-title">문의하기</h1>
+        <p class="story-inquiry-desc">문의를 남겨주시면 담당 컨설턴트가 해결 방법을 제안해 드립니다.</p>
+
+        <form class="story-inquiry-form" id="story-inquiry-form" action="#" method="post">
+          <label class="story-inquiry-field">
+            <span>기업명</span>
+            <input type="text" name="company" required />
+          </label>
+          <label class="story-inquiry-field">
+            <span>성함 / 직책</span>
+            <input type="text" name="name" required />
+          </label>
+          <label class="story-inquiry-field">
+            <span>연락처</span>
+            <input type="tel" name="phone" required />
+          </label>
+          <label class="story-inquiry-field">
+            <span>이메일</span>
+            <input type="email" name="email" />
+          </label>
+          <label class="story-inquiry-field">
+            <span>문의 내용</span>
+            <textarea name="message" rows="5" placeholder="문의하실 내용을 적어주세요." required></textarea>
+          </label>
+
+          <p class="story-inquiry-status" id="story-inquiry-status" aria-live="polite"></p>
+
+          <div class="story-inquiry-actions">
+            <button type="submit" class="story-page-cta" id="story-inquiry-submit">문의하기</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script>
+    window.INQUIRY_SETTINGS = {
+      recipientEmail: "gainge.cs@gainge.com",
+      // TODO: 실제 운영 시 API URL 입력 (예: "https://your-domain.com/api/inquiries")
+      apiUrl: ""
+    };
+  </script>
+  <script src="js/inquiry.js"></script>
+</body>
+</html>

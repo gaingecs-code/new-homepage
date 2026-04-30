@@ -1,0 +1,8 @@
+diagnosisId,sectionId,aggregation,rounding
+gainge_mgmt,문화_만족,mean,1
+gainge_mgmt,인재_배치,mean,1
+gainge_mgmt,과업_추진,mean,1
+gainge_mgmt,가치_실천,mean,1
+gainge_mgmt,경쟁력_확보,mean,1
+gainge_mgmt,리더십_신뢰,mean,1
+gainge_mgmt,인재_양성,mean,1

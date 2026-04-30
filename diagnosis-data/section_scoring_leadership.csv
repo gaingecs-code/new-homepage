@@ -1,0 +1,7 @@
+diagnosisId,sectionId,aggregation,rounding
+leadership,time_mgmt,mean,1
+leadership,contribution,mean,1
+leadership,strengths,mean,1
+leadership,priority,mean,1
+leadership,decision,mean,1
+leadership,core_values,mean,1
