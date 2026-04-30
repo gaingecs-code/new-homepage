@@ -322,14 +322,20 @@ $(function () {
     storyPageUrls: { 1: "", 2: "", 3: "" },
   };
 
-  function initTestimonialsPageVideoPopupUI() {
-    var testimonialsPageVideoUrls = $.extend(
-      { 1: "", 2: "", 3: "" },
-      typeof window.TESTIMONIALS_PAGE_VIDEO_URLS === "object" &&
-        window.TESTIMONIALS_PAGE_VIDEO_URLS
+  /** 고객사례 VOC: JSON 키가 문자열 "1" 또는 숫자 1 일 때 모두 매칭 (컨설팅 VOC와 동일 패턴) */
+  function testimonialsPageVideoUrlForId(id) {
+    var raw =
+      typeof window.TESTIMONIALS_PAGE_VIDEO_URLS === "object" && window.TESTIMONIALS_PAGE_VIDEO_URLS
         ? window.TESTIMONIALS_PAGE_VIDEO_URLS
-        : {}
-    );
+        : {};
+    var key = String(id == null ? "" : id).trim();
+    if (!key) return "";
+    var v = raw[key];
+    if (v == null || v === "") v = raw[Number(key)];
+    return String(v != null ? v : "").trim();
+  }
+
+  function initTestimonialsPageVideoPopupUI() {
     var $testimonialsPagePopup = $("#testimonials-page-video-popup");
     if (!$testimonialsPagePopup.length) return;
     var $testimonialsPageIframe = $testimonialsPagePopup.find(".community-video-popup-iframe");
@@ -353,7 +359,7 @@ $(function () {
     }
 
     function openTestimonialsPageVideoPopup(id) {
-      var urlRaw = (testimonialsPageVideoUrls[id] || "").trim();
+      var urlRaw = testimonialsPageVideoUrlForId(id);
       var url = resolveMediaUrlForPopup(urlRaw);
       if (url) {
         if (isNativeVideoPopupUrl(urlRaw)) {
@@ -401,10 +407,13 @@ $(function () {
       });
     }
 
-    $("[data-testimonials-page-video]").on("click", function () {
-      var id = String($(this).attr("data-testimonials-page-video"));
-      openTestimonialsPageVideoPopup(id);
-    });
+    $(document)
+      .off("click.tpPageVideo", "[data-testimonials-page-video]")
+      .on("click.tpPageVideo", "[data-testimonials-page-video]", function (e) {
+        e.preventDefault();
+        var id = String($(this).attr("data-testimonials-page-video") || "").trim();
+        openTestimonialsPageVideoPopup(id);
+      });
 
     $testimonialsPagePopup
       .find(".community-video-popup-backdrop")
@@ -511,7 +520,8 @@ $(function () {
       typeof window.CONSULTING_VOC_VIDEO_URLS === "object" && window.CONSULTING_VOC_VIDEO_URLS
         ? window.CONSULTING_VOC_VIDEO_URLS
         : {};
-    var key = String(id);
+    var key = String(id == null ? "" : id).trim();
+    if (!key) return "";
     var v = raw[key];
     if (v == null || v === "") v = raw[Number(key)];
     return String(v != null ? v : "").trim();
@@ -589,21 +599,25 @@ $(function () {
       });
     }
 
-    $(document).on("click", "[data-consulting-voc-video]", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var vid = String($(this).attr("data-consulting-voc-video"));
-      openConsultingVocPopup(vid);
-    });
-
-    $(document).on("keydown", "[data-consulting-voc-video]", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
+    $(document)
+      .off("click.consultingVocVideo", "[data-consulting-voc-video]")
+      .on("click.consultingVocVideo", "[data-consulting-voc-video]", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var vid = String($(this).attr("data-consulting-voc-video"));
+        var vid = String($(this).attr("data-consulting-voc-video") || "").trim();
         openConsultingVocPopup(vid);
-      }
-    });
+      });
+
+    $(document)
+      .off("keydown.consultingVocVideo", "[data-consulting-voc-video]")
+      .on("keydown.consultingVocVideo", "[data-consulting-voc-video]", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          e.stopPropagation();
+          var vid = String($(this).attr("data-consulting-voc-video") || "").trim();
+          openConsultingVocPopup(vid);
+        }
+      });
 
     $consultingVocPopup
       .find(".community-video-popup-backdrop")
