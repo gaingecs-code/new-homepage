@@ -1141,6 +1141,8 @@ $(function () {
           escapeHtml(title) +
           '" data-board-popup-content-html="' +
           escapeHtml(contentHtml) +
+          '" data-board-search-text="' +
+          escapeHtml(contentPlain) +
           '" data-board-link-href="' +
           escapeHtml(href) +
           '">' +
@@ -1158,9 +1160,6 @@ $(function () {
           "</strong>" +
           '<span class="board-author">' +
           escapeHtml(author) +
-          "</span>" +
-          '<span class="board-content-source" data-admin-field="content">' +
-          escapeHtml(contentSummary) +
           "</span>" +
           "</span>" +
           "</a>" +
@@ -1248,7 +1247,7 @@ $(function () {
         " " +
         $item.find(".board-author").text() +
         " " +
-        $item.find(".board-content-source").text();
+        String($item.attr("data-board-search-text") || "");
       return hay.toLowerCase().indexOf(q) !== -1;
     }
 
