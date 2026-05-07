@@ -1,12 +1,37 @@
+function uniq(list) {
+  var seen = {};
+  var out = [];
+  (list || []).forEach(function (v) {
+    var s = String(v || "").trim();
+    if (!s || seen[s]) return;
+    seen[s] = true;
+    out.push(s);
+  });
+  return out;
+}
+
+function normalizeSupabaseUrl(raw) {
+  var s = String(raw || "").trim().replace(/\/+$/, "");
+  // 휴먼에러 흡수: URL에 /rest/v1을 넣어도 base URL로 정규화
+  return s.replace(/\/rest\/v1$/i, "");
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ ok: false, code: "METHOD_NOT_ALLOWED", message: "POST only" });
   }
 
-  const SUPABASE_URL = String(process.env.SUPABASE_URL || "").replace(/\/+$/, "");
-  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
+  const SUPABASE_URL = normalizeSupabaseUrl(
+    process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || ""
+  );
+  const SUPABASE_SERVICE_ROLE_KEY =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE ||
+    process.env.SUPABASE_SECRET_KEY ||
+    "";
+  const SUPABASE_ANON_KEY =
+    process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
   const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "";
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
@@ -44,33 +69,54 @@ module.exports = async function handler(req, res) {
       raw_payload: envelope,
     };
 
-    // key 타입(legacy JWT vs new secret)에 따라 apikey 헤더를 안전하게 선택
-    const serviceKeyLooksLikeJwt = /^eyJ/.test(SUPABASE_SERVICE_ROLE_KEY);
-    const apikeyHeader = serviceKeyLooksLikeJwt
-      ? SUPABASE_SERVICE_ROLE_KEY
-      : (SUPABASE_PUBLISHABLE_KEY || SUPABASE_ANON_KEY || SUPABASE_SERVICE_ROLE_KEY);
+    // 휴먼에러/키종류 혼용을 흡수하기 위해 인증 헤더 조합을 순차 시도
+    const keyCandidates = uniq([
+      SUPABASE_SERVICE_ROLE_KEY,
+      SUPABASE_ANON_KEY,
+      SUPABASE_PUBLISHABLE_KEY,
+    ]);
+    const attempts = [];
+    var inserted = null;
+    var success = false;
 
-    const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/inquiries`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        apikey: apikeyHeader,
-        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-        Prefer: "return=representation",
-      },
-      body: JSON.stringify(row),
-    });
+    for (var i = 0; i < keyCandidates.length; i += 1) {
+      var apikey = keyCandidates[i];
+      var authBearer = SUPABASE_SERVICE_ROLE_KEY || apikey;
 
-    if (!insertRes.ok) {
-      const text = await insertRes.text();
-      return res.status(500).json({
-        ok: false,
-        code: "SUPABASE_INSERT_FAILED",
-        message: text || "Supabase insert failed",
+      var insertRes = await fetch(`${SUPABASE_URL}/rest/v1/inquiries`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: apikey,
+          Authorization: `Bearer ${authBearer}`,
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify(row),
+      });
+
+      if (insertRes.ok) {
+        inserted = await insertRes.json();
+        success = true;
+        break;
+      }
+
+      var text = await insertRes.text();
+      attempts.push({
+        status: insertRes.status,
+        message: text || "",
+        keyPrefix: apikey.slice(0, 6),
       });
     }
 
-    const inserted = await insertRes.json();
+    if (!success) {
+      return res.status(500).json({
+        ok: false,
+        code: "SUPABASE_INSERT_FAILED",
+        message: "Supabase insert failed",
+        detail: attempts,
+      });
+    }
+
     const inquiryId = inserted && inserted[0] ? inserted[0].id : (inquiry.id || null);
 
     return res.status(200).json({
