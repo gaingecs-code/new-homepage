@@ -6,7 +6,6 @@ module.exports = async function handler(req, res) {
 
   const SUPABASE_URL = String(process.env.SUPABASE_URL || "").replace(/\/+$/, "");
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     return res.status(500).json({
@@ -47,8 +46,8 @@ module.exports = async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // secret key는 Authorization에 사용, apikey는 anon 키를 우선 사용
-        apikey: SUPABASE_ANON_KEY || SUPABASE_SERVICE_ROLE_KEY,
+        // REST 인증 실패를 피하기 위해 동일한 service-role JWT를 사용
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
         Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
         Prefer: "return=representation",
       },
