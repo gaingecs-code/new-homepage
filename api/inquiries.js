@@ -6,6 +6,8 @@ module.exports = async function handler(req, res) {
 
   const SUPABASE_URL = String(process.env.SUPABASE_URL || "").replace(/\/+$/, "");
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
+  const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "";
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     return res.status(500).json({
@@ -42,12 +44,17 @@ module.exports = async function handler(req, res) {
       raw_payload: envelope,
     };
 
+    // key 타입(legacy JWT vs new secret)에 따라 apikey 헤더를 안전하게 선택
+    const serviceKeyLooksLikeJwt = /^eyJ/.test(SUPABASE_SERVICE_ROLE_KEY);
+    const apikeyHeader = serviceKeyLooksLikeJwt
+      ? SUPABASE_SERVICE_ROLE_KEY
+      : (SUPABASE_PUBLISHABLE_KEY || SUPABASE_ANON_KEY || SUPABASE_SERVICE_ROLE_KEY);
+
     const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/inquiries`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // REST 인증 실패를 피하기 위해 동일한 service-role JWT를 사용
-        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        apikey: apikeyHeader,
         Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
         Prefer: "return=representation",
       },
