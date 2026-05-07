@@ -1107,6 +1107,10 @@ $(function () {
       .replace(/"/g, "&quot;");
   }
 
+  function stripHtmlToText(s) {
+    return String(s == null ? "" : s).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  }
+
   function buildTestimonialsBoardFromCasesPayload(raw) {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
@@ -1118,6 +1122,8 @@ $(function () {
         var author = item && item.authorName ? item.authorName : "-";
         var thumb = (item && (item.thumbnailUrl || item.imageUrl || item.featuredImageUrl)) || "";
         var contentHtml = (item && (item.contentHtml || item.content)) || "";
+        var contentPlain = stripHtmlToText(contentHtml);
+        var contentSummary = contentPlain.length > 120 ? contentPlain.slice(0, 120) + "..." : contentPlain;
         var industry = Array.isArray(item && item.industryTags) ? item.industryTags.join("|") : "";
         var scale = (item && item.companySize) || "";
         var consulting = Array.isArray(item && item.consultingTypeTags) ? item.consultingTypeTags.join("|") : "";
@@ -1134,6 +1140,10 @@ $(function () {
           '">' +
           '<a class="board-link" href="' +
           escapeHtml(href) +
+          '" data-board-popup-title="' +
+          escapeHtml(title) +
+          '" data-board-popup-content-html="' +
+          escapeHtml(contentHtml) +
           '">' +
           (thumb
             ? '<img class="board-thumb-image" src="' + escapeHtml(thumb) + '" alt="' + escapeHtml(title) + '" loading="lazy" decoding="async" />'
@@ -1145,7 +1155,7 @@ $(function () {
           escapeHtml(author) +
           "</span>" +
           '<span class="board-content-source" data-admin-field="content">' +
-          String(contentHtml) +
+          escapeHtml(contentSummary) +
           "</span>" +
           "</a>" +
           "</li>"
@@ -1431,7 +1441,11 @@ $(function () {
     $(document).off("keydown.boardArticle");
   }
 
-  function openBoardArticle() {
+  function openBoardArticle(title, contentHtml) {
+    var $articleTitle = $("#boardArticleTitle");
+    var $articleContent = $("#boardArticleContent");
+    if ($articleTitle.length) $articleTitle.text(String(title || ""));
+    if ($articleContent.length) $articleContent.html(String(contentHtml || ""));
     $boardOverlay.removeClass("hidden").attr("aria-hidden", "false");
     $("body").css("overflow", "hidden");
     $boardClose.focus();
@@ -1445,8 +1459,12 @@ $(function () {
   $(document).on("click", ".board-item", function (e) {
     if ($(e.target).closest(".board-author").length) return;
     e.preventDefault();
+    var $item = $(this);
+    var $link = $item.find(".board-link").first();
+    var title = $link.attr("data-board-popup-title") || $item.find(".board-title").text().trim();
+    var contentHtml = $link.attr("data-board-popup-content-html") || "";
     if ($boardOverlay.length) {
-      openBoardArticle();
+      openBoardArticle(title, contentHtml);
     }
   });
 
