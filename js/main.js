@@ -1145,9 +1145,12 @@ $(function () {
           '" data-board-popup-content-html="' +
           escapeHtml(contentHtml) +
           '">' +
+          '<span class="board-thumb-link">' +
           (thumb
             ? '<img class="board-thumb-image" src="' + escapeHtml(thumb) + '" alt="' + escapeHtml(title) + '" loading="lazy" decoding="async" />'
-            : "") +
+            : '<span class="board-thumb-image" aria-hidden="true"></span>') +
+          "</span>" +
+          '<span class="board-meta">' +
           '<strong class="board-title">' +
           escapeHtml(title) +
           "</strong>" +
@@ -1156,6 +1159,7 @@ $(function () {
           "</span>" +
           '<span class="board-content-source" data-admin-field="content">' +
           escapeHtml(contentSummary) +
+          "</span>" +
           "</span>" +
           "</a>" +
           "</li>"
