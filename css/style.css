@@ -4491,11 +4491,13 @@ body.corporate-education-page {
 }
 
 .board-author {
+  display: inline-block;
+  align-self: flex-end;
   font-size: 0.92rem;
   color: #cbd5e1;
   text-decoration: none;
-  width: 100%;
-  text-align: right;
+  width: auto;
+  text-align: left;
 }
 
 .board-author:hover {
