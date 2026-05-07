@@ -4645,8 +4645,8 @@ body.corporate-education-page {
 
 .board-article-modal {
   position: relative;
-  width: min(92vw, 1400px);
-  max-width: 1400px;
+  width: min(90vw, 1120px);
+  max-width: 1120px;
   background: var(--color-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);

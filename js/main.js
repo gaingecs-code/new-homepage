@@ -1403,6 +1403,8 @@ $(function () {
   var $boardOverlay = $("#boardArticleOverlay");
   var $boardClose = $("#boardArticleClose");
   var AUTHOR_POSTS_STORAGE_KEY = "testimonialsBoardPosts";
+  var boardModalScrollTop = 0;
+  var boardModalBodyLockPrev = null;
 
   function collectBoardPosts() {
     var posts = [];
@@ -1441,7 +1443,17 @@ $(function () {
 
   function closeBoardArticle() {
     $boardOverlay.addClass("hidden").attr("aria-hidden", "true");
-    $("body").css("overflow", "");
+    if (boardModalBodyLockPrev) {
+      document.documentElement.style.overflow = boardModalBodyLockPrev.htmlOverflow;
+      document.body.style.overflow = boardModalBodyLockPrev.overflow;
+      document.body.style.position = boardModalBodyLockPrev.position;
+      document.body.style.top = boardModalBodyLockPrev.top;
+      document.body.style.left = boardModalBodyLockPrev.left;
+      document.body.style.right = boardModalBodyLockPrev.right;
+      document.body.style.width = boardModalBodyLockPrev.width;
+      window.scrollTo(0, boardModalScrollTop);
+      boardModalBodyLockPrev = null;
+    }
     $boardClose.off("keydown.boardArticle");
     $(document).off("keydown.boardArticle");
   }
@@ -1452,7 +1464,30 @@ $(function () {
     if ($articleTitle.length) $articleTitle.text(String(title || ""));
     if ($articleContent.length) $articleContent.html(String(contentHtml || ""));
     $boardOverlay.removeClass("hidden").attr("aria-hidden", "false");
-    $("body").css("overflow", "hidden");
+    if (!boardModalBodyLockPrev) {
+      boardModalScrollTop =
+        window.pageYOffset ||
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+      boardModalBodyLockPrev = {
+        htmlOverflow: document.documentElement.style.overflow,
+        overflow: document.body.style.overflow,
+        position: document.body.style.position,
+        top: document.body.style.top,
+        left: document.body.style.left,
+        right: document.body.style.right,
+        width: document.body.style.width,
+      };
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = -boardModalScrollTop + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
     $boardClose.focus();
     $(document).on("keydown.boardArticle", function (e) {
       if (e.key === "Escape") {
