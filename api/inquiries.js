@@ -16,10 +16,53 @@ function normalizeSupabaseUrl(raw) {
   return s.replace(/\/rest\/v1$/i, "");
 }
 
+var RATE_WINDOW_MS = 60 * 1000; // 1분
+var RATE_LIMIT_COUNT = 3; // IP당 분당 3회
+var rateBuckets = Object.create(null);
+
+function getClientIp(req) {
+  var xf = String((req.headers && req.headers["x-forwarded-for"]) || "").trim();
+  if (xf) return xf.split(",")[0].trim();
+  return (
+    (req.headers && req.headers["x-real-ip"]) ||
+    (req.socket && req.socket.remoteAddress) ||
+    "unknown"
+  );
+}
+
+function checkRateLimit(ip) {
+  var now = Date.now();
+  var bucket = rateBuckets[ip];
+  if (!bucket || now - bucket.windowStart > RATE_WINDOW_MS) {
+    rateBuckets[ip] = { windowStart: now, count: 1 };
+    return { limited: false, retryAfterSec: 0 };
+  }
+
+  bucket.count += 1;
+  if (bucket.count > RATE_LIMIT_COUNT) {
+    var retryMs = RATE_WINDOW_MS - (now - bucket.windowStart);
+    return { limited: true, retryAfterSec: Math.max(1, Math.ceil(retryMs / 1000)) };
+  }
+
+  return { limited: false, retryAfterSec: 0 };
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ ok: false, code: "METHOD_NOT_ALLOWED", message: "POST only" });
+  }
+
+  var ip = getClientIp(req);
+  var rl = checkRateLimit(ip);
+  if (rl.limited) {
+    res.setHeader("Retry-After", String(rl.retryAfterSec));
+    return res.status(429).json({
+      ok: false,
+      code: "RATE_LIMITED",
+      message: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요.",
+      retryAfterSec: rl.retryAfterSec,
+    });
   }
 
   const SUPABASE_URL = normalizeSupabaseUrl(
