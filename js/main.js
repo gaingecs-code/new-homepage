@@ -1099,6 +1099,77 @@ $(function () {
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
 
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function buildTestimonialsBoardFromCasesPayload(raw) {
+    var $list = $(".testimonials-board .board-list");
+    if (!$list.length) return;
+    var arr = raw && Array.isArray(raw.items) ? raw.items : [];
+    if (!arr.length) return;
+    var html = arr
+      .map(function (item, idx) {
+        var title = item && item.title ? item.title : "고객 사례";
+        var author = item && item.authorName ? item.authorName : "-";
+        var thumb = (item && (item.thumbnailUrl || item.imageUrl || item.featuredImageUrl)) || "";
+        var contentHtml = (item && (item.contentHtml || item.content)) || "";
+        var industry = Array.isArray(item && item.industryTags) ? item.industryTags.join("|") : "";
+        var scale = (item && item.companySize) || "";
+        var consulting = Array.isArray(item && item.consultingTypeTags) ? item.consultingTypeTags.join("|") : "";
+        var href = (item && item.link) || "#";
+        return (
+          '<li class="board-item" data-admin-item-key="' +
+          escapeHtml((item && item.id) || "case-" + (idx + 1)) +
+          '" data-testimonial-industry="' +
+          escapeHtml(industry) +
+          '" data-testimonial-scale="' +
+          escapeHtml(scale) +
+          '" data-testimonial-consulting="' +
+          escapeHtml(consulting) +
+          '">' +
+          '<a class="board-link" href="' +
+          escapeHtml(href) +
+          '">' +
+          (thumb
+            ? '<img class="board-thumb-image" src="' + escapeHtml(thumb) + '" alt="' + escapeHtml(title) + '" loading="lazy" decoding="async" />'
+            : "") +
+          '<strong class="board-title">' +
+          escapeHtml(title) +
+          "</strong>" +
+          '<span class="board-author">' +
+          escapeHtml(author) +
+          "</span>" +
+          '<span class="board-content-source" data-admin-field="content">' +
+          String(contentHtml) +
+          "</span>" +
+          "</a>" +
+          "</li>"
+        );
+      })
+      .join("");
+    $list.html(html);
+  }
+
+  if ($(".testimonials-board .board-list").length && window.SiteData) {
+    window.SiteData.resolveSettingPayload({
+      settingKey: "admin.local.cases.v1",
+      url: "data/cases.json",
+      inlineId: "",
+      validate: function (d) {
+        return !!(d && Array.isArray(d.items));
+      },
+      defaults: { items: [] },
+    }).then(function (payload) {
+      buildTestimonialsBoardFromCasesPayload(payload || { items: [] });
+      applyTestimonialsBoardFilter();
+    });
+  }
+
   // 고객 사례 페이지: 상세분류 + 검색어로 게시글 필터
   // 게시글 data-testimonial-* 는 Admin 체크박스 분류와 동일 문자열; 복수 선택 시 "|" 구분(예: ICT·전자|금융)
   function applyTestimonialsBoardFilter() {
@@ -1917,7 +1988,8 @@ $(function () {
     }
 
     if (window.SiteData) {
-      window.SiteData.resolvePayload({
+      window.SiteData.resolveSettingPayload({
+        settingKey: "admin.local.books.v1",
         url: "data/books.json",
         inlineId: "books-data",
         validate: window.SiteData.validateBooksPayload,
@@ -1928,6 +2000,184 @@ $(function () {
     } else {
       applyBooksPayload(parseInlineBooks() || DEFAULT_BOOKS_PAYLOAD);
     }
+  })();
+
+  (function initCorporateEducationFromRemote() {
+    if (!$(".corporate-education-intro-section").length || !window.SiteData) return;
+    window.SiteData.resolveSettingPayload({
+      settingKey: "admin.local.education-programs.v1",
+      url: "data/corporate-education-programs.json",
+      inlineId: "corporate-education-programs-data",
+      validate: function (d) {
+        return !!(d && Array.isArray(d.items));
+      },
+      defaults: { items: [] },
+    }).then(function (payload) {
+      var items = payload && Array.isArray(payload.items) ? payload.items : [];
+      if (!items.length) return;
+      var byGroup = {
+        "자격증 과정": items.filter(function (x) { return x && x.group === "자격증 과정"; }),
+        "직급별 교육": items.filter(function (x) { return x && x.group === "직급별 교육"; }),
+        "직무별 교육": items.filter(function (x) { return x && x.group === "직무별 교육"; }),
+      };
+      var groups = [
+        { name: "자격증 과정", key: "intro-block-certification" },
+        { name: "직급별 교육", key: "intro-block-onboarding" },
+        { name: "직무별 교육", key: "intro-block-workshop" },
+      ];
+      groups.forEach(function (g) {
+        var $block = $('.corporate-education-intro-block[data-admin-item-key="' + g.key + '"]');
+        var $list = $block.find(".corporate-education-intro-items--workshop").first();
+        if (!$block.length || !$list.length) return;
+        var $tpl = $list.find(".corporate-education-intro-item").first();
+        if (!$tpl.length) return;
+        var html = "";
+        (byGroup[g.name] || []).forEach(function (it) {
+          var $n = $tpl.clone();
+          $n.attr("data-admin-item-key", it.id || "");
+          $n.find(".corporate-education-intro-card-title").text(it.title || "");
+          $n.find(".corporate-education-intro-image").attr("src", it.imageUrl || "");
+          var tags = Array.isArray(it.hashtags) ? it.hashtags : [];
+          var $tags = $n.find(".corporate-education-intro-hashtags").empty();
+          tags.forEach(function (t) {
+            $tags.append($("<span>").addClass("corporate-education-intro-hashtag").text(t || ""));
+          });
+          $n.find(".corporate-education-intro-overlay-text").text(it.overview || "");
+          var targets = Array.isArray(it.targets) ? it.targets : [];
+          var $targets = $n.find(".corporate-education-intro-targets").empty();
+          targets.forEach(function (t) {
+            $targets.append($("<p>").addClass("corporate-education-intro-target").attr("data-admin-field", "target").text(t || ""));
+          });
+          $n.find(".corporate-education-intro-meta").text(it.schedule || "");
+          $n.find(".corporate-education-intro-cta").attr("href", it.link || "#");
+          $n.removeClass("corporate-education-intro-item--ended").removeAttr("aria-label");
+          $n.find(".corporate-education-intro-ended-panel").remove();
+          if (it.ended === true) {
+            $n.addClass("corporate-education-intro-item--ended").attr("aria-label", "이 교육은 종료되었습니다.");
+            var $media = $n.find(".corporate-education-intro-media").first();
+            if ($media.length) {
+              $media.append(
+                '<div class="corporate-education-intro-ended-panel" role="presentation" aria-hidden="true">' +
+                  '<div class="corporate-education-intro-ended-shade" aria-hidden="true"></div>' +
+                  '<p class="corporate-education-intro-ended-text">이 교육은 종료되었습니다.</p>' +
+                "</div>"
+              );
+            }
+          }
+          html += $("<div>").append($n).html();
+        });
+        if (html) $list.html(html);
+      });
+      if (typeof window.initCorporateEducationWorkshopCarousel === "function") {
+        window.initCorporateEducationWorkshopCarousel();
+      }
+    });
+  })();
+
+  (function initEducationCalendarFromRemote() {
+    if (!$(".corporate-education-calendar-section").length || !window.SiteData) return;
+    window.SiteData.resolveSettingPayload({
+      settingKey: "admin.local.education-calendar.v1",
+      url: "data/corporate-education-calendar.json",
+      inlineId: "",
+      validate: function (d) {
+        return !!(d && Array.isArray(d.rows));
+      },
+      defaults: { rows: [] },
+    }).then(function (payload) {
+      var rows = payload && Array.isArray(payload.rows) ? payload.rows : [];
+      if (!rows.length) return;
+      var $section = $(".corporate-education-calendar-section");
+      $section.find(".community-calendar-title").text(payload.title || "기업교육 캘린더");
+      $section.find(".community-calendar-guide").text(payload.guide || "");
+      var $grid = $section.find(".community-calendar-grid");
+      var $head = $grid.find(".community-calendar-row--head").first();
+      $grid.find(".community-calendar-row").not(".community-calendar-row--head").remove();
+      rows.forEach(function (r) {
+        var $row = $('<div class="community-calendar-row" role="row"></div>');
+        var $program = $('<div class="community-calendar-cell community-calendar-cell--program" role="rowheader"></div>');
+        $program.append($("<strong>").addClass("community-calendar-program-title").text(r.program || ""));
+        $row.append($program);
+        for (var m = 1; m <= 12; m += 1) {
+          var entries = (r.monthEntries && r.monthEntries[String(m)]) || [];
+          var $cell = $('<div class="community-calendar-cell"></div>');
+          if (!entries.length) {
+            $cell.append('<span class="community-calendar-dash">-</span>');
+          } else {
+            entries.forEach(function (e) {
+              if (e && e.link) {
+                $cell.append(
+                  $('<a class="community-calendar-pill community-calendar-pill--btn" target="_blank" rel="noopener noreferrer"></a>')
+                    .attr("href", e.link)
+                    .text(e.label || "")
+                );
+              } else {
+                $cell.append($('<span class="community-calendar-pill"></span>').text((e && e.label) || ""));
+              }
+            });
+          }
+          $row.append($cell);
+        }
+        $head.after($row);
+      });
+    });
+  })();
+
+  (function initCommunityCalendarFromRemote() {
+    if (!$(".community-main").length || !window.SiteData) return;
+    window.SiteData.resolveSettingPayload({
+      settingKey: "admin.local.community-calendar.v1",
+      url: "data/community-calendar.json",
+      inlineId: "",
+      validate: function (d) {
+        return !!(d && Array.isArray(d.rows));
+      },
+      defaults: { rows: [] },
+    }).then(function (payload) {
+      var rows = payload && Array.isArray(payload.rows) ? payload.rows : [];
+      if (!rows.length) return;
+      $(".community-calendar-title").text(payload.title || "커뮤니티 캘린더");
+      $(".community-calendar-guide").text(payload.guide || "");
+      if (payload.ctaLinks) {
+        if (payload.ctaLinks.conference) $('[data-community-link="conferenceField"]').attr("href", payload.ctaLinks.conference);
+        if (payload.ctaLinks.growthClub) $('[data-community-link="growthClub"]').attr("href", payload.ctaLinks.growthClub);
+        if (payload.ctaLinks.ccClass) $('[data-community-link="ccClass"]').attr("href", payload.ctaLinks.ccClass);
+      }
+      var $grid = $(".community-calendar-grid").first();
+      var $head = $grid.find(".community-calendar-row--head").first();
+      $grid.find(".community-calendar-row").not(".community-calendar-row--head").remove();
+      rows.forEach(function (r) {
+        var $row = $('<div class="community-calendar-row" role="row"></div>');
+        var $program = $('<div class="community-calendar-cell community-calendar-cell--program" role="rowheader"></div>');
+        $program.append($("<strong>").addClass("community-calendar-program-title").text(r.program || ""));
+        if (r.programMeta) $program.append($("<span>").addClass("community-calendar-program-meta").text(r.programMeta));
+        if (r.place) {
+          var $place = $('<span class="community-calendar-program-place"><em>장소</em> </span>');
+          $place.append(document.createTextNode(r.place));
+          $program.append($place);
+        }
+        $row.append($program);
+        for (var m = 1; m <= 12; m += 1) {
+          var entries = (r.monthEntries && r.monthEntries[String(m)]) || [];
+          var $cell = $('<div class="community-calendar-cell"></div>');
+          if (!entries.length) {
+            $cell.append('<span class="community-calendar-dash">-</span>');
+          } else {
+            entries.forEach(function (e) {
+              var hasLink = !!(e && e.link);
+              var $pill = hasLink
+                ? $('<a class="community-calendar-pill community-calendar-pill--btn" target="_blank" rel="noopener noreferrer"></a>').attr("href", e.link)
+                : $('<span class="community-calendar-pill"></span>');
+              $pill.text((e && e.label) || "");
+              $cell.append($pill);
+              if (e && e.note) $cell.append($('<span class="community-calendar-note"></span>').text(e.note));
+            });
+          }
+          $row.append($cell);
+        }
+        $head.after($row);
+      });
+    });
   })();
 });
 

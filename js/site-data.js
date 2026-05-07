@@ -63,6 +63,33 @@
       });
   };
 
+  SiteData.resolveSettingPayload = function (opts) {
+    var settingKey = String(opts.settingKey || "").trim();
+    if (!settingKey) return SiteData.resolvePayload(opts);
+    if (SiteData.isFileProtocol()) return SiteData.resolvePayload(opts);
+    var validate =
+      typeof opts.validate === "function"
+        ? opts.validate
+        : function () {
+            return true;
+          };
+    return fetch("/api/public-settings?key=" + encodeURIComponent(settingKey), {
+      cache: "no-store",
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("public-settings failed");
+        return r.json();
+      })
+      .then(function (j) {
+        var v = j && j.value;
+        if (validate(v)) return v;
+        return SiteData.resolvePayload(opts);
+      })
+      .catch(function () {
+        return SiteData.resolvePayload(opts);
+      });
+  };
+
   SiteData.validateBooksPayload = function (d) {
     return !!(d && Array.isArray(d.items) && d.items.length > 0);
   };
