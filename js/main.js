@@ -1162,7 +1162,10 @@ $(function () {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
     var arr = raw && Array.isArray(raw.items) ? raw.items : [];
-    if (!arr.length) return;
+    if (!arr.length) {
+      $list.empty();
+      return;
+    }
     var html = arr
       .map(function (item, idx) {
         var title = item && item.title ? item.title : "고객 사례";
