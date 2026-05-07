@@ -4,6 +4,8 @@
  */
 window.COMMUNITY_INTRO_LINKS = {
   conference: "https://gainge.com/contents/products/980",
+  /** 현장 섹션 「컨퍼런스 참여하기」 CTA 전용 */
+  conferenceField: "https://gainge.com/contents/products/1013",
   growthClub: "https://gainge.com/contents/products/1",
   ccClass: "https://gainge.com/contents/products/604"
 };
@@ -11,7 +13,7 @@ window.COMMUNITY_INTRO_LINKS = {
 /**
  * 캘린더 섹션 연간 캘린더 이미지 (admin에서 변경 가능)
  */
-window.COMMUNITY_CALENDAR_IMAGE = "assets/연간 캘린더 샘플.jpg";
+window.COMMUNITY_CALENDAR_IMAGE = "assets/연간 캘린더 샘플.webp";
 
 /**
  * 소개영상 섹션 - 썸네일·영상 URL (admin에서 추가/삭제·변경 가능)
@@ -19,15 +21,15 @@ window.COMMUNITY_CALENDAR_IMAGE = "assets/연간 캘린더 샘플.jpg";
  */
 window.COMMUNITY_VIDEOS = {
   conference: {
-    thumbnail: "assets/컨퍼런스 썸네일 샘플.jpg",
+    thumbnail: "assets/컨퍼런스 썸네일 샘플.webp",
     url: "https://youtu.be/-Gp9yHmaKeE"
   },
   growthClub: {
-    thumbnail: "assets/성장클럽 썸네일 샘플.jpg",
+    thumbnail: "assets/성장클럽 썸네일 샘플.webp",
     url: "https://youtu.be/BFG_4S2g42I"
   },
   ccClass: {
-    thumbnail: "assets/CC클래스 썸네일 샘플.jpg",
+    thumbnail: "assets/CC클래스 썸네일 샘플.webp",
     url: "https://youtu.be/YADlfRbZ6R0"
   }
 };
@@ -50,9 +52,39 @@ function communityVideoEmbedUrl(url) {
 }
 
 (function () {
+  var communityPopupScrollTop = 0;
+  var communityPopupBodyLockPrev = null;
+
+  function lockBodyForCommunityPopup() {
+    if (communityPopupBodyLockPrev) return;
+    communityPopupScrollTop =
+      window.pageYOffset ||
+      window.scrollY ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+    communityPopupBodyLockPrev = {
+      htmlOverflow: document.documentElement.style.overflow,
+      overflow: document.body.style.overflow,
+      touchAction: document.body.style.touchAction
+    };
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+  }
+
+  function unlockBodyForCommunityPopup() {
+    if (!communityPopupBodyLockPrev) return;
+    document.documentElement.style.overflow = communityPopupBodyLockPrev.htmlOverflow;
+    document.body.style.overflow = communityPopupBodyLockPrev.overflow;
+    document.body.style.touchAction = communityPopupBodyLockPrev.touchAction;
+    window.scrollTo(0, communityPopupScrollTop);
+    communityPopupBodyLockPrev = null;
+  }
+
   var links = window.COMMUNITY_INTRO_LINKS;
   if (!links) return;
-  ["conference", "growthClub", "ccClass"].forEach(function (key) {
+  ["conference", "conferenceField", "growthClub", "ccClass"].forEach(function (key) {
     var url = links[key];
     if (!url) return;
     document.querySelectorAll('[data-community-link="' + key + '"]').forEach(function (el) {
@@ -104,7 +136,7 @@ function communityVideoEmbedUrl(url) {
               item && item.url ? communityVideoEmbedUrl(item.url) : "about:blank"
             );
             popup.removeAttribute("hidden");
-            document.body.style.overflow = "hidden";
+            lockBodyForCommunityPopup();
           }
         });
       });
@@ -116,7 +148,7 @@ function communityVideoEmbedUrl(url) {
     var closePopup = function () {
       var iframe = popup.querySelector(".community-video-popup-iframe");
       popup.setAttribute("hidden", "");
-      document.body.style.overflow = "";
+      unlockBodyForCommunityPopup();
       if (iframe) iframe.setAttribute("src", "");
     };
     popup.querySelector(".community-video-popup-backdrop").addEventListener("click", closePopup);

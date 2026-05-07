@@ -4,9 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>가인지 컨설팅 그룹</title>
+  <!-- 히어로 로테이션 초기 두 장: 스타일시트보다 먼저 요청(data/home.json heroRotationImages 와 동일 순서 유지) -->
+  <link rel="preload" as="image" href="assets/images/메인페이지1.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/images/메인페이지2.webp" fetchpriority="high" />
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    crossorigin
   />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -15,7 +19,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html#hero" class="logo">
-        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+        <img src="assets/헤더용 신규 로고 1.webp" alt="가인지 컨설팅 그룹 로고" />
       </a>
       <nav class="main-nav">
         <button class="nav-toggle" aria-label="메뉴 열기">
@@ -45,11 +49,16 @@
   <main class="home-main" aria-label="가인지 컨설팅 그룹">
     <section class="hero-section home-hero-section" id="hero" aria-label="메인 히어로">
       <div class="home-hero-backdrop" aria-hidden="true">
-        <div class="home-hero-backdrop-images">
-          <div class="home-hero-backdrop-blur"></div>
-          <div class="home-hero-backdrop-main"></div>
+        <div class="consulting-group-photo-bg consulting-group-photo-bg-a" aria-hidden="true">
+          <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+          <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
+        </div>
+        <div class="consulting-group-photo-bg consulting-group-photo-bg-b" aria-hidden="true">
+          <div class="consulting-group-photo-bg-fill" aria-hidden="true"></div>
+          <div class="consulting-group-photo-bg-main" aria-hidden="true"></div>
         </div>
       </div>
+      <div class="consulting-group-photo-overlay home-hero-photo-overlay" aria-hidden="true"></div>
       <div class="container home-hero-container">
         <div class="home-hero-split">
           <div class="home-hero-col home-hero-col--text">
@@ -103,7 +112,7 @@
         <h2 id="home-voc-heading" class="sr-only">VOC</h2>
         <div class="home-voc-logo-wrap" aria-hidden="true">
           <span class="home-voc-logo-arrow" aria-hidden="true">▼</span>
-          <img src="assets/헤더용 신규 로고 1.png" alt="" class="home-voc-logo" />
+          <img src="assets/헤더용 신규 로고 1.webp" alt="" class="home-voc-logo" />
           <span class="home-voc-logo-arrow" aria-hidden="true">▼</span>
         </div>
         <h3 class="home-voc-section-title">고객 스토리</h3>
@@ -129,7 +138,7 @@
               </div>
               <div class="home-voc-media-layer home-voc-media-layer--thumb" data-home-voc-thumb-layer>
                 <div class="home-voc-image-wrap">
-                  <img src="assets/분할면 태향.png" alt="태향 사례" class="home-voc-image" loading="lazy" decoding="async" />
+                  <img src="assets/분할면 태향.webp" alt="태향 사례" class="home-voc-image" loading="lazy" decoding="async" />
                   <span class="home-voc-play-btn" aria-hidden="true">
                     <span class="home-voc-play-btn__ring">
                       <span class="home-voc-play-btn__tri"></span>
@@ -198,7 +207,7 @@
               </div>
               <div class="home-voc-media-layer home-voc-media-layer--thumb" data-home-voc-thumb-layer>
                 <div class="home-voc-image-wrap">
-                  <img src="assets/분할면 실란트로.png" alt="실란트로 사례" class="home-voc-image" loading="lazy" decoding="async" />
+                  <img src="assets/분할면 실란트로.webp" alt="실란트로 사례" class="home-voc-image" loading="lazy" decoding="async" />
                   <span class="home-voc-play-btn" aria-hidden="true">
                     <span class="home-voc-play-btn__ring">
                       <span class="home-voc-play-btn__tri"></span>
@@ -229,7 +238,7 @@
               </div>
               <div class="home-voc-media-layer home-voc-media-layer--thumb" data-home-voc-thumb-layer>
                 <div class="home-voc-image-wrap">
-                  <img src="assets/분할면 바이오닷.png" alt="바이오닷 사례" class="home-voc-image" loading="lazy" decoding="async" />
+                  <img src="assets/분할면 바이오닷.webp" alt="바이오닷 사례" class="home-voc-image" loading="lazy" decoding="async" />
                   <span class="home-voc-play-btn" aria-hidden="true">
                     <span class="home-voc-play-btn__ring">
                       <span class="home-voc-play-btn__tri"></span>
@@ -293,7 +302,7 @@
           <a
             class="corporate-education-intro-cta"
             href="story-inquiry-popup.html"
-            onclick="window.open(this.href, 'educationInquiryPopup', 'width=836,height=900,scrollbars=yes,resizable=yes'); return false;"
+            onclick="window.open(this.href, 'educationInquiryPopup', 'width=760,height=900,scrollbars=yes,resizable=yes'); return false;"
           >
             컨설팅 문의하기
           </a>
@@ -314,7 +323,7 @@
               aria-label="가인지 경영 진단(약식) 새 창에서 시작"
             >
               <img
-                src="assets/진단 블럭 1.jpg"
+                src="assets/진단 블럭 1.webp"
                 alt=""
                 class="home-diagnosis-slot-img"
                 loading="lazy"
@@ -345,7 +354,7 @@
               aria-label="기업 리더십 진단(약식) 새 창에서 시작"
             >
               <img
-                src="assets/진단 블럭 2.jpg"
+                src="assets/진단 블럭 2.webp"
                 alt=""
                 class="home-diagnosis-slot-img"
                 loading="lazy"
@@ -376,7 +385,7 @@
               aria-label="조직 역동성 진단(약식) 새 창에서 시작"
             >
               <img
-                src="assets/진단 블럭 3.jpg"
+                src="assets/진단 블럭 3.webp"
                 alt=""
                 class="home-diagnosis-slot-img"
                 loading="lazy"
@@ -413,43 +422,21 @@
     ></div>
   </main>
 
-  <!-- 메인 히어로 영상 (HOME_HERO_VIDEO_URL · mp4 또는 embed URL) -->
-  <div class="community-video-popup" id="home-hero-video-popup" role="dialog" aria-modal="true" aria-label="소개 영상" hidden>
-    <div class="community-video-popup-backdrop"></div>
-    <div class="community-video-popup-inner">
-      <button type="button" class="community-video-popup-close" aria-label="닫기">&times;</button>
-      <div class="community-video-popup-body">
-        <iframe class="community-video-popup-iframe" title="소개 영상" allowfullscreen hidden></iframe>
-        <video
-          class="testimonial-popup-video-native"
-          controls
-          playsinline
-          preload="metadata"
-          title="소개 영상"
-          hidden
-        ></video>
-        <div class="home-testimonial-video-placeholder">
-          <p>영상이 준비 중입니다.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
       <div class="footer-top-row">
         <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
-          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+          <img src="assets/헤더용 신규 로고 1.webp" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
         </a>
         <div class="footer-social-icons" aria-label="SNS 바로가기">
           <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
-            <img src="assets/1.png" alt="" />
+            <img src="assets/1.webp" alt="" />
           </a>
           <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
-            <img src="assets/푸터 인스타.png" alt="" />
+            <img src="assets/푸터 인스타.webp" alt="" />
           </a>
           <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
-            <img src="assets/푸터 블로그.png" alt="" />
+            <img src="assets/푸터 블로그.webp" alt="" />
           </a>
         </div>
       </div>
@@ -467,18 +454,20 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="js/site-data.js"></script>
+  <script src="js/hero-rotation-config.js"></script>
+  <script src="js/hero-photo-prefetch.js"></script>
+  <script src="js/hero-rotation-unified.js"></script>
   <script src="js/page-init-home.js"></script>
   <!-- data/home.json 과 동기화. file:// 에서 메인 히어로·로고 등 폴백 -->
   <script type="application/json" id="home-page-data">
 {
   "updatedAt": "2026-04-29T00:00:00.000Z",
-  "heroVideoUrl": "assets/메인페이지.mp4",
   "heroRotationImages": [
-    "assets/images/메인페이지1.jpg",
-    "assets/images/메인페이지2.JPG",
-    "assets/images/메인페이지3.jpg",
-    "assets/images/메인페이지4.jpg",
-    "assets/images/메인페이지5.jpg"
+    "assets/images/메인페이지1.webp",
+    "assets/images/메인페이지2.webp",
+    "assets/images/메인페이지3.webp",
+    "assets/images/메인페이지4.webp",
+    "assets/images/메인페이지5.webp"
   ],
   "logoSlotImages": {
     "1": [

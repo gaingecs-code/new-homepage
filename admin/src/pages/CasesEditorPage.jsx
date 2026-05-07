@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -34,25 +34,40 @@ function IconAlignRight() {
 /** 이미지 블록 좌·중·우 배치 (그림 상자 위치) */
 function IconImageAlignLeft() {
   return (
-    <svg width="1.1em" height="1.1em" viewBox="0 0 24 24" aria-hidden>
-      <rect x="2" y="5" width="9" height="7" rx="1" fill="currentColor" opacity="0.38" />
-      <path fill="currentColor" d="M13 7h9v1.5h-9V7zm0 3.25h7v1.5H13v-1.5zm0 3.25h9v1.5h-9V13.5z" opacity="0.9" />
+    <svg width="1.76em" height="1.76em" viewBox="0 0 24 24" aria-hidden>
+      <rect x="2.8" y="5.2" width="8.6" height="8.6" rx="1.2" fill="currentColor" />
+      <path d="M4.3 11.3l1.9-2.1l2 2.3l1.3-1.5l1.4 2.3" fill="none" stroke="#ffffff" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="13.6" y1="6.6" x2="21.4" y2="6.6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="13.6" y1="10.2" x2="21.4" y2="10.2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="13.6" y1="13.8" x2="21.4" y2="13.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="2.8" y1="17.6" x2="21.4" y2="17.6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
     </svg>
   );
 }
 function IconImageAlignCenter() {
   return (
-    <svg width="1.1em" height="1.1em" viewBox="0 0 24 24" aria-hidden>
-      <rect x="7.5" y="5" width="9" height="7" rx="1" fill="currentColor" opacity="0.38" />
-      <path fill="currentColor" d="M3 7h18v1.5H3V7zm2 3.25h14v1.5H5v-1.5zm-2 3.25h18v1.5H3V13.5z" opacity="0.9" />
+    <svg width="1.76em" height="1.76em" viewBox="0 0 24 24" aria-hidden>
+      <line x1="2.8" y1="6.6" x2="8.6" y2="6.6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="15.4" y1="6.6" x2="21.2" y2="6.6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <rect x="8.6" y="5.2" width="6.8" height="8.6" rx="1.2" fill="currentColor" />
+      <path d="M9.8 11.3l1.4-1.8l1.8 2l1.1-1.4l1.3 2.1" fill="none" stroke="#ffffff" strokeWidth="1.05" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="2.8" y1="10.2" x2="6.8" y2="10.2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="17.2" y1="10.2" x2="21.2" y2="10.2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="2.8" y1="13.8" x2="8" y2="13.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="16" y1="13.8" x2="21.2" y2="13.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="2.8" y1="17.6" x2="21.2" y2="17.6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
     </svg>
   );
 }
 function IconImageAlignRight() {
   return (
-    <svg width="1.1em" height="1.1em" viewBox="0 0 24 24" aria-hidden>
-      <rect x="13" y="5" width="9" height="7" rx="1" fill="currentColor" opacity="0.38" />
-      <path fill="currentColor" d="M2 7h9v1.5H2V7zm2 3.25h7v1.5H4v-1.5zm-2 3.25h9v1.5H2V13.5z" opacity="0.9" />
+    <svg width="1.76em" height="1.76em" viewBox="0 0 24 24" aria-hidden>
+      <line x1="2.6" y1="6.6" x2="10.4" y2="6.6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="2.6" y1="10.2" x2="10.4" y2="10.2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <line x1="2.6" y1="13.8" x2="10.4" y2="13.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+      <rect x="12.6" y="5.2" width="8.6" height="8.6" rx="1.2" fill="currentColor" />
+      <path d="M14 11.3l1.9-2.1l2 2.3l1.3-1.5l1.4 2.3" fill="none" stroke="#ffffff" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="2.6" y1="17.6" x2="21.2" y2="17.6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
     </svg>
   );
 }
@@ -77,6 +92,7 @@ function escapeHtml(text) {
 }
 
 const STORAGE_KEY = "admin.local.cases.v1";
+const PUBLISHED_STORAGE_KEY = "admin.published.cases.v1";
 const INDUSTRY_OPTIONS = ["소비재·F&B·뷰티", "ICT·전자", "모빌리티·산업재", "건설·에너지", "바이오·헬스케어", "콘텐츠·교육·미디어", "금융", "공공영역·NGO", "유통·라이프스타일"];
 const SCALE_OPTIONS = ["5인 미만", "5~10인", "10~20인", "20~50인", "50인 이상"];
 const CONSULTING_OPTIONS = ["HR 컨설팅", "전략 컨설팅", "마케팅 컨설팅", "성과관리 컨설팅", "경영자문"];
@@ -250,6 +266,27 @@ function blocksToHtml(blocks) {
     .join("");
 }
 
+function collectImageSourcesFromEditorNode(node, out) {
+  if (!node || typeof node !== "object") return;
+  if (node.type === "image" && typeof node.attrs?.src === "string" && node.attrs.src.trim()) {
+    out.push(node.attrs.src.trim());
+  }
+  if (Array.isArray(node.content)) {
+    node.content.forEach((child) => collectImageSourcesFromEditorNode(child, out));
+  }
+}
+
+function extractImageSourcesFromEditorJson(json) {
+  const list = [];
+  collectImageSourcesFromEditorNode(json, list);
+  const seen = new Set();
+  return list.filter((src) => {
+    if (seen.has(src)) return false;
+    seen.add(src);
+    return true;
+  });
+}
+
 function withDerivedFields(rawItems) {
   const items = (rawItems || []).map((item) => ({
     ...item,
@@ -257,6 +294,9 @@ function withDerivedFields(rawItems) {
     industryTags: Array.isArray(item.industryTags) ? item.industryTags : [],
     companySize: item.companySize || "",
     consultingTypeTags: Array.isArray(item.consultingTypeTags) ? item.consultingTypeTags : [],
+    thumbnailUrl: item.thumbnailUrl || "",
+    featuredImageUrl: item.featuredImageUrl || "",
+    imageUrl: item.thumbnailUrl || item.featuredImageUrl || item.imageUrl || "",
     contentHtml: item.contentHtml || blocksToHtml(item.contentBlocks) || (item.content ? `<p>${item.content.replace(/\n/g, "<br/>")}</p>` : "<p></p>"),
   }));
   const used = new Set();
@@ -286,8 +326,13 @@ export default function CasesEditorPage() {
   const [selectedId, setSelectedId] = useState(data.items?.[0]?.id ?? null);
   const [message, setMessage] = useState("");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [previewModal, setPreviewModal] = useState({ open: false, title: "", author: "", html: "" });
+  const [buttonFeedbackKey, setButtonFeedbackKey] = useState("");
   const editorRef = useRef(null);
   const imageInputRef = useRef(null);
+  const thumbnailInputRef = useRef(null);
+  const buttonFeedbackTimerRef = useRef(null);
+  const [editorImages, setEditorImages] = useState([]);
   const items = useMemo(() => withDerivedFields(data.items || []), [data.items]);
   const selected = items.find((x) => x.id === selectedId) || null;
 
@@ -332,6 +377,8 @@ export default function CasesEditorPage() {
         content: "",
         contentHtml: "<p></p>",
         imageUrl: "",
+        thumbnailUrl: "",
+        featuredImageUrl: "",
         link: "",
         status: "draft",
         publishedAt: "",
@@ -356,7 +403,9 @@ export default function CasesEditorPage() {
 
   function saveDraft() {
     saveLocalDraft(STORAGE_KEY, data);
-    setMessage("고객 사례 초안을 로컬 저장했습니다.");
+    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    setMessage("웹 저장하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.");
+    flashButtonFeedback("save");
   }
 
   function exportJson() {
@@ -391,22 +440,144 @@ export default function CasesEditorPage() {
       content: selected?.contentHtml || "<p></p>",
       onUpdate: ({ editor: ed }) => {
         if (!selected) return;
-        updateCase(selected.id, "contentHtml", ed.getHTML());
+        const nextHtml = ed.getHTML();
+        const sources = extractImageSourcesFromEditorJson(ed.getJSON());
+        setEditorImages(sources);
+        patchItems((arr) =>
+          arr.map((x) => {
+            if (x.id !== selected.id) return x;
+            let featuredImageUrl = x.featuredImageUrl || "";
+            if (featuredImageUrl && !sources.includes(featuredImageUrl)) {
+              featuredImageUrl = "";
+            }
+            const thumbnailUrl = x.thumbnailUrl || "";
+            return {
+              ...x,
+              contentHtml: nextHtml,
+              featuredImageUrl,
+              imageUrl: thumbnailUrl || featuredImageUrl || "",
+              updatedAt: nowIso(),
+            };
+          })
+        );
       },
     },
     [selected?.id]
   );
+
+  useEffect(() => {
+    if (!editor) return;
+    setEditorImages(extractImageSourcesFromEditorJson(editor.getJSON()));
+  }, [editor, selected?.id]);
+
+  useEffect(
+    () => () => {
+      if (buttonFeedbackTimerRef.current) {
+        clearTimeout(buttonFeedbackTimerRef.current);
+        buttonFeedbackTimerRef.current = null;
+      }
+    },
+    []
+  );
+
+  function flashButtonFeedback(key) {
+    setButtonFeedbackKey(key);
+    if (buttonFeedbackTimerRef.current) clearTimeout(buttonFeedbackTimerRef.current);
+    buttonFeedbackTimerRef.current = setTimeout(() => {
+      setButtonFeedbackKey("");
+      buttonFeedbackTimerRef.current = null;
+    }, 1800);
+  }
+
+  useEffect(() => {
+    if (!previewModal.open) return undefined;
+    function onKeyDown(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setPreviewModal((prev) => ({ ...prev, open: false }));
+      }
+    }
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [previewModal.open]);
 
   async function insertImageFromFile(file) {
     if (!file || !editor || !selected) return;
     try {
       const src = await readAsDataUrl(file);
       editor.chain().focus().setImage({ src }).updateAttributes("image", { align: "center" }).run();
-      if (!selected.imageUrl) updateCase(selected.id, "imageUrl", src);
+      patchItems((arr) =>
+        arr.map((x) => {
+          if (x.id !== selected.id) return x;
+          const thumbnailUrl = x.thumbnailUrl || "";
+          const featuredImageUrl = x.featuredImageUrl || src;
+          return {
+            ...x,
+            featuredImageUrl,
+            imageUrl: thumbnailUrl || featuredImageUrl || "",
+            updatedAt: nowIso(),
+          };
+        })
+      );
       setMessage("본문 이미지를 삽입했습니다.");
     } catch (err) {
       setMessage(`이미지 삽입 실패: ${err.message || String(err)}`);
     }
+  }
+
+  async function uploadThumbnailFromFile(file) {
+    if (!file || !selected) return;
+    try {
+      const src = await readAsDataUrl(file);
+      patchItems((arr) =>
+        arr.map((x) =>
+          x.id === selected.id
+            ? { ...x, thumbnailUrl: src, imageUrl: src, updatedAt: nowIso() }
+            : x
+        )
+      );
+      setMessage("썸네일 이미지를 업로드했습니다. 본문 대표 이미지보다 우선 적용됩니다.");
+    } catch (err) {
+      setMessage(`썸네일 업로드 실패: ${err.message || String(err)}`);
+    }
+  }
+
+  function clearThumbnail() {
+    if (!selected) return;
+    patchItems((arr) =>
+      arr.map((x) =>
+        x.id === selected.id
+          ? {
+              ...x,
+              thumbnailUrl: "",
+              imageUrl: x.featuredImageUrl || "",
+              updatedAt: nowIso(),
+            }
+          : x
+      )
+    );
+    setMessage("별도 썸네일을 제거했습니다. 대표 이미지를 썸네일로 사용합니다.");
+  }
+
+  function pickRepresentativeImage(src) {
+    if (!selected || !src) return;
+    patchItems((arr) =>
+      arr.map((x) =>
+        x.id === selected.id
+          ? {
+              ...x,
+              featuredImageUrl: src,
+              imageUrl: x.thumbnailUrl || src,
+              updatedAt: nowIso(),
+            }
+          : x
+      )
+    );
   }
 
   function updateSelectedImageAttrs(attrs) {
@@ -421,12 +592,18 @@ export default function CasesEditorPage() {
 
   function publishSelected() {
     if (!selected) return;
-    patchItems((arr) =>
-      arr.map((x) =>
-        x.id === selected.id ? { ...x, status: "published", publishedAt: x.publishedAt || nowIso(), updatedAt: nowIso() } : x
-      )
-    );
-    setMessage("발행되었습니다.");
+    const now = nowIso();
+    let publishedData = null;
+    patchItems((arr) => {
+      const nextItems = arr.map((x) => (x.id === selected.id ? { ...x, status: "published", publishedAt: x.publishedAt || now, updatedAt: now } : x));
+      publishedData = { ...data, items: nextItems, updatedAt: now };
+      return nextItems;
+    });
+    if (publishedData) {
+      saveLocalDraft(PUBLISHED_STORAGE_KEY, publishedData);
+    }
+    setMessage("작성 완료 처리 후 웹 반영용으로 저장했습니다.");
+    flashButtonFeedback("publish");
   }
 
   function saveSelectedAsDraft() {
@@ -450,35 +627,18 @@ export default function CasesEditorPage() {
     setMessage("링크를 적용했습니다.");
   }
 
-  function openPreviewInNewWindow() {
-    if (!selected || !editor) return;
-    const title = escapeHtml(selected.title || "미리보기");
-    const author = escapeHtml(selected.authorName || "");
-    const bodyHtml = editor.getHTML();
-    const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${title}</title>
-<style>
-  body { font-family: "Pretendard", "Segoe UI", system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1.25rem 3rem; line-height: 1.65; color: #111827; background: #fafafa; }
-  h1 { font-size: 1.75rem; margin: 0 0 0.75rem; line-height: 1.3; }
-  .meta { color: #6b7280; font-size: 0.95rem; margin: 0 0 1.75rem; }
-  .content { font-size: 1rem; }
-  .content img { max-width: 100%; height: auto; }
-  .content a { color: #2563eb; }
-  .content p { margin: 0.75em 0; }
-</style></head><body>
-<h1>${title}</h1>
-${author ? `<p class="meta">작성자: ${author}</p>` : `<p class="meta">&nbsp;</p>`}
-<div class="content">${bodyHtml}</div>
-</body></html>`;
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    const blobUrl = URL.createObjectURL(blob);
-    const win = window.open(blobUrl, "_blank", "noopener,noreferrer");
-    if (win) {
-      win.focus();
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 120000);
-    } else {
-      URL.revokeObjectURL(blobUrl);
-      setMessage("팝업이 차단되었습니다. 브라우저에서 팝업을 허용해 주세요.");
-    }
+  function openPreviewModal() {
+    if (!selected) return;
+    setPreviewModal({
+      open: true,
+      title: String(selected.title || "미리보기"),
+      author: String(selected.authorName || ""),
+      html: editor ? editor.getHTML() : String(selected.contentHtml || "<p></p>"),
+    });
+  }
+
+  function closePreviewModal() {
+    setPreviewModal((prev) => ({ ...prev, open: false }));
   }
 
   function statusLabel(status) {
@@ -490,9 +650,31 @@ ${author ? `<p class="meta">작성자: ${author}</p>` : `<p class="meta">&nbsp;<
     <section className="page">
       <h2 className="page-title">고객 사례 관리</h2>
       <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.7rem" }}>
-        <button className="btn btn-primary" type="button" onClick={saveDraft}>로컬 저장 (PC에 문서로 저장합니다)</button>
-        <button className="btn btn-outline" type="button" onClick={exportJson}>JSON 내보내기 (웹 게시용 파일로 저장합니다.)</button>
-        <label className="btn btn-outline" style={{ cursor: "pointer" }}>JSON 불러오기 (웹 게시용 파일을 불러옵니다.)<input type="file" accept="application/json,.json" onChange={importJson} style={{ display: "none" }} /></label>
+        <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <button className="btn btn-primary" type="button" onClick={saveDraft}>웹 저장하기</button>
+          {buttonFeedbackKey === "save" ? (
+            <span
+              style={{
+                position: "absolute",
+                left: "50%",
+                bottom: "calc(100% + 0.3rem)",
+                transform: "translateX(-50%)",
+                background: "#047857",
+                color: "#ffffff",
+                fontSize: "0.72rem",
+                fontWeight: 600,
+                lineHeight: 1,
+                padding: "0.22rem 0.42rem",
+                borderRadius: "999px",
+                whiteSpace: "nowrap",
+                pointerEvents: "none",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+              }}
+            >
+              반영됨
+            </span>
+          ) : null}
+        </div>
         <button className="btn btn-outline" type="button" onClick={addCase}>사례 추가</button>
       </div>
       {message && <p className="muted">{message}</p>}
@@ -502,7 +684,14 @@ ${author ? `<p class="meta">작성자: ${author}</p>` : `<p class="meta">&nbsp;<
 
       <div className="split-grid" style={{ gridTemplateColumns: "1fr" }}>
         <div className="panel">
-          <table className="table">
+          <table className="table cases-list-table">
+            <colgroup>
+              <col className="cases-col-title" />
+              <col className="cases-col-author" />
+              <col className="cases-col-status" />
+              <col className="cases-col-edit" />
+              <col className="cases-col-delete" />
+            </colgroup>
             <thead><tr><th>제목</th><th>작성자</th><th>상태</th><th>수정</th><th>삭제</th></tr></thead>
             <tbody>
               {items.map((item) => (
@@ -539,16 +728,6 @@ ${author ? `<p class="meta">작성자: ${author}</p>` : `<p class="meta">&nbsp;<
                 </div>
               </div>
 
-              <details style={{ marginBottom: "0.85rem" }} open={advancedOpen} onToggle={(e) => setAdvancedOpen(e.currentTarget.open)}>
-                <summary>고급 필드 (자동 생성값 확인)</summary>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginTop: "0.5rem" }}>
-                  <label className="field"><span>ID</span><input className="input" value={selected.id} disabled /></label>
-                  <label className="field"><span>Slug (자동)</span><input className="input" value={selected.slug || ""} disabled /></label>
-                  <label className="field"><span>연결 링크 (자동)</span><input className="input" value={selected.link || ""} disabled /></label>
-                  <label className="field"><span>게시일시 (자동)</span><input className="input" value={selected.publishedAt || "-"} disabled /></label>
-                </div>
-              </details>
-
               <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: "0.75rem", marginBottom: "0.85rem", alignItems: "end" }}>
                 <label className="field"><span>제목</span><input className="input" value={selected.title || ""} onChange={(e) => updateCase(selected.id, "title", e.target.value)} /></label>
                 <label className="field"><span>작성자 이름</span><input className="input" value={selected.authorName || ""} onChange={(e) => updateCase(selected.id, "authorName", e.target.value)} /></label>
@@ -578,8 +757,15 @@ ${author ? `<p class="meta">작성자: ${author}</p>` : `<p class="meta">&nbsp;<
                   <button className="btn btn-outline btn-icon" type="button" title="텍스트 오른쪽 정렬" aria-label="텍스트 오른쪽 정렬" onClick={() => editor?.chain().focus().setTextAlign("right").run()}>
                     <IconAlignRight />
                   </button>
+                  <button className="btn btn-outline" type="button" onClick={() => thumbnailInputRef.current?.click()}>
+                    썸네일 업로드
+                  </button>
                   <button className="btn btn-outline" type="button" onClick={() => imageInputRef.current?.click()}>이미지 업로드</button>
-                  <span className="muted" style={{ fontSize: "0.8rem" }}>이미지 선택 후 모서리·변을 드래그해 크기 조절</span>
+                  {selected.thumbnailUrl ? (
+                    <button className="btn btn-outline" type="button" onClick={clearThumbnail}>
+                      썸네일 제거
+                    </button>
+                  ) : null}
                   <button className="btn btn-outline btn-icon" type="button" title="이미지 왼쪽 맞춤" aria-label="이미지 왼쪽 맞춤" onClick={() => updateSelectedImageAttrs({ align: "left" })}>
                     <IconImageAlignLeft />
                   </button>
@@ -590,14 +776,38 @@ ${author ? `<p class="meta">작성자: ${author}</p>` : `<p class="meta">&nbsp;<
                     <IconImageAlignRight />
                   </button>
                   <span style={{ display: "inline-block", width: "1px", height: "1.5rem", margin: "0 0.15rem", background: "#e5e7eb", alignSelf: "center" }} aria-hidden />
-                  <button className="btn btn-primary" type="button" onClick={publishSelected}>
-                    발행하기
-                  </button>
+                  <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+                    <button className="btn btn-primary" type="button" onClick={publishSelected}>
+                      작성 완료
+                    </button>
+                    {buttonFeedbackKey === "publish" ? (
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "50%",
+                          bottom: "calc(100% + 0.3rem)",
+                          transform: "translateX(-50%)",
+                          background: "#047857",
+                          color: "#ffffff",
+                          fontSize: "0.72rem",
+                          fontWeight: 600,
+                          lineHeight: 1,
+                          padding: "0.22rem 0.42rem",
+                          borderRadius: "999px",
+                          whiteSpace: "nowrap",
+                          pointerEvents: "none",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                        }}
+                      >
+                        반영됨
+                      </span>
+                    ) : null}
+                  </div>
                   <button className="btn btn-outline" type="button" onClick={saveSelectedAsDraft}>
-                    임시저장
+                    임시 저장
                   </button>
-                  <button className="btn btn-outline" type="button" onClick={openPreviewInNewWindow}>
-                    게시글 미리보기
+                  <button className="btn btn-outline" type="button" onClick={openPreviewModal}>
+                    미리보기
                   </button>
                   <span className="muted" style={{ fontSize: "0.85rem", alignSelf: "center" }}>
                     현재: {selected.status === "published" ? "발행됨" : "임시 저장(초안)"}
@@ -614,14 +824,161 @@ ${author ? `<p class="meta">작성자: ${author}</p>` : `<p class="meta">&nbsp;<
                     e.target.value = "";
                   }}
                 />
+                <input
+                  ref={thumbnailInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    uploadThumbnailFromFile(file);
+                    e.target.value = "";
+                  }}
+                />
+                {selected.thumbnailUrl || editorImages.length ? (
+                  <div className="cases-thumbnail-strip-row">
+                    {selected.thumbnailUrl ? (
+                      <div className="cases-thumbnail-preview-panel">
+                        <p className="card-label" style={{ margin: "0 0 0.45rem" }}>
+                          업로드된 썸네일 미리보기 (최우선 적용)
+                        </p>
+                        <img src={selected.thumbnailUrl} alt="업로드한 썸네일 미리보기" className="cases-thumbnail-preview-image" />
+                      </div>
+                    ) : null}
+                    {editorImages.length ? (
+                      <div className="cases-thumbnail-pick-panel">
+                        <p className="card-label" style={{ margin: "0 0 0.45rem" }}>
+                          본문 이미지 대표 선택 (별도 썸네일이 없을 때 사용)
+                        </p>
+                        <div className="cases-thumbnail-pick-grid">
+                          {editorImages.map((src, idx) => {
+                            const isPicked = !selected.thumbnailUrl && selected.featuredImageUrl === src;
+                            return (
+                              <div key={`${src}-${idx}`} className="cases-thumbnail-pick-item">
+                                <button
+                                  type="button"
+                                  className={`btn btn-outline cases-thumbnail-pick-btn ${isPicked ? "is-active" : ""}`}
+                                  onClick={() => pickRepresentativeImage(src)}
+                                >
+                                  대표
+                                </button>
+                                <img src={src} alt={`본문 이미지 ${idx + 1}`} className="cases-thumbnail-pick-image" />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
                 <div className="cases-editor-scroll">
                   <EditorContent editor={editor} />
                 </div>
+                <div style={{ marginTop: "0.7rem", display: "flex", justifyContent: "center" }}>
+                  <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+                    <button className="btn btn-primary" type="button" onClick={publishSelected}>
+                      작성 완료
+                    </button>
+                    {buttonFeedbackKey === "publish" ? (
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "50%",
+                          bottom: "calc(100% + 0.3rem)",
+                          transform: "translateX(-50%)",
+                          background: "#047857",
+                          color: "#ffffff",
+                          fontSize: "0.72rem",
+                          fontWeight: 600,
+                          lineHeight: 1,
+                          padding: "0.22rem 0.42rem",
+                          borderRadius: "999px",
+                          whiteSpace: "nowrap",
+                          pointerEvents: "none",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                        }}
+                      >
+                        반영됨
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+                <details style={{ marginTop: "0.85rem" }} open={advancedOpen} onToggle={(e) => setAdvancedOpen(e.currentTarget.open)}>
+                  <summary>고급 필드 (자동 생성값 확인)</summary>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginTop: "0.5rem" }}>
+                    <label className="field"><span>ID</span><input className="input" value={selected.id} disabled /></label>
+                    <label className="field"><span>Slug (자동)</span><input className="input" value={selected.slug || ""} disabled /></label>
+                    <label className="field"><span>연결 링크 (자동)</span><input className="input" value={selected.link || ""} disabled /></label>
+                    <label className="field"><span>게시일시 (자동)</span><input className="input" value={selected.publishedAt || "-"} disabled /></label>
+                  </div>
+                </details>
               </div>
             </>
           ) : <p className="muted">선택된 사례가 없습니다.</p>}
         </aside>
       </div>
+      {previewModal.open ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="게시글 미리보기"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closePreviewModal();
+          }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1200,
+            background: "rgba(15, 23, 42, 0.58)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+          }}
+        >
+          <div
+            style={{
+              width: "min(860px, 100%)",
+              maxHeight: "92vh",
+              borderRadius: "14px",
+              background: "#ffffff",
+              boxShadow: "0 18px 52px rgba(0,0,0,0.28)",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                padding: "0.85rem 1rem",
+                borderBottom: "1px solid #e5e7eb",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "0.75rem",
+              }}
+            >
+              <strong style={{ fontSize: "1rem", color: "#111827" }}>게시글 미리보기</strong>
+              <button className="btn btn-outline" type="button" onClick={closePreviewModal} aria-label="미리보기 닫기">
+                닫기
+              </button>
+            </div>
+            <div style={{ overflow: "auto", padding: "1.1rem 1.2rem 1.4rem", background: "#f8fafc" }}>
+              <article style={{ maxWidth: "720px", margin: "0 auto", color: "#111827", lineHeight: 1.65 }}>
+                <h1 style={{ margin: "0 0 0.65rem", fontSize: "1.75rem", lineHeight: 1.3 }}>{previewModal.title}</h1>
+                <p style={{ margin: "0 0 1.2rem", color: "#6b7280", fontSize: "0.95rem" }}>
+                  {previewModal.author ? `작성자: ${previewModal.author}` : "\u00A0"}
+                </p>
+                <div
+                  className="tiptap-preview-content"
+                  style={{ fontSize: "1rem" }}
+                  dangerouslySetInnerHTML={{ __html: previewModal.html }}
+                />
+              </article>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

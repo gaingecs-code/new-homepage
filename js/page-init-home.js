@@ -6,13 +6,12 @@
 
   GaingeSite.DEFAULT_HOME_JSON = {
     updatedAt: "2026-04-29T00:00:00.000Z",
-    heroVideoUrl: "assets/메인페이지.mp4",
     heroRotationImages: [
-      "assets/images/메인페이지1.jpg",
-      "assets/images/메인페이지2.JPG",
-      "assets/images/메인페이지3.jpg",
-      "assets/images/메인페이지4.jpg",
-      "assets/images/메인페이지5.jpg",
+      "assets/images/메인페이지1.webp",
+      "assets/images/메인페이지2.webp",
+      "assets/images/메인페이지3.webp",
+      "assets/images/메인페이지4.webp",
+      "assets/images/메인페이지5.webp",
     ],
     logoSlotImages: {
       1: [
@@ -89,7 +88,6 @@
 
     var $homeHeroSection = $(".home-hero-section");
     if ($homeHeroSection.length) {
-      var $homeHeroDots = $("[data-home-hero-dot-index]");
       var homeHeroRotationSource =
         Array.isArray(global.HOME_HERO_ROTATION_IMAGES) && global.HOME_HERO_ROTATION_IMAGES.length
           ? global.HOME_HERO_ROTATION_IMAGES
@@ -97,187 +95,21 @@
       var homeHeroImages = $.grep(homeHeroRotationSource, function (src) {
         return typeof src === "string" && src.trim() !== "";
       });
-      var homeHeroIdx = 0;
-      var homeHeroTimer = null;
-      var HOME_HERO_FADE_MS = 500;
-      var HOME_HERO_HOLD_MS = 2500;
-      var $homeHeroFadeWrap = $homeHeroSection.find(".home-hero-backdrop-images");
-      var homeHeroFadeEl = $homeHeroFadeWrap[0];
-
-      /** css/style.css 안의 background-image: var(--home-hero-image) 기준으로 url()이 풀리므로, 문서 루트 기준 경로에 ../ 를 붙여 프로젝트 루트의 assets/ 를 가리키게 함 */
-      function homeHeroCssUrl(src) {
-        var s = (src || "").trim().replace(/\\/g, "/");
-        if (!s) return 'url("")';
-        if (/^https?:\/\//i.test(s)) return 'url("' + s + '")';
-        if (s.indexOf("//") === 0) return 'url("' + s + '")';
-        if (s.charAt(0) === "/") return 'url("' + s + '")';
-        s = s.replace(/^\.\//, "");
-        if (s.indexOf("../") !== 0) s = "../" + s;
-        return 'url("' + s + '")';
-      }
-
-      function homeHeroApplySlide(nextIdx) {
-        if (!homeHeroImages.length) return;
-        var total = homeHeroImages.length;
-        homeHeroIdx = ((nextIdx % total) + total) % total;
-        $homeHeroSection[0].style.setProperty("--home-hero-image", homeHeroCssUrl(homeHeroImages[homeHeroIdx]));
-        $homeHeroDots.each(function (i) {
-          var on = i === homeHeroIdx;
-          $(this).attr("aria-selected", on ? "true" : "false");
+      if (
+        homeHeroImages.length &&
+        global.GaingeHeroRotation &&
+        typeof global.GaingeHeroRotation.init === "function"
+      ) {
+        global.GaingeHeroRotation.init({
+          root: $homeHeroSection[0],
+          photoUrls: homeHeroImages,
+          dotsSelector: ".home-main [data-home-hero-dot-index]",
+          dotIndexAttr: "data-home-hero-dot-index",
+          layerMode: "dual-fill",
+          blurFillFromIndex: 1,
+          useDotIsCurrentClass: false,
         });
       }
-
-      function homeHeroFadeToSlide(nextIdx, onDone) {
-        if (!homeHeroImages.length) {
-          if (onDone) onDone();
-          return;
-        }
-        var total = homeHeroImages.length;
-        var normalized = ((nextIdx % total) + total) % total;
-        if (normalized === homeHeroIdx) {
-          if (onDone) onDone();
-          return;
-        }
-        if (!homeHeroFadeEl || homeHeroImages.length <= 1) {
-          homeHeroApplySlide(normalized);
-          if (onDone) onDone();
-          return;
-        }
-        var wrap = homeHeroFadeEl;
-        wrap.style.transition = "opacity " + HOME_HERO_FADE_MS + "ms ease";
-        wrap.style.opacity = "0";
-        global.setTimeout(function () {
-          homeHeroApplySlide(normalized);
-          wrap.style.opacity = "1";
-          global.setTimeout(function () {
-            if (onDone) onDone();
-          }, HOME_HERO_FADE_MS);
-        }, HOME_HERO_FADE_MS);
-      }
-
-      function homeHeroRotationTick() {
-        if (homeHeroImages.length <= 1) return;
-        homeHeroFadeToSlide(homeHeroIdx + 1, function () {
-          if (homeHeroImages.length <= 1) return;
-          homeHeroTimer = global.setTimeout(homeHeroRotationTick, HOME_HERO_HOLD_MS);
-        });
-      }
-
-      function homeHeroStartRotation(initialDelayMs) {
-        if (homeHeroTimer) global.clearTimeout(homeHeroTimer);
-        if (homeHeroImages.length <= 1) return;
-        homeHeroTimer = global.setTimeout(homeHeroRotationTick, initialDelayMs);
-      }
-
-      function homeHeroIntroFadeIn() {
-        if (!homeHeroFadeEl) return;
-        var wrap = homeHeroFadeEl;
-        wrap.style.transition = "none";
-        wrap.style.opacity = "0";
-        void wrap.offsetWidth;
-        wrap.style.transition = "opacity " + HOME_HERO_FADE_MS + "ms ease";
-        wrap.style.opacity = "1";
-      }
-
-      if (homeHeroImages.length) {
-        homeHeroApplySlide(0);
-        homeHeroIntroFadeIn();
-        homeHeroStartRotation(HOME_HERO_FADE_MS + HOME_HERO_HOLD_MS);
-      }
-
-      $homeHeroDots.on("click", function () {
-        var idx = parseInt($(this).attr("data-home-hero-dot-index"), 10);
-        if (isNaN(idx)) return;
-        if (homeHeroTimer) global.clearTimeout(homeHeroTimer);
-        homeHeroFadeToSlide(idx, function () {
-          homeHeroStartRotation(HOME_HERO_HOLD_MS);
-        });
-      });
-    }
-
-    var $homeHeroPopup = $("#home-hero-video-popup");
-    if ($homeHeroPopup.length) {
-      var $homeHeroIframe = $homeHeroPopup.find(".community-video-popup-iframe");
-      var $homeHeroNative = $homeHeroPopup.find(".testimonial-popup-video-native");
-      var homeHeroNativeEl = $homeHeroNative[0];
-      var $homeHeroPlaceholder = $homeHeroPopup.find(".home-testimonial-video-placeholder");
-
-      function closeHomeHeroPopup() {
-        $homeHeroPopup.attr("hidden", true);
-        $("body").css("overflow", "");
-        $homeHeroIframe.attr("src", "").attr("hidden", true);
-        if (homeHeroNativeEl) {
-          homeHeroNativeEl.pause();
-          homeHeroNativeEl.removeAttribute("src");
-          homeHeroNativeEl.load();
-        }
-        $homeHeroNative.attr("hidden", true);
-        $homeHeroPlaceholder.removeAttr("hidden");
-        var $heroPhText = $homeHeroPlaceholder.find("p");
-        if ($heroPhText.length) $heroPhText.text("영상이 준비 중입니다.");
-      }
-
-      function openHomeHeroPopup() {
-        var urlRaw = (
-          typeof global.HOME_HERO_VIDEO_URL === "string" ? global.HOME_HERO_VIDEO_URL : ""
-        ).trim();
-        var url = resolveMediaUrlForPopup(urlRaw);
-        if (url) {
-          if (isNativeVideoPopupUrl(urlRaw)) {
-            $homeHeroIframe.attr("src", "").attr("hidden", true);
-            $homeHeroPlaceholder.attr("hidden", true);
-            $homeHeroNative.removeAttr("hidden");
-            if (homeHeroNativeEl) {
-              homeHeroNativeEl.src = url;
-              homeHeroNativeEl.load();
-              homeHeroNativeEl.play().catch(function () {});
-            }
-          } else {
-            if (homeHeroNativeEl) {
-              homeHeroNativeEl.pause();
-              homeHeroNativeEl.removeAttribute("src");
-              homeHeroNativeEl.load();
-            }
-            $homeHeroNative.attr("hidden", true);
-            $homeHeroIframe.removeAttr("hidden").attr("src", embedFriendlyVideoUrl(url));
-            $homeHeroPlaceholder.attr("hidden", true);
-          }
-        } else {
-          $homeHeroIframe.attr("src", "").attr("hidden", true);
-          if (homeHeroNativeEl) {
-            homeHeroNativeEl.pause();
-            homeHeroNativeEl.removeAttribute("src");
-            homeHeroNativeEl.load();
-          }
-          $homeHeroNative.attr("hidden", true);
-          $homeHeroPlaceholder.removeAttr("hidden");
-        }
-        $homeHeroPopup.removeAttr("hidden");
-        $("body").css("overflow", "hidden");
-      }
-
-      if (homeHeroNativeEl) {
-        homeHeroNativeEl.addEventListener("error", function () {
-          if ($homeHeroPopup[0].hasAttribute("hidden")) return;
-          if (!homeHeroNativeEl.getAttribute("src")) return;
-          homeHeroNativeEl.setAttribute("hidden", "");
-          $homeHeroPlaceholder.removeAttr("hidden");
-          var $heroP = $homeHeroPlaceholder.find("p");
-          if ($heroP.length)
-            $heroP.text("영상을 불러올 수 없습니다. assets 폴더에 파일이 있는지 확인해 주세요.");
-        });
-      }
-
-      $("[data-home-hero-video]").on("click", openHomeHeroPopup);
-      $homeHeroPopup.find(".community-video-popup-backdrop").on("click", closeHomeHeroPopup);
-      $homeHeroPopup.find(".community-video-popup-close").on("click", closeHomeHeroPopup);
-
-      $(document).on("keydown.homeHeroVideoPopup", function (e) {
-        if (e.key !== "Escape") return;
-        if (!$homeHeroPopup.length || $homeHeroPopup[0].hasAttribute("hidden")) return;
-        e.preventDefault();
-        closeHomeHeroPopup();
-      });
     }
 
     (function initHomeLogoRotation() {

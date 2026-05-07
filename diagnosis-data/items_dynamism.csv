@@ -1,41 +1,41 @@
 diagnosisId,itemType,sectionId,sectionTitle,itemId,itemText,scaleMin,scaleMax,scoreDirection,weight,notes
-dynamism,rating,vision_integ,비전통합,Q01,나는 조직의 비전을 명확히 이해하고 있다,1,5,higher_is_better,1,Category: 비전정렬
-dynamism,rating,vision_integ,비전통합,Q02,나는 조직의 비전을 다른 사람에게 설명할 수 있다,1,5,higher_is_better,1,Category: 비전정렬
+dynamism,rating,vision_integ,비전통합,Q01,구성원은 조직의 비전을 명확히 이해하고 있다,1,5,higher_is_better,1,Category: 비전정렬
+dynamism,rating,vision_integ,비전통합,Q02,구성원은 조직의 비전을 다른 사람에게 설명할 수 있다,1,5,higher_is_better,1,Category: 비전정렬
 dynamism,rating,vision_integ,비전통합,Q03,조직의 목표는 월 1회 이상 정기적으로 공유되고 있다,1,5,higher_is_better,1,Category: 비전정렬
-dynamism,rating,vision_integ,비전통합,Q04,나는 조직의 목표 달성을 위한 구체적인 계획을 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
-dynamism,rating,goal_clarity,목표명확성,Q05,나는 조직의 목표를 정리해놓은 정보에 쉽게 접근할 수 있다,1,5,higher_is_better,1,Category: 비전정렬
-dynamism,rating,goal_clarity,목표명확성,Q06,나는 이번 분기에 집중해야 할 나의 목표가 무엇인지 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
-dynamism,rating,goal_clarity,목표명확성,Q07,나는 지금 하고 있는 일이 회사에 어떤 기여를 하는지 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
-dynamism,rating,goal_clarity,목표명확성,Q08,나는 조직의 목표를 달성하기 위해 내가 해야 할 일을 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
-dynamism,rating,challenge,직무도전성,Q09,나는 역량 대비 120% 이상의 목표를 가지고 있다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,challenge,직무도전성,Q10,나는 도전적인 목표를 달성하기 위해 꾸준히 학습한다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,challenge,직무도전성,Q11,나는 시도해보지 않았던 프로젝트도 도전할 수 있다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,challenge,직무도전성,Q12,나는 조직의 문제를 창의적으로 해결한 경험이 있다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,proactive,능동적 직무수행,Q13,나는 최근 3개월 동안 창의적인 아이디어를 팀에 제안하였다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,proactive,능동적 직무수행,Q14,나는 지금 하고 있는 일의 주도권을 가지고 있다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,proactive,능동적 직무수행,Q15,나는 일을 수행하기 위해 필요한 자원을 적극적으로 요청할 수 있다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,proactive,능동적 직무수행,Q16,나는 프로젝트의 완성도를 높이기 위해 자발적으로 일한다,1,5,higher_is_better,1,Category: 혁신행동
-dynamism,rating,empathy_listen,공감적 경청,Q17,리더는 나의 의견을 이해하려고 노력한다,1,5,higher_is_better,1,Category: 지원적 리더십
-dynamism,rating,empathy_listen,공감적 경청,Q18,리더는 내가 일을 완수했을 때 인정해준다,1,5,higher_is_better,1,Category: 지원적 리더십
-dynamism,rating,empathy_listen,공감적 경청,Q19,리더는 내가 주로 어떤 일에서 어려움을 겪고 있는지 알고 있다,1,5,higher_is_better,1,Category: 지원적 리더십
-dynamism,rating,empathy_listen,공감적 경청,Q20,리더는 내가 힘들 때 정서적인 지지를 제공한다,1,5,higher_is_better,1,Category: 지원적 리더십
-dynamism,rating,feedback,교정적 피드백,Q21,리더는 내가 효과적으로 일할 수 있도록 자료를 제공한다,1,5,higher_is_better,1,Category: 지원적 리더십
-dynamism,rating,feedback,교정적 피드백,Q22,리더는 내 업무 성과를 높이기 위해 구체적인 피드백을 제공한다,1,5,higher_is_better,1,Category: 지원적 리더십
+dynamism,rating,vision_integ,비전통합,Q04,구성원은 조직의 목표 달성을 위한 구체적인 계획을 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
+dynamism,rating,goal_clarity,목표명확성,Q05,구성원은 조직의 목표를 정리해놓은 정보에 쉽게 접근할 수 있다,1,5,higher_is_better,1,Category: 비전정렬
+dynamism,rating,goal_clarity,목표명확성,Q06,구성원은 이번 분기에 집중해야 할 구성원의 목표가 무엇인지 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
+dynamism,rating,goal_clarity,목표명확성,Q07,구성원은 지금 하고 있는 일이 회사에 어떤 기여를 하는지 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
+dynamism,rating,goal_clarity,목표명확성,Q08,구성원은 조직의 목표를 달성하기 위해 구성원이 해야 할 일을 알고 있다,1,5,higher_is_better,1,Category: 비전정렬
+dynamism,rating,challenge,직무도전성,Q09,구성원은 역량 대비 120% 이상의 목표를 가지고 있다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,challenge,직무도전성,Q10,구성원은 도전적인 목표를 달성하기 위해 꾸준히 학습한다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,challenge,직무도전성,Q11,구성원은 시도해보지 않았던 프로젝트도 도전할 수 있다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,challenge,직무도전성,Q12,구성원은 조직의 문제를 창의적으로 해결한 경험이 있다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,proactive,능동적 직무수행,Q13,구성원은 최근 3개월 동안 창의적인 아이디어를 팀에 제안하였다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,proactive,능동적 직무수행,Q14,구성원은 지금 하고 있는 일의 주도권을 가지고 있다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,proactive,능동적 직무수행,Q15,구성원은 일을 수행하기 위해 필요한 자원을 적극적으로 요청할 수 있다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,proactive,능동적 직무수행,Q16,구성원은 프로젝트의 완성도를 높이기 위해 자발적으로 일한다,1,5,higher_is_better,1,Category: 혁신행동
+dynamism,rating,empathy_listen,공감적 경청,Q17,리더는 구성원의 의견을 이해하려고 노력한다,1,5,higher_is_better,1,Category: 지원적 리더십
+dynamism,rating,empathy_listen,공감적 경청,Q18,리더는 구성원이 일을 완수했을 때 인정해준다,1,5,higher_is_better,1,Category: 지원적 리더십
+dynamism,rating,empathy_listen,공감적 경청,Q19,리더는 구성원이 주로 어떤 일에서 어려움을 겪고 있는지 알고 있다,1,5,higher_is_better,1,Category: 지원적 리더십
+dynamism,rating,empathy_listen,공감적 경청,Q20,리더는 구성원이 힘들 때 정서적인 지지를 제공한다,1,5,higher_is_better,1,Category: 지원적 리더십
+dynamism,rating,feedback,교정적 피드백,Q21,리더는 구성원이 효과적으로 일할 수 있도록 자료를 제공한다,1,5,higher_is_better,1,Category: 지원적 리더십
+dynamism,rating,feedback,교정적 피드백,Q22,리더는 구성원이 업무 성과를 높이기 위해 구체적인 피드백을 제공한다,1,5,higher_is_better,1,Category: 지원적 리더십
 dynamism,rating,feedback,교정적 피드백,Q23,리더의 피드백 덕분에 업무 진척에 도움이 되었다,1,5,higher_is_better,1,Category: 지원적 리더십
-dynamism,rating,feedback,교정적 피드백,Q24,리더의 피드백 덕분에 나의 업무 역량은 향상되었다,1,5,higher_is_better,1,Category: 지원적 리더십
-dynamism,rating,open_comm,개방적 소통,Q25,나는 팀에서 실수하더라도 비난받지 않는다,1,5,higher_is_better,1,Category: 심리적 안전감
-dynamism,rating,open_comm,개방적 소통,Q26,나는 회의 시간에 의견을 자유롭게 개진할 수 있다,1,5,higher_is_better,1,Category: 심리적 안전감
-dynamism,rating,open_comm,개방적 소통,Q27,나는 상사와 업무 견해가 다를 때 다른 의견을 제시할 수 있다,1,5,higher_is_better,1,Category: 심리적 안전감
-dynamism,rating,open_comm,개방적 소통,Q28,나는 다소 엉뚱한 의견을 제시하더라도 동료들에게 무시받지 않는다,1,5,higher_is_better,1,Category: 심리적 안전감
-dynamism,rating,tolerance,관용,Q29,나는 팀에서 일어난 갈등을 가십거리로 삼지 않는다,1,5,higher_is_better,1,Category: 심리적 안전감
+dynamism,rating,feedback,교정적 피드백,Q24,리더의 피드백 덕분에 구성원의 업무 역량은 향상되었다,1,5,higher_is_better,1,Category: 지원적 리더십
+dynamism,rating,open_comm,개방적 소통,Q25,구성원은 팀에서 실수하더라도 비난받지 않는다,1,5,higher_is_better,1,Category: 심리적 안전감
+dynamism,rating,open_comm,개방적 소통,Q26,구성원은 회의 시간에 의견을 자유롭게 개진할 수 있다,1,5,higher_is_better,1,Category: 심리적 안전감
+dynamism,rating,open_comm,개방적 소통,Q27,구성원은 상사와 업무 견해가 다를 때 다른 의견을 제시할 수 있다,1,5,higher_is_better,1,Category: 심리적 안전감
+dynamism,rating,open_comm,개방적 소통,Q28,구성원은 다소 엉뚱한 의견을 제시하더라도 동료들에게 무시받지 않는다,1,5,higher_is_better,1,Category: 심리적 안전감
+dynamism,rating,tolerance,관용,Q29,구성원은 팀에서 일어난 갈등을 가십거리로 삼지 않는다,1,5,higher_is_better,1,Category: 심리적 안전감
 dynamism,rating,tolerance,관용,Q30,우리 팀은 잘못을 솔직하게 인정한다,1,5,higher_is_better,1,Category: 심리적 안전감
 dynamism,rating,tolerance,관용,Q31,우리 팀은 실수를 극복할 수 있는 기회를 제공한다,1,5,higher_is_better,1,Category: 심리적 안전감
 dynamism,rating,tolerance,관용,Q32,우리 팀은 서로의 실수를 공개적인 자리에서 비난하지 않는다,1,5,higher_is_better,1,Category: 심리적 안전감
-dynamism,rating,engagement,직무몰입,Q33,나는 일이 좋아 시간 가는 줄 모르고 근무한 적이 있다,1,5,higher_is_better,1,Category: 업무 효능감
-dynamism,rating,engagement,직무몰입,Q34,나는 일상생활 중에도 목표달성에 필요한 아이디어가 떠오른다,1,5,higher_is_better,1,Category: 업무 효능감
-dynamism,rating,engagement,직무몰입,Q35,나는 동료로부터 '몰입하여 일한다'는 말을 자주 듣는다,1,5,higher_is_better,1,Category: 업무 효능감
-dynamism,rating,engagement,직무몰입,Q36,나는 높은 수준의 결과물을 추구한다,1,5,higher_is_better,1,Category: 업무 효능감
-dynamism,rating,responsibility,책임감,Q37,나는 반드시 기한 내에 일을 완수한다,1,5,higher_is_better,1,Category: 업무 효능감
-dynamism,rating,responsibility,책임감,Q38,나의 성과에 대한 책임은 나에게 있다,1,5,higher_is_better,1,Category: 업무 효능감
-dynamism,rating,responsibility,책임감,Q39,나의 업무는 우리 조직에 반드시 필요한 일이다,1,5,higher_is_better,1,Category: 업무 효능감
-dynamism,rating,responsibility,책임감,Q40,나는 현재 하고 있는 일을 주변 사람들에게 자신 있게 말할 수 있다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,engagement,직무몰입,Q33,구성원은 일이 좋아 시간 가는 줄 모르고 근무한 적이 있다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,engagement,직무몰입,Q34,구성원은 일상생활 중에도 목표달성에 필요한 아이디어를 공유한다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,engagement,직무몰입,Q35,구성원은 동료로부터 '몰입하여 일한다'는 말을 자주 듣는다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,engagement,직무몰입,Q36,구성원은 높은 수준의 결과물을 추구한다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,responsibility,책임감,Q37,구성원은 반드시 기한 내에 일을 완수한다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,responsibility,책임감,Q38,구성원은 성과에 대한 책임이 스스로에게 있다고 느낀다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,responsibility,책임감,Q39,구성원의 업무는 우리 조직에 반드시 필요한 일이다,1,5,higher_is_better,1,Category: 업무 효능감
+dynamism,rating,responsibility,책임감,Q40,구성원은 현재 하고 있는 일을 주변 사람들에게 자신 있게 말할 수 있다,1,5,higher_is_better,1,Category: 업무 효능감

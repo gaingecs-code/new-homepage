@@ -6,7 +6,7 @@ export const defaultBooksData = {
     {
       id: "book-1",
       title: "대표 도서 1",
-      imageUrl: "assets/책 표지 샘플 이미지 1.jpg",
+      imageUrl: "assets/images/책 표지 샘플 이미지 1.webp",
       link: "https://gainge.com/contents/products/216",
       createdAt: ts,
       updatedAt: ts,
@@ -14,7 +14,7 @@ export const defaultBooksData = {
     {
       id: "book-2",
       title: "대표 도서 2",
-      imageUrl: "assets/책 표지 샘플 이미지 2.jpg",
+      imageUrl: "assets/images/책 표지 샘플 이미지 2.webp",
       link: "https://gainge.com/contents/products/693",
       createdAt: ts,
       updatedAt: ts,
@@ -22,15 +22,15 @@ export const defaultBooksData = {
     {
       id: "book-3",
       title: "대표 도서 3",
-      imageUrl: "assets/책 표지 샘플 이미지 7.jpg",
-      link: "https://product.kyobobook.co.kr/detail/S000214793562",
+      imageUrl: "assets/images/책 표지 샘플 이미지 7.webp",
+      link: "https://gainge.com/contents/products/536",
       createdAt: ts,
       updatedAt: ts,
     },
     {
       id: "book-4",
       title: "대표 도서 4",
-      imageUrl: "assets/책 표지 샘플 이미지 3.jpg",
+      imageUrl: "assets/images/책 표지 샘플 이미지 3.webp",
       link: "https://gainge.com/contents/products/996",
       createdAt: ts,
       updatedAt: ts,
@@ -38,7 +38,7 @@ export const defaultBooksData = {
     {
       id: "book-5",
       title: "대표 도서 5",
-      imageUrl: "assets/책 표지 샘플 이미지 4.jpg",
+      imageUrl: "assets/images/책 표지 샘플 이미지 4.webp",
       link: "https://gainge.com/contents/products/995",
       createdAt: ts,
       updatedAt: ts,
@@ -46,7 +46,7 @@ export const defaultBooksData = {
     {
       id: "book-6",
       title: "대표 도서 6",
-      imageUrl: "assets/책 표지 샘플 이미지 8.jpg",
+      imageUrl: "assets/images/책 표지 샘플 이미지 8.webp",
       link: "https://gainge.com/contents/products/998",
       createdAt: ts,
       updatedAt: ts,

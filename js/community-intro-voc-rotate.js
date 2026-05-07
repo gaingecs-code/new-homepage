@@ -25,6 +25,10 @@
     if (!el) return;
 
     var i = 0;
+    var timer = null;
+    var isHoverPaused = false;
+    var isDotPaused = false;
+    var isClickStopped = false;
     el.textContent = list[0];
     var dots = [];
 
@@ -66,18 +70,60 @@
         dots.push(dot);
       });
 
+      dotsWrap.addEventListener("mouseenter", function () {
+        isDotPaused = true;
+      });
+      dotsWrap.addEventListener("mouseleave", function () {
+        isDotPaused = false;
+      });
+      dotsWrap.addEventListener("focusin", function () {
+        isDotPaused = true;
+      });
+      dotsWrap.addEventListener("focusout", function (event) {
+        if (!dotsWrap.contains(event.relatedTarget)) {
+          isDotPaused = false;
+        }
+      });
+
       root.appendChild(dotsWrap);
       setActiveDot(0);
     }
 
     createDots();
 
-    window.setInterval(function () {
+    function tick() {
+      if (isHoverPaused || isDotPaused || isClickStopped) return;
       i = (i + 1) % list.length;
       el.textContent = list[i];
       setActiveDot(i);
       pulseCard();
-    }, ROTATE_MS);
+    }
+
+    function startTimer() {
+      if (timer !== null || isClickStopped) return;
+      timer = window.setInterval(tick, ROTATE_MS);
+    }
+
+    function stopTimer() {
+      if (timer === null) return;
+      window.clearInterval(timer);
+      timer = null;
+    }
+
+    startTimer();
+
+    if (card) {
+      card.addEventListener("mouseenter", function () {
+        isHoverPaused = true;
+      });
+      card.addEventListener("mouseleave", function () {
+        isHoverPaused = false;
+      });
+      card.addEventListener("click", function () {
+        isClickStopped = true;
+        stopTimer();
+      });
+    }
   }
 
   document.querySelectorAll("[data-community-intro-voc]").forEach(startRotator);

@@ -1,12 +1,11 @@
 {
   "updatedAt": "2026-04-29T00:00:00.000Z",
-  "heroVideoUrl": "assets/메인페이지.mp4",
   "heroRotationImages": [
-    "assets/images/메인페이지1.jpg",
-    "assets/images/메인페이지2.JPG",
-    "assets/images/메인페이지3.jpg",
-    "assets/images/메인페이지4.jpg",
-    "assets/images/메인페이지5.jpg"
+    "assets/images/메인페이지1.webp",
+    "assets/images/메인페이지2.webp",
+    "assets/images/메인페이지3.webp",
+    "assets/images/메인페이지4.webp",
+    "assets/images/메인페이지5.webp"
   ],
   "logoSlotImages": {
     "1": [

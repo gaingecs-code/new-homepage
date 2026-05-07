@@ -1,8 +1,9 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { defaultEducationProgramsData } from "../data/defaultEducationPrograms";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
 
 const STORAGE_KEY = "admin.local.education-programs.v1";
+const PUBLISHED_STORAGE_KEY = "admin.published.education-programs.v1";
 
 /** 왼쪽 목록 섹션 순서 (데이터 `group` 값과 일치) */
 const EDUCATION_PROGRAM_GROUPS = ["자격증 과정", "직급별 교육", "직무별 교육"];
@@ -37,7 +38,10 @@ export default function EducationIntroPage() {
   const [data, setData] = useState(() => loadLocalDraft(STORAGE_KEY, defaultEducationProgramsData));
   const [message, setMessage] = useState("");
   const [selectedId, setSelectedId] = useState(() => defaultEducationProgramsData.items?.[0]?.id ?? null);
+  const [showSavedBadge, setShowSavedBadge] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const thumbInputRef = useRef(null);
+  const saveFeedbackTimerRef = useRef(null);
 
   const items = useMemo(() => data.items || [], [data.items]);
 
@@ -45,6 +49,33 @@ export default function EducationIntroPage() {
   const selected = selectedIndex >= 0 ? items[selectedIndex] : null;
 
   const grouped = useMemo(() => groupItemsBySection(items), [items]);
+
+  useEffect(
+    () => () => {
+      if (saveFeedbackTimerRef.current) {
+        clearTimeout(saveFeedbackTimerRef.current);
+        saveFeedbackTimerRef.current = null;
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!showPreview) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    function onKeyDown(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setShowPreview(false);
+      }
+    }
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [showPreview]);
 
   function updateItem(index, key, value) {
     setData((prev) => {
@@ -60,6 +91,17 @@ export default function EducationIntroPage() {
       .map((s) => s.trim())
       .filter(Boolean);
     updateItem(index, "targets", lines);
+  }
+
+  function normalizeHashtags(list) {
+    const src = Array.isArray(list) ? list : [];
+    return [0, 1, 2].map((i) => (typeof src[i] === "string" ? src[i] : ""));
+  }
+
+  function updateHashtag(index, tagIndex, value) {
+    const next = normalizeHashtags(items[index]?.hashtags);
+    next[tagIndex] = value;
+    updateItem(index, "hashtags", next);
   }
 
   async function onThumbnailFile(e) {
@@ -86,6 +128,7 @@ export default function EducationIntroPage() {
           group: EDUCATION_PROGRAM_GROUPS[0],
           title: "새 프로그램",
           imageUrl: "",
+          hashtags: ["", "", ""],
           overview: "",
           targets: [],
           schedule: "",
@@ -123,7 +166,14 @@ export default function EducationIntroPage() {
 
   function saveDraft() {
     saveLocalDraft(STORAGE_KEY, data);
-    setMessage("로컬 초안을 저장했습니다.");
+    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    setMessage("웹 저장하기: 기업교육 프로그램 변경사항을 즉시 반영용으로 저장했습니다.");
+    setShowSavedBadge(true);
+    if (saveFeedbackTimerRef.current) clearTimeout(saveFeedbackTimerRef.current);
+    saveFeedbackTimerRef.current = setTimeout(() => {
+      setShowSavedBadge(false);
+      saveFeedbackTimerRef.current = null;
+    }, 1800);
   }
 
   function exportJson() {
@@ -153,6 +203,17 @@ export default function EducationIntroPage() {
     setMessage("기본값으로 되돌렸습니다.");
   }
 
+  function openPreviewArea() {
+    setShowPreview(true);
+  }
+
+  function resolvePreviewImageUrl(rawUrl) {
+    const src = String(rawUrl || "").trim();
+    if (!src) return "";
+    if (/^(data:|blob:|https?:|\/)/i.test(src)) return src;
+    return `/${src.replace(/^\.?\//, "")}`;
+  }
+
   return (
     <section className="page">
       <h2 className="page-title">기업교육 프로그램</h2>
@@ -162,16 +223,33 @@ export default function EducationIntroPage() {
           items[].ended를 웹 서버의 data/corporate-education-programs.json으로 반영하면 공개 페이지에도 적용됩니다.
         </p>
         <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.9rem" }}>
-          <button className="btn btn-primary" type="button" onClick={saveDraft}>
-            로컬 저장 (PC에 문서로 저장합니다)
-          </button>
-          <button className="btn btn-outline" type="button" onClick={exportJson}>
-            JSON 내보내기 (웹 게시용 파일로 저장합니다.)
-          </button>
-          <label className="btn btn-outline" style={{ cursor: "pointer" }}>
-            JSON 불러오기 (웹 게시용 파일을 불러옵니다.)
-            <input type="file" accept="application/json,.json" onChange={importJson} style={{ display: "none" }} />
-          </label>
+          <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+            <button className="btn btn-primary" type="button" onClick={saveDraft}>
+              웹 저장하기
+            </button>
+            {showSavedBadge ? (
+              <span
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  bottom: "calc(100% + 0.3rem)",
+                  transform: "translateX(-50%)",
+                  background: "#047857",
+                  color: "#ffffff",
+                  fontSize: "0.72rem",
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  padding: "0.22rem 0.42rem",
+                  borderRadius: "999px",
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                }}
+              >
+                반영됨
+              </span>
+            ) : null}
+          </div>
           <button className="btn btn-outline" type="button" onClick={resetDefault}>
             기본값 복원
           </button>
@@ -186,6 +264,15 @@ export default function EducationIntroPage() {
             onClick={() => selectedId && deleteProgram(selectedId)}
           >
             프로그램 삭제
+          </button>
+          <button
+            className="btn btn-outline"
+            type="button"
+            disabled={!selected}
+            title={!selected ? "미리보기하려면 프로그램을 선택하세요" : undefined}
+            onClick={openPreviewArea}
+          >
+            미리보기
           </button>
         </div>
         {message && <p className="muted">{message}</p>}
@@ -349,12 +436,27 @@ export default function EducationIntroPage() {
                   ) : null}
                 </div>
 
+                <div className="field">
+                  <span>해시태그 (3개)</span>
+                  <div className="education-intro-hashtag-grid">
+                    {normalizeHashtags(selected.hashtags).map((tag, i) => (
+                      <input
+                        key={`hashtag-${selected.id}-${i}`}
+                        className="input"
+                        value={tag}
+                        onChange={(e) => updateHashtag(selectedIndex, i, e.target.value)}
+                        placeholder={`#해시태그 ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
                 <label className="field">
-                  <span>요약 텍스트 (줄바꿈 유지)</span>
+                  <span>프로그램 슬로건</span>
                   <textarea className="input" rows={3} value={selected.overview || ""} onChange={(e) => updateItem(selectedIndex, "overview", e.target.value)} />
                 </label>
                 <label className="field">
-                  <span>대상 텍스트 (줄 단위)</span>
+                  <span>타겟 고객 (3줄로 작성)</span>
                   <textarea
                     className="input"
                     rows={4}
@@ -363,7 +465,7 @@ export default function EducationIntroPage() {
                   />
                 </label>
                 <label className="field">
-                  <span>일정 텍스트</span>
+                  <span>운영 회차 및 운영 시간</span>
                   <input className="input" value={selected.schedule || ""} onChange={(e) => updateItem(selectedIndex, "schedule", e.target.value)} />
                 </label>
                 <label className="field">
@@ -381,6 +483,63 @@ export default function EducationIntroPage() {
           </div>
         </div>
       </div>
+      {showPreview && selected ? (
+        <div
+          className="education-intro-preview-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="프로그램 미리보기"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowPreview(false);
+          }}
+        >
+          <div className="education-intro-preview-modal-panel">
+            <div className="education-intro-preview-modal-head">
+              <strong>프로그램 미리보기</strong>
+              <button type="button" className="btn btn-outline" onClick={() => setShowPreview(false)}>
+                닫기
+              </button>
+            </div>
+            <p className="muted" style={{ marginTop: "0.15rem", marginBottom: "0.55rem", fontSize: "0.82rem" }}>
+              공개 페이지 카드와 동일한 비율로 표시됩니다. 카드에 마우스를 올리면 호버 내용을 확인할 수 있습니다.
+            </p>
+            <div className="education-intro-preview-card" role="article" aria-label={`${selected.title || "프로그램"} 미리보기`}>
+              <div className="education-intro-preview-media">
+                {selected.imageUrl ? (
+                  <img src={resolvePreviewImageUrl(selected.imageUrl)} alt="" className="education-intro-preview-image" />
+                ) : (
+                  <div className="education-intro-preview-image-placeholder">썸네일 없음</div>
+                )}
+                <div className="education-intro-preview-overlay">
+                  <div className="education-intro-preview-tags">
+                    {normalizeHashtags(selected.hashtags)
+                      .filter(Boolean)
+                      .map((tag, idx) => (
+                        <span key={`preview-tag-${selected.id}-${idx}`} className="education-intro-preview-tag">
+                          {tag}
+                        </span>
+                      ))}
+                  </div>
+                  <p className="education-intro-preview-overview">{selected.overview || "-"}</p>
+                  <ul className="education-intro-preview-targets">
+                    {(selected.targets || []).length ? (selected.targets || []).map((line, idx) => <li key={`preview-target-${selected.id}-${idx}`}>{line}</li>) : <li>-</li>}
+                  </ul>
+                  <p className="education-intro-preview-schedule">{selected.schedule || "-"}</p>
+                </div>
+              </div>
+              <h4 className="education-intro-preview-title">{selected.title || "(제목 없음)"}</h4>
+              <a
+                className="education-intro-preview-link"
+                href={selected.link || "#"}
+                onClick={(e) => e.preventDefault()}
+                aria-disabled={selected.link ? "false" : "true"}
+              >
+                참여하기
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

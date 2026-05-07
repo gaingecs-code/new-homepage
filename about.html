@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About us</title>
+  <!-- 첫 화면 단체사진 히어로(LCP): 스타일시트보다 먼저 요청 -->
+  <link rel="preload" as="image" href="assets/전체 멤버 사진 샘플.webp" fetchpriority="high" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -11,7 +13,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html#hero" class="logo">
-        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+        <img src="assets/헤더용 신규 로고 1.webp" alt="가인지 컨설팅 그룹 로고" />
       </a>
       <nav class="main-nav">
         <button class="nav-toggle" aria-label="메뉴 열기">
@@ -171,17 +173,17 @@
     <div class="container footer-inner">
       <div class="footer-top-row">
         <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
-          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+          <img src="assets/헤더용 신규 로고 1.webp" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
         </a>
         <div class="footer-social-icons" aria-label="SNS 바로가기">
           <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
-            <img src="assets/1.png" alt="" />
+            <img src="assets/1.webp" alt="" />
           </a>
           <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
-            <img src="assets/푸터 인스타.png" alt="" />
+            <img src="assets/푸터 인스타.webp" alt="" />
           </a>
           <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
-            <img src="assets/푸터 블로그.png" alt="" />
+            <img src="assets/푸터 블로그.webp" alt="" />
           </a>
         </div>
       </div>

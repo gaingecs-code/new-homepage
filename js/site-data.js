@@ -70,7 +70,6 @@
   SiteData.validateHomePayload = function (d) {
     if (!d || typeof d !== "object") return false;
     if (Array.isArray(d.heroRotationImages) && d.heroRotationImages.length > 0) return true;
-    if (d.heroVideoUrl && String(d.heroVideoUrl).trim()) return true;
     if (d.logoSlotImages && typeof d.logoSlotImages === "object") {
       for (var k in d.logoSlotImages) {
         if (Object.prototype.hasOwnProperty.call(d.logoSlotImages, k)) return true;

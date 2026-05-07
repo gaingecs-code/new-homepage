@@ -1,3 +1,51 @@
+(function (global) {
+  var prefetched = Object.create(null);
+  function prefetch(absUrl) {
+    if (!absUrl || prefetched[absUrl]) return;
+    prefetched[absUrl] = true;
+    try {
+      var link = global.document.createElement("link");
+      link.rel = "prefetch";
+      link.href = absUrl;
+      global.document.head.appendChild(link);
+    } catch (e) {}
+  }
+  function maybePrefetchAnchor(a) {
+    if (!a || a.target === "_blank" || a.getAttribute("download")) return;
+    var raw = a.getAttribute("href");
+    if (!raw || raw.charAt(0) === "#") return;
+    if (/^(mailto:|tel:|javascript:)/i.test(raw)) return;
+    var u;
+    try {
+      u = new URL(raw, global.location.href);
+    } catch (err) {
+      return;
+    }
+    if (u.origin !== global.location.origin) return;
+    var path = u.pathname || "";
+    if (
+      !/\.html($|[?#])/i.test(path) &&
+      path !== "/" &&
+      !/\/index\.html$/i.test(path)
+    ) {
+      return;
+    }
+    prefetch(u.href);
+  }
+  global.addEventListener("DOMContentLoaded", function () {
+    global.document.documentElement.addEventListener(
+      "pointerdown",
+      function (ev) {
+        var t = ev.target;
+        if (!t || !t.closest) return;
+        var a = t.closest("a[href]");
+        maybePrefetchAnchor(a);
+      },
+      true
+    );
+  });
+})(typeof window !== "undefined" ? window : this);
+
 $(function () {
   // 헤더: 가인지캠퍼스 바로가기 → 새 창(팝업)으로 열기
   var campusWinFeatures = "noopener,noreferrer,width=1200,height=800";
@@ -83,7 +131,6 @@ $(function () {
       defaults: window.GaingeSite.DEFAULT_HOME_JSON,
     }).then(function (data) {
       var cfg = $.extend(true, {}, window.GaingeSite.DEFAULT_HOME_JSON, data || {});
-      window.HOME_HERO_VIDEO_URL = cfg.heroVideoUrl;
       window.HOME_HERO_ROTATION_IMAGES = cfg.heroRotationImages;
       window.HOME_LOGO_SLOT_IMAGES = cfg.logoSlotImages;
       window.HOME_TESTIMONIAL_VIDEO_URLS = cfg.homeTestimonialVideoUrls;
@@ -92,7 +139,6 @@ $(function () {
     });
   } else if ($(".home-main").length && window.GaingeSite) {
     var hdef = window.GaingeSite.DEFAULT_HOME_JSON;
-    window.HOME_HERO_VIDEO_URL = hdef.heroVideoUrl;
     window.HOME_HERO_ROTATION_IMAGES = hdef.heroRotationImages;
     window.HOME_LOGO_SLOT_IMAGES = hdef.logoSlotImages;
     window.HOME_TESTIMONIAL_VIDEO_URLS = hdef.homeTestimonialVideoUrls;
@@ -342,10 +388,48 @@ $(function () {
     var $testimonialsPageNative = $testimonialsPagePopup.find(".testimonial-popup-video-native");
     var testimonialsPageNativeEl = $testimonialsPageNative[0];
     var $testimonialsPagePlaceholder = $testimonialsPagePopup.find(".home-testimonial-video-placeholder");
+    var testimonialsPageScrollTop = 0;
+    var testimonialsPageBodyLockPrev = null;
+
+    function lockBodyForTestimonialsPagePopup() {
+      if (testimonialsPageBodyLockPrev) return;
+      testimonialsPageScrollTop =
+        global.pageYOffset ||
+        global.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+      testimonialsPageBodyLockPrev = {
+        overflow: document.body.style.overflow,
+        position: document.body.style.position,
+        top: document.body.style.top,
+        left: document.body.style.left,
+        right: document.body.style.right,
+        width: document.body.style.width,
+      };
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = -testimonialsPageScrollTop + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
+
+    function unlockBodyForTestimonialsPagePopup() {
+      if (!testimonialsPageBodyLockPrev) return;
+      document.body.style.overflow = testimonialsPageBodyLockPrev.overflow;
+      document.body.style.position = testimonialsPageBodyLockPrev.position;
+      document.body.style.top = testimonialsPageBodyLockPrev.top;
+      document.body.style.left = testimonialsPageBodyLockPrev.left;
+      document.body.style.right = testimonialsPageBodyLockPrev.right;
+      document.body.style.width = testimonialsPageBodyLockPrev.width;
+      global.scrollTo(0, testimonialsPageScrollTop);
+      testimonialsPageBodyLockPrev = null;
+    }
 
     function closeTestimonialsPagePopup() {
       $testimonialsPagePopup.attr("hidden", true);
-      $("body").css("overflow", "");
+      unlockBodyForTestimonialsPagePopup();
       $testimonialsPageIframe.attr("src", "").attr("hidden", true);
       if (testimonialsPageNativeEl) {
         testimonialsPageNativeEl.pause();
@@ -392,7 +476,7 @@ $(function () {
         $testimonialsPagePlaceholder.removeAttr("hidden");
       }
       $testimonialsPagePopup.removeAttr("hidden");
-      $("body").css("overflow", "hidden");
+      lockBodyForTestimonialsPagePopup();
     }
 
     if (testimonialsPageNativeEl) {
@@ -534,10 +618,48 @@ $(function () {
     var $consultingVocNative = $consultingVocPopup.find(".consulting-voc-video-native");
     var consultingVocNativeEl = $consultingVocNative[0];
     var $consultingVocPlaceholder = $consultingVocPopup.find(".home-testimonial-video-placeholder");
+    var consultingVocScrollTop = 0;
+    var consultingVocBodyLockPrev = null;
+
+    function lockBodyForConsultingVocPopup() {
+      if (consultingVocBodyLockPrev) return;
+      consultingVocScrollTop =
+        global.pageYOffset ||
+        global.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+      consultingVocBodyLockPrev = {
+        overflow: document.body.style.overflow,
+        position: document.body.style.position,
+        top: document.body.style.top,
+        left: document.body.style.left,
+        right: document.body.style.right,
+        width: document.body.style.width,
+      };
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = -consultingVocScrollTop + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
+
+    function unlockBodyForConsultingVocPopup() {
+      if (!consultingVocBodyLockPrev) return;
+      document.body.style.overflow = consultingVocBodyLockPrev.overflow;
+      document.body.style.position = consultingVocBodyLockPrev.position;
+      document.body.style.top = consultingVocBodyLockPrev.top;
+      document.body.style.left = consultingVocBodyLockPrev.left;
+      document.body.style.right = consultingVocBodyLockPrev.right;
+      document.body.style.width = consultingVocBodyLockPrev.width;
+      global.scrollTo(0, consultingVocScrollTop);
+      consultingVocBodyLockPrev = null;
+    }
 
     function closeConsultingVocPopup() {
       $consultingVocPopup.attr("hidden", true);
-      $("body").css("overflow", "");
+      unlockBodyForConsultingVocPopup();
       $consultingVocIframe.attr("src", "").attr("hidden", true);
       if (consultingVocNativeEl) {
         consultingVocNativeEl.pause();
@@ -584,7 +706,7 @@ $(function () {
         $consultingVocPlaceholder.removeAttr("hidden");
       }
       $consultingVocPopup.removeAttr("hidden");
-      $("body").css("overflow", "hidden");
+      lockBodyForConsultingVocPopup();
     }
 
     if (consultingVocNativeEl) {
@@ -973,11 +1095,17 @@ $(function () {
     });
   }
 
+  /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
+  var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
+  window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
+
   // 고객 사례 페이지: 상세분류 + 검색어로 게시글 필터
   // 게시글 data-testimonial-* 는 Admin 체크박스 분류와 동일 문자열; 복수 선택 시 "|" 구분(예: ICT·전자|금융)
   function applyTestimonialsBoardFilter() {
     var $boardList = $(".testimonials-board .board-list");
     if (!$boardList.length) return;
+
+    var totalPosts = $boardList.find(".board-item").length;
 
     var $q = $("#successSearchInput");
     var q = ($q.length ? String($q.val() || "") : "").trim().toLowerCase();
@@ -1052,6 +1180,11 @@ $(function () {
     var $empty = $("#boardEmptyMessage");
     if ($empty.length) {
       if (visible === 0) {
+        if (totalPosts === 0) {
+          $empty.text("등록된 성공 사례가 없습니다.");
+        } else {
+          $empty.text("검색 조건에 맞는 성공 사례가 없습니다.");
+        }
         $empty.removeAttr("hidden");
       } else {
         $empty.attr("hidden", "hidden");
@@ -1063,7 +1196,19 @@ $(function () {
       industries.length > 0 ||
       scales.length > 0 ||
       consultings.length > 0;
-    $(".testimonials-board .board-pagination").toggle(!hasFilter);
+    var showPagination = !hasFilter && totalPosts > TESTIMONIALS_BOARD_PAGE_SIZE;
+    var $pag = $(".testimonials-board .board-pagination");
+    if ($pag.length) {
+      if (showPagination) {
+        $pag.removeAttr("hidden");
+      } else {
+        $pag.attr("hidden", "hidden");
+      }
+    }
+  }
+
+  if ($(".testimonials-board .board-list").length) {
+    applyTestimonialsBoardFilter();
   }
 
   $(document).on("click", ".testimonials-filters .filter-chip", function () {
@@ -1440,32 +1585,32 @@ $(function () {
 
     var defaultItems = [
       {
-        src: "assets/images/책 표지 샘플 이미지 1.jpg",
+        src: "assets/images/책 표지 샘플 이미지 1.webp",
         href: "https://gainge.com/contents/products/216",
         label: "대표 도서 1",
       },
       {
-        src: "assets/images/책 표지 샘플 이미지 2.jpg",
+        src: "assets/images/책 표지 샘플 이미지 2.webp",
         href: "https://gainge.com/contents/products/693",
         label: "대표 도서 2",
       },
       {
-        src: "assets/images/책 표지 샘플 이미지 7.jpg",
-        href: "https://product.kyobobook.co.kr/detail/S000214793562",
+        src: "assets/images/책 표지 샘플 이미지 7.webp",
+        href: "https://gainge.com/contents/products/536",
         label: "대표 도서 3",
       },
       {
-        src: "assets/images/책 표지 샘플 이미지 3.jpg",
+        src: "assets/images/책 표지 샘플 이미지 3.webp",
         href: "https://gainge.com/contents/products/996",
         label: "대표 도서 4",
       },
       {
-        src: "assets/images/책 표지 샘플 이미지 4.jpg",
+        src: "assets/images/책 표지 샘플 이미지 4.webp",
         href: "https://gainge.com/contents/products/995",
         label: "대표 도서 5",
       },
       {
-        src: "assets/images/책 표지 샘플 이미지 8.jpg",
+        src: "assets/images/책 표지 샘플 이미지 8.webp",
         href: "https://gainge.com/contents/products/998",
         label: "대표 도서 6",
       },
@@ -1477,7 +1622,7 @@ $(function () {
         {
           id: "book-1",
           title: "가인지 경영",
-          imageUrl: "assets/images/책 표지 샘플 이미지 1.jpg",
+          imageUrl: "assets/images/책 표지 샘플 이미지 1.webp",
           link: "https://gainge.com/contents/products/216",
           createdAt: "2026-04-28T00:00:00.000Z",
           updatedAt: "2026-04-28T00:00:00.000Z",
@@ -1485,7 +1630,7 @@ $(function () {
         {
           id: "book-2",
           title: "비즈니스는 사랑입니다",
-          imageUrl: "assets/images/책 표지 샘플 이미지 2.jpg",
+          imageUrl: "assets/images/책 표지 샘플 이미지 2.webp",
           link: "https://gainge.com/contents/products/693",
           createdAt: "2026-04-28T00:00:00.000Z",
           updatedAt: "2026-04-28T00:00:00.000Z",
@@ -1493,15 +1638,15 @@ $(function () {
         {
           id: "book-3",
           title: "조직 역동성",
-          imageUrl: "assets/images/책 표지 샘플 이미지 7.jpg",
-          link: "https://product.kyobobook.co.kr/detail/S000214793562",
+          imageUrl: "assets/images/책 표지 샘플 이미지 7.webp",
+          link: "https://gainge.com/contents/products/536",
           createdAt: "2026-04-28T00:00:00.000Z",
           updatedAt: "2026-04-28T00:00:00.000Z",
         },
         {
           id: "book-4",
           title: "OKR 파",
-          imageUrl: "assets/images/책 표지 샘플 이미지 3.jpg",
+          imageUrl: "assets/images/책 표지 샘플 이미지 3.webp",
           link: "https://gainge.com/contents/products/996",
           createdAt: "2026-04-28T00:00:00.000Z",
           updatedAt: "2026-04-28T00:00:00.000Z",
@@ -1509,7 +1654,7 @@ $(function () {
         {
           id: "book-5",
           title: "언더백 경영 인사이드 아웃",
-          imageUrl: "assets/images/책 표지 샘플 이미지 4.jpg",
+          imageUrl: "assets/images/책 표지 샘플 이미지 4.webp",
           link: "https://gainge.com/contents/products/995",
           createdAt: "2026-04-28T00:00:00.000Z",
           updatedAt: "2026-04-28T00:00:00.000Z",
@@ -1517,7 +1662,7 @@ $(function () {
         {
           id: "book-6",
           title: "메시지의 품격",
-          imageUrl: "assets/images/책 표지 샘플 이미지 8.jpg",
+          imageUrl: "assets/images/책 표지 샘플 이미지 8.webp",
           link: "https://gainge.com/contents/products/998",
           createdAt: "2026-04-28T00:00:00.000Z",
           updatedAt: "2026-04-28T00:00:00.000Z",

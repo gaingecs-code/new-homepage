@@ -1,5 +1,5 @@
 {
   "updatedAt": "2026-04-29T00:00:00.000Z",
-  "note": "성공 사례 게시판 본문은 현재 testimonials.html 마크업과 연동됩니다. 향후 동적 렌더링 시 items 스키마를 확장하세요.",
+  "note": "공개 게시판은 testimonials.html 의 .board-list 에 배포·렌더링합니다. 한 페이지 10건(window.TESTIMONIALS_BOARD_PAGE_SIZE와 동일).",
   "items": []
 }

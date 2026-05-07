@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   "use strict";
 
   var root = document.getElementById("diagnosis-app");
@@ -46,8 +46,6 @@
     typeRulesRows: [],
     sectionMapRows: [],
     typeAssetRows: [],
-    previewTypeId: "",
-    previewMode: false,
   };
 
   var DIAGNOSIS_STATE_KEY = "diagnosis-engine-state-v1:" + diagnosisId;
@@ -143,93 +141,6 @@
     render();
   });
 
-  root.addEventListener("change", function (ev) {
-    var el = ev.target;
-    if (!el || el.nodeType !== 1 || typeof el.matches !== "function") return;
-    if (!el.matches("[data-diagnosis-preview-select]")) return;
-    state.previewTypeId = String(el.value || "").trim();
-  });
-
-  root.addEventListener("click", function (ev) {
-    var el = ev.target;
-    if (el && el.nodeType !== 1 && el.parentElement) {
-      el = el.parentElement;
-    }
-    if (!el || typeof el.closest !== "function") return;
-
-    var applyBtn = el.closest("[data-diagnosis-preview-apply]");
-    if (applyBtn && root.contains(applyBtn)) {
-      ev.preventDefault();
-      if (!state.previewTypeId) return;
-      state.previewMode = true;
-      state.hasStarted = true;
-      state.resultViewActive = true;
-      render();
-      return;
-    }
-
-    var exitBtn = el.closest("[data-diagnosis-preview-exit]");
-    if (exitBtn && root.contains(exitBtn)) {
-      ev.preventDefault();
-      state.previewMode = false;
-      render();
-    }
-  });
-
-  function getTypeRulesOrdered() {
-    return (state.typeRulesRows || [])
-      .slice()
-      .sort(function (a, b) {
-        var pa = toNumber(a.priority, Number.POSITIVE_INFINITY);
-        var pb = toNumber(b.priority, Number.POSITIVE_INFINITY);
-        if (pa !== pb) return pa - pb;
-        return String(a.typeLabel || "").localeCompare(String(b.typeLabel || ""), "ko");
-      });
-  }
-
-  function getRuleByTypeId(typeId) {
-    var key = String(typeId || "").trim();
-    if (!key) return null;
-    for (var i = 0; i < state.typeRulesRows.length; i += 1) {
-      if (state.typeRulesRows[i].typeId === key) return state.typeRulesRows[i];
-    }
-    return null;
-  }
-
-  function getPreviewPanelHtml() {
-    var options = getTypeRulesOrdered();
-    var optionHtml =
-      '<option value="">결과 항목 선택</option>' +
-      options
-        .map(function (r) {
-          var cleanLabel = formatResultCardLabel(r.typeLabel);
-          var groupText = r.typeGroup === "STRENGTH" ? "강점" : "성장포인트";
-          var selected = r.typeId === state.previewTypeId ? ' selected="selected"' : "";
-          return (
-            '<option value="' +
-            escapeHtml(r.typeId) +
-            '"' +
-            selected +
-            ">" +
-            escapeHtml(cleanLabel + " - " + groupText) +
-            "</option>"
-          );
-        })
-        .join("");
-    return (
-      '<section class="diagnosis-preview-panel" aria-label="결과 미리보기">' +
-      '<p class="diagnosis-preview-panel-title">임시 결과 미리보기</p>' +
-      '<div class="diagnosis-preview-panel-controls">' +
-      '<select class="diagnosis-preview-select" data-diagnosis-preview-select>' +
-      optionHtml +
-      "</select>" +
-      '<button type="button" class="diagnosis-preview-apply-btn" data-diagnosis-preview-apply>미리보기</button>' +
-      '<button type="button" class="diagnosis-preview-exit-btn" data-diagnosis-preview-exit>실제 결과로 보기</button>' +
-      "</div>" +
-      "</section>"
-    );
-  }
-
   /** 인트로는 각 diagnosis-*.html 에 정적 마크업으로 두고, 여기서는 표시·버튼 상태만 맞춥니다. */
   function renderIntro() {
     document.body.classList.remove("diagnosis-result-phase");
@@ -250,7 +161,6 @@
 
     var oldPanel = introPanel.querySelector(".diagnosis-preview-panel");
     if (oldPanel) oldPanel.remove();
-    startBtn.insertAdjacentHTML("beforebegin", getPreviewPanelHtml());
   }
 
   function parseCsv(text) {
@@ -1360,28 +1270,6 @@
     );
   }
 
-  function buildPreviewResult() {
-    var rule = getRuleByTypeId(state.previewTypeId);
-    if (!rule) {
-      return { strength: null, growth: null };
-    }
-    var data = {
-      diagnosisId: rule.diagnosisId,
-      typeId: rule.typeId,
-      label: rule.typeLabel,
-      targetSectionId: rule.targetSectionId,
-      roundedScore: null,
-      imageSrc: "",
-      imageFileName: "",
-      altText: rule.typeLabel,
-      typeGroup: rule.typeGroup,
-    };
-    if (rule.typeGroup === "STRENGTH") {
-      return { strength: data, growth: null };
-    }
-    return { strength: null, growth: data };
-  }
-
   /** 결과 전용 화면(결과 단계): 문항 UI 없이 결과 블록만 표시 */
   function renderResultScreen() {
     var introPanel = root.querySelector("#diagnosis-intro-panel");
@@ -1390,7 +1278,7 @@
     if (introPanel) introPanel.hidden = true;
     questionsHost.hidden = false;
 
-    var result = state.previewMode ? buildPreviewResult() : computeResult();
+    var result = computeResult();
     if (!result) {
       state.resultViewActive = false;
       render();
@@ -1399,7 +1287,6 @@
 
     questionsHost.innerHTML =
       '<section class="diagnosis-result-screen" aria-label="진단 결과">' +
-      getPreviewPanelHtml() +
       '<section class="diagnosis-result-block">' +
       '<h2 class="diagnosis-result-heading">진단 결과</h2>' +
       renderResultCard("strength", result.strength) +

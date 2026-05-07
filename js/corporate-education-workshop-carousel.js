@@ -1,6 +1,6 @@
 /**
- * 기업교육 — 직무별 교육 블록 가로 캐러셀 + 자동 로테이션
- * 카드는 data-admin-collection="introCards" 하위에 추가·삭제 가능. 레이아웃 후 init 재호출 권장.
+ * 기업교육 — 교육 소개 가로 캐러셀(자격증 과정·직급별 교육·직무별 교육) + 자동 로테이션
+ * 루트: [data-corporate-education-workshop-carousel]. 카드는 data-admin-collection="introCards" 하위에 추가·삭제 가능.
  */
 (function () {
   var mqMobile = window.matchMedia("(max-width: 900px)");
@@ -112,14 +112,12 @@
       prevBtn.addEventListener("click", function () {
         scrollByDir(-1);
         pause();
-        resume();
       });
     }
     if (nextBtn) {
       nextBtn.addEventListener("click", function () {
         scrollByDir(1);
         pause();
-        resume();
       });
     }
 
@@ -137,12 +135,10 @@
         e.preventDefault();
         scrollByDir(-1);
         pause();
-        resume();
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
         scrollByDir(1);
         pause();
-        resume();
       }
     });
 

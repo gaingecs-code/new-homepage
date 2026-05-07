@@ -1,8 +1,9 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { defaultBooksData } from "../data/defaultBooks";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
 
 const STORAGE_KEY = "admin.local.books.v1";
+const PUBLISHED_STORAGE_KEY = "admin.published.books.v1";
 
 function readAsDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -17,12 +18,24 @@ export default function BooksPage() {
   const [data, setData] = useState(() => loadLocalDraft(STORAGE_KEY, defaultBooksData));
   const [message, setMessage] = useState("");
   const [selectedId, setSelectedId] = useState(() => defaultBooksData.items?.[0]?.id ?? null);
+  const [showSavedBadge, setShowSavedBadge] = useState(false);
   const thumbInputRef = useRef(null);
+  const saveFeedbackTimerRef = useRef(null);
 
   const items = useMemo(() => data.items || [], [data.items]);
 
   const selectedIndex = useMemo(() => items.findIndex((x) => x.id === selectedId), [items, selectedId]);
   const selected = selectedIndex >= 0 ? items[selectedIndex] : null;
+
+  useEffect(
+    () => () => {
+      if (saveFeedbackTimerRef.current) {
+        clearTimeout(saveFeedbackTimerRef.current);
+        saveFeedbackTimerRef.current = null;
+      }
+    },
+    []
+  );
 
   function updateItem(index, key, value) {
     setData((prev) => {
@@ -100,7 +113,14 @@ export default function BooksPage() {
 
   function saveDraft() {
     saveLocalDraft(STORAGE_KEY, data);
-    setMessage("로컬 초안을 저장했습니다.");
+    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    setMessage("웹 저장하기: 도서 변경사항을 즉시 반영용으로 저장했습니다.");
+    setShowSavedBadge(true);
+    if (saveFeedbackTimerRef.current) clearTimeout(saveFeedbackTimerRef.current);
+    saveFeedbackTimerRef.current = setTimeout(() => {
+      setShowSavedBadge(false);
+      saveFeedbackTimerRef.current = null;
+    }, 1800);
   }
 
   function exportJson() {
@@ -137,16 +157,33 @@ export default function BooksPage() {
           메인 도서 캐러셀(`gainge-management`) 기준 데이터입니다. 왼쪽에서 도서를 선택하면 오른쪽에서 수정합니다. 표지는 파일 업로드 시 JSON에 포함되므로 용량을 확인해 주세요.
         </p>
         <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.9rem" }}>
-          <button className="btn btn-primary" type="button" onClick={saveDraft}>
-            로컬 저장 (PC에 문서로 저장합니다)
-          </button>
-          <button className="btn btn-outline" type="button" onClick={exportJson}>
-            JSON 내보내기 (웹 게시용 파일로 저장합니다.)
-          </button>
-          <label className="btn btn-outline" style={{ cursor: "pointer" }}>
-            JSON 불러오기 (웹 게시용 파일을 불러옵니다.)
-            <input type="file" accept="application/json,.json" onChange={importJson} style={{ display: "none" }} />
-          </label>
+          <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+            <button className="btn btn-primary" type="button" onClick={saveDraft}>
+              웹 저장하기
+            </button>
+            {showSavedBadge ? (
+              <span
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  bottom: "calc(100% + 0.3rem)",
+                  transform: "translateX(-50%)",
+                  background: "#047857",
+                  color: "#ffffff",
+                  fontSize: "0.72rem",
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  padding: "0.22rem 0.42rem",
+                  borderRadius: "999px",
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                }}
+              >
+                반영됨
+              </span>
+            ) : null}
+          </div>
           <button className="btn btn-outline" type="button" onClick={resetDefault}>
             기본값 복원
           </button>

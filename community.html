@@ -4,9 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>경영자 커뮤니티</title>
+  <!-- 히어로 로테이션 초기 두 장: 스타일시트보다 먼저 요청(페이지 하단 photoUrls 와 동일 순서 유지) -->
+  <link rel="preload" as="image" href="assets/커뮤니티 초대 샘플 1.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/커뮤니티 초대 샘플 2.webp" fetchpriority="high" />
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    crossorigin
   />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -15,7 +19,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html#hero" class="logo">
-        <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹 로고" />
+        <img src="assets/헤더용 신규 로고 1.webp" alt="가인지 컨설팅 그룹 로고" />
       </a>
       <nav class="main-nav">
         <button class="nav-toggle" aria-label="메뉴 열기">
@@ -82,7 +86,7 @@
       <div class="container">
         <div class="community-maria-grid">
           <div class="community-maria-cell community-maria-cell--left">
-            <img src="assets/마리아 누끼.png" alt="마리아" class="community-maria-image" />
+            <img src="assets/마리아 누끼.webp" alt="마리아" class="community-maria-image" />
           </div>
           <div class="community-maria-cell community-maria-cell--right">
             <div class="community-maria-title-block">
@@ -136,7 +140,7 @@
                 <div class="community-intro-image-frame">
                   <div class="community-intro-image-slot" data-community-intro="conference">
                     <img
-                      src="assets/컨퍼런스 임시.jpg"
+                      src="assets/컨퍼런스 임시.webp"
                       alt="컨퍼런스"
                       class="community-intro-image"
                       loading="lazy"
@@ -170,7 +174,7 @@
               <span class="community-intro-curtain-word">Insight</span>
               <img
                 class="community-intro-curtain-img"
-                src="assets/커튼 1.png"
+                src="assets/커튼 1.webp"
                 alt=""
                 width="800"
                 height="600"
@@ -184,7 +188,7 @@
                 <div class="community-intro-image-frame">
                   <div class="community-intro-image-slot" data-community-intro="growthClub">
                     <img
-                      src="assets/성장클럽 임시.jpg"
+                      src="assets/성장클럽 임시.webp"
                       alt="성장클럽"
                       class="community-intro-image"
                       loading="lazy"
@@ -218,7 +222,7 @@
               <span class="community-intro-curtain-word">Growth</span>
               <img
                 class="community-intro-curtain-img"
-                src="assets/커튼 2.png"
+                src="assets/커튼 2.webp"
                 alt=""
                 width="800"
                 height="600"
@@ -232,7 +236,7 @@
                 <div class="community-intro-image-frame">
                   <div class="community-intro-image-slot" data-community-intro="ccClass">
                     <img
-                      src="assets/CC클래스 임시.jpg"
+                      src="assets/CC클래스 임시.webp"
                       alt="CC클래스"
                       class="community-intro-image"
                       loading="lazy"
@@ -266,7 +270,7 @@
               <span class="community-intro-curtain-word">Belief</span>
               <img
                 class="community-intro-curtain-img"
-                src="assets/커튼 3.png"
+                src="assets/커튼 3.webp"
                 alt=""
                 width="800"
                 height="600"
@@ -346,15 +350,15 @@
         >
           <div class="community-testimony-photo-stage">
             <div class="community-testimony-photo-track">
-              <img class="community-testimony-photo-img is-active" src="assets/커뮤니티 로테 1.jpg" alt="가인지 커뮤니티 현장 사진 1" loading="eager" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 2.jpg" alt="가인지 커뮤니티 현장 사진 2" loading="lazy" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 3.jpg" alt="가인지 커뮤니티 현장 사진 3" loading="lazy" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 4.jpg" alt="가인지 커뮤니티 현장 사진 4" loading="lazy" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 5.jpg" alt="가인지 커뮤니티 현장 사진 5" loading="lazy" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 6.jpg" alt="가인지 커뮤니티 현장 사진 6" loading="lazy" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 7.jpg" alt="가인지 커뮤니티 현장 사진 7" loading="lazy" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 8.jpg" alt="가인지 커뮤니티 현장 사진 8" loading="lazy" decoding="async" />
-              <img class="community-testimony-photo-img" src="assets/커뮤니티 로테 9.jpg" alt="가인지 커뮤니티 현장 사진 9" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img is-active" src="assets/컨퍼런스 1.webp" alt="가인지 커뮤니티 현장 사진 1" loading="eager" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/컨퍼런스 2.webp" alt="가인지 커뮤니티 현장 사진 2" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/컨퍼런스 3.webp" alt="가인지 커뮤니티 현장 사진 3" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/컨퍼런스 4.webp" alt="가인지 커뮤니티 현장 사진 4" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/컨퍼런스 5.webp" alt="가인지 커뮤니티 현장 사진 5" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/컨퍼런스 6.webp" alt="가인지 커뮤니티 현장 사진 6" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/컨퍼런스 7.webp" alt="가인지 커뮤니티 현장 사진 7" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/컨퍼런스 8.webp" alt="가인지 커뮤니티 현장 사진 8" loading="lazy" decoding="async" />
+              <img class="community-testimony-photo-img" src="assets/성장클럽 9.webp" alt="가인지 커뮤니티 현장 사진 9" loading="lazy" decoding="async" />
             </div>
             <button type="button" class="community-testimony-nav community-testimony-nav--prev community-testimony-nav--community" aria-label="이전 사진">
               <span aria-hidden="true">&lt;</span>
@@ -379,7 +383,7 @@
 
     <div class="container">
       <div class="community-calendar-actions">
-        <a href="https://gainge.com/contents/products/980" class="community-calendar-cta" data-community-link="conference" rel="noopener noreferrer">컨퍼런스 참여하기</a>
+        <a href="https://gainge.com/contents/products/1013" class="community-calendar-cta" data-community-link="conferenceField" rel="noopener noreferrer">컨퍼런스 참여하기</a>
         <a href="https://gainge.com/contents/products/1" class="community-calendar-cta" data-community-link="growthClub" rel="noopener noreferrer">성장클럽 참여하기</a>
         <a href="https://gainge.com/contents/products/604" class="community-calendar-cta" data-community-link="ccClass" rel="noopener noreferrer">CC클래스 참여하기</a>
       </div>
@@ -481,7 +485,7 @@
         <div class="community-vision-grid">
           <div class="community-vision-cell community-vision-cell--photo">
             <img
-              src="assets/마리아 비전.jpg"
+              src="assets/마리아 비전.webp"
               alt="가인지 커뮤니티 총괄 권현지 센터장"
               class="community-vision-image"
               loading="lazy"
@@ -537,17 +541,17 @@
     <div class="container footer-inner">
       <div class="footer-top-row">
         <a href="index.html#hero" class="footer-logo-link" target="_blank" rel="noopener noreferrer" aria-label="가인지 컨설팅 그룹 홈">
-          <img src="assets/헤더용 신규 로고 1.png" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
+          <img src="assets/헤더용 신규 로고 1.webp" alt="가인지 컨설팅 그룹" class="footer-main-logo" />
         </a>
         <div class="footer-social-icons" aria-label="SNS 바로가기">
           <a href="https://www.youtube.com/@gaingetv" class="footer-social-icon-link footer-social-icon-link--youtube" target="_blank" rel="noopener noreferrer" aria-label="가인지TV 유튜브">
-            <img src="assets/1.png" alt="" />
+            <img src="assets/1.webp" alt="" />
           </a>
           <a href="https://www.instagram.com/gaingecampus.official/" class="footer-social-icon-link footer-social-icon-link--instagram" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 인스타그램">
-            <img src="assets/푸터 인스타.png" alt="" />
+            <img src="assets/푸터 인스타.webp" alt="" />
           </a>
           <a href="https://m.blog.naver.com/PostList.naver?blogId=gainge0691&amp;tab=1" class="footer-social-icon-link footer-social-icon-link--blog" target="_blank" rel="noopener noreferrer" aria-label="가인지캠퍼스 네이버 블로그">
-            <img src="assets/푸터 블로그.png" alt="" />
+            <img src="assets/푸터 블로그.webp" alt="" />
           </a>
         </div>
       </div>
@@ -565,220 +569,28 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="js/site-data.js"></script>
+  <script src="js/hero-rotation-config.js"></script>
+  <script src="js/hero-photo-prefetch.js"></script>
+  <script src="js/hero-rotation-unified.js"></script>
   <script>
     (function () {
+      if (!window.GaingeHeroRotation) return;
       var root = document.querySelector("[data-community-invitation-hero]");
       if (!root) return;
-
-      var layers = root.querySelectorAll(".consulting-group-photo-bg");
-      if (!layers || layers.length < 2) return;
-
-      var dots = document.querySelectorAll(".community-main [data-community-invitation-hero-dot]");
-
-      var photos = [
-        "assets/커뮤니티 초대 샘플 1.JPG",
-        "assets/커뮤니티 초대 샘플 2.JPG",
-        "assets/커뮤니티 초대 샘플 3.JPG",
-        "assets/커뮤니티 초대 샘플 4.JPG",
-        "assets/커뮤니티 초대 샘플 5.JPG",
-        "assets/커뮤니티 초대 샘플 6.JPG"
-      ];
-      var n = photos.length;
-      if (!n) return;
-
-      var currentPhotoIdx = 0;
-      var activeLayerIdx = 0;
-      var timer = null;
-      var firstTimer = null;
-      var AUTO_MS = 2200;
-      var FADE_MS = 1500;
-      var FIRST_FADE_IN_MS = 490;
-      var FIRST_ROTATION_CROSSFADE_MS = 380;
-      var FIRST_TO_SECOND_DELAY_MS = 600;
-      var isFirstRotation = true;
-      var reduceMotion =
-        typeof window.matchMedia === "function" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (reduceMotion) {
-        AUTO_MS = 5000;
-        FADE_MS = 0;
-      }
-
-      function preloadRemainingImages() {
-        for (var i = 1; i < n; i++) {
-          var img = new Image();
-          img.src = photos[i];
-        }
-      }
-
-      function runWhenFirstImageReady(done) {
-        if (n === 0) {
-          done();
-          return;
-        }
-        var started = false;
-        function startOnce() {
-          if (started) return;
-          started = true;
-          done();
-          preloadRemainingImages();
-        }
-
-        var firstImg = new Image();
-        firstImg.onload = startOnce;
-        firstImg.onerror = startOnce;
-        firstImg.src = photos[0];
-
-        // 비정상 네트워크/캐시 지연 대비: 일정 시간 뒤에는 시작
-        window.setTimeout(startOnce, 700);
-      }
-
-      function setLayerBg(layer, url, photoIndex) {
-        var safe = encodeURI(url).replace(/'/g, "%27");
-        var u = 'url("' + safe + '")';
-        var fill = layer.querySelector(".consulting-group-photo-bg-fill");
-        var main = layer.querySelector(".consulting-group-photo-bg-main");
-        if (fill) fill.style.backgroundImage = u;
-        if (main) main.style.backgroundImage = u;
-        var useBlurFill = typeof photoIndex === "number" && photoIndex >= 2;
-        layer.classList.toggle("consulting-group-photo-bg--blur-fill", useBlurFill);
-      }
-
-      function updateDots() {
-        if (!dots || !dots.length) return;
-        dots.forEach(function (dot) {
-          var i = parseInt(dot.getAttribute("data-community-invitation-hero-index"), 10);
-          var on = i === currentPhotoIdx;
-          dot.classList.toggle("is-current", on);
-          dot.setAttribute("aria-selected", on ? "true" : "false");
-        });
-      }
-
-      function goTo(targetIdx) {
-        targetIdx = ((targetIdx % n) + n) % n;
-        if (targetIdx === currentPhotoIdx) {
-          schedule();
-          return;
-        }
-
-        if (isFirstRotation) {
-          isFirstRotation = false;
-          layers[0].style.transitionDuration = "";
-          layers[1].style.transitionDuration = "";
-        }
-
-        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
-        var outgoingLayerIdx = activeLayerIdx;
-
-        setLayerBg(layers[incomingLayerIdx], photos[targetIdx], targetIdx);
-        layers[incomingLayerIdx].classList.add("is-active");
-        layers[outgoingLayerIdx].classList.remove("is-active");
-
-        currentPhotoIdx = targetIdx;
-        activeLayerIdx = incomingLayerIdx;
-        updateDots();
-        schedule();
-      }
-
-      function showInitial() {
-        var first = layers[0];
-        setLayerBg(first, photos[0], 0);
-        setLayerBg(layers[1], photos[1 % n], 1 % n);
-        layers[1].classList.remove("is-active");
-        if (!reduceMotion) {
-          first.style.transitionDuration = FIRST_FADE_IN_MS / 1000 + "s";
-        }
-        window.requestAnimationFrame(function () {
-          first.classList.add("is-active");
-          if (!reduceMotion) {
-            function clearFirstFadeDuration(e) {
-              if (e && e.propertyName !== "opacity") return;
-              first.removeEventListener("transitionend", clearFirstFadeDuration);
-              first.style.transitionDuration = "";
-            }
-            first.addEventListener("transitionend", clearFirstFadeDuration);
-            window.setTimeout(clearFirstFadeDuration, FIRST_FADE_IN_MS + 120);
-          }
-        });
-      }
-
-      function next() {
-        var nextPhotoIdx = (currentPhotoIdx + 1) % n;
-        var incomingLayerIdx = activeLayerIdx === 0 ? 1 : 0;
-        var outgoingLayerIdx = activeLayerIdx;
-
-        var useShortFirstRotation = !reduceMotion && isFirstRotation;
-        if (useShortFirstRotation) {
-          layers[0].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
-          layers[1].style.transitionDuration = FIRST_ROTATION_CROSSFADE_MS / 1000 + "s";
-        }
-
-        setLayerBg(layers[incomingLayerIdx], photos[nextPhotoIdx], nextPhotoIdx);
-        layers[incomingLayerIdx].classList.add("is-active");
-        layers[outgoingLayerIdx].classList.remove("is-active");
-
-        currentPhotoIdx = nextPhotoIdx;
-        activeLayerIdx = incomingLayerIdx;
-
-        if (useShortFirstRotation) {
-          isFirstRotation = false;
-          window.setTimeout(function () {
-            layers[0].style.transitionDuration = "";
-            layers[1].style.transitionDuration = "";
-          }, FIRST_ROTATION_CROSSFADE_MS + 80);
-        }
-        updateDots();
-      }
-
-      function clear() {
-        if (firstTimer !== null) {
-          window.clearTimeout(firstTimer);
-          firstTimer = null;
-        }
-        if (timer !== null) {
-          window.clearInterval(timer);
-          timer = null;
-        }
-      }
-
-      function schedule() {
-        clear();
-        var firstDelay = isFirstRotation
-          ? FIRST_TO_SECOND_DELAY_MS
-          : Math.max(0, AUTO_MS - FADE_MS);
-        firstTimer = window.setTimeout(function () {
-          next();
-          timer = window.setInterval(next, AUTO_MS);
-          firstTimer = null;
-        }, firstDelay);
-      }
-
-      function pause() {
-        clear();
-      }
-
-      function resume() {
-        schedule();
-      }
-
-      runWhenFirstImageReady(function () {
-        showInitial();
-        updateDots();
-        schedule();
-      });
-
-      dots.forEach(function (dot) {
-        dot.addEventListener("click", function () {
-          var i = parseInt(dot.getAttribute("data-community-invitation-hero-index"), 10);
-          if (Number.isNaN(i)) return;
-          goTo(i);
-        });
-      });
-
-      root.addEventListener("focusin", pause);
-      root.addEventListener("focusout", function (e) {
-        if (!root.contains(e.relatedTarget)) resume();
+      window.GaingeHeroRotation.init({
+        root: root,
+        photoUrls: [
+          "assets/커뮤니티 초대 샘플 1.webp",
+          "assets/커뮤니티 초대 샘플 2.webp",
+          "assets/커뮤니티 초대 샘플 3.webp",
+          "assets/커뮤니티 초대 샘플 4.webp",
+          "assets/커뮤니티 초대 샘플 5.webp",
+          "assets/커뮤니티 초대 샘플 6.webp",
+        ],
+        dotsSelector: ".community-main [data-community-invitation-hero-dot]",
+        dotIndexAttr: "data-community-invitation-hero-index",
+        layerMode: "dual-fill",
+        blurFillFromIndex: 2,
       });
     })();
   </script>
@@ -787,7 +599,7 @@
       conference: [
         "시대는 지금도 변화합니다. 컨퍼런스를 통해 제가 속한 산업군에서 어떤 방향으로 기업을 경영해야 할 것인지 방향성을 얻을 수 있었습니다. 적극 추천합니다.",
         "컨퍼런스 강연에서 지금의 시기에 적절하고 필요한 인사이트를 얻을 수 있었습니다. 그리고 참가자 네트워킹과 이벤트 존에서의 시간도 유익했습니다. 여기에서 가진 정보교류가 매우 만족스러웠습니다.",
-        "이번 컨퍼런스는 정말 깊은 울림이 있었습니다. 단순한 비즈니스 행사가 아니라, '비즈니스는 결국 사랑'이라는 메시지를 온 몸으로 느낄 수 있는 시간이었습니다. 강연과 프로그램 하나, 하나에 진정성이 담겨있고 참여자, 연사 그리고 운영진 모두가 한 마음으로 '더 나은 세상'을 향해 나간다는 감동을 받았습니다.",
+        "'비즈니스는 결국 사랑'이라는 메시지를 온 몸으로 느낀 시간이었습니다. 모든 강연과 프로그램 진정성이 담겨있고 참여자, 연사, 운영진 모두가 한 마음으로 '더 나은 세상'을 향해 나간다는 감동을 받았습니다.",
         "비즈니스의 시작부터 끝까지를 모두 다루는 실질적인 컨퍼런스였다고 생각합니다. 사례와 원리뿐 아니라, 현장에서 바로 사용할 수 있는 도구, 방법까지 얻었습니다."
       ],
       growthClub: [

@@ -1,10 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import AdminProgramCalendarTable from "../components/AdminProgramCalendarTable";
 import { ADMIN_CAL_MONTHS, emptyMonthEntries } from "../lib/adminCalendarConstants";
 import { defaultCommunityCalendarData } from "../data/defaultCommunityCalendar";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
 
 const STORAGE_KEY = "admin.local.community-calendar.v1";
+const PUBLISHED_STORAGE_KEY = "admin.published.community-calendar.v1";
 
 function normalizeRows(rows) {
   return (rows || []).map((row) => {
@@ -32,6 +33,8 @@ function normalizeRows(rows) {
 export default function CommunityCalendarPage() {
   const [data, setData] = useState(() => loadLocalDraft(STORAGE_KEY, defaultCommunityCalendarData));
   const [message, setMessage] = useState("");
+  const [savedRowId, setSavedRowId] = useState(null);
+  const saveFeedbackTimerRef = useRef(null);
   const rows = useMemo(() => normalizeRows(data.rows), [data.rows]);
 
   function updateMeta(key, value) {
@@ -130,7 +133,31 @@ export default function CommunityCalendarPage() {
 
   function saveDraft() {
     saveLocalDraft(STORAGE_KEY, data);
-    setMessage("로컬 초안을 저장했습니다.");
+    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    setMessage("타이틀/보조 타이틀/참여링크 포함 전체 변경사항을 웹 반영용으로 저장했습니다.");
+  }
+
+  function saveRowDraft(row) {
+    saveLocalDraft(STORAGE_KEY, data);
+    const published = loadLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    const nextRows = normalizeRows(published.rows || []);
+    const rowIndex = nextRows.findIndex((x) => x.id === row?.id);
+    if (rowIndex >= 0) nextRows[rowIndex] = row;
+    else if (row) nextRows.push(row);
+    const nextPublished = {
+      ...published,
+      rows: nextRows,
+      updatedAt: nowIso(),
+    };
+    saveLocalDraft(PUBLISHED_STORAGE_KEY, nextPublished);
+    const name = String(row?.program || "프로그램").trim() || "프로그램";
+    setMessage(`「${name}」 캘린더 행만 웹 반영용으로 저장했습니다.`);
+    setSavedRowId(row?.id || null);
+    if (saveFeedbackTimerRef.current) clearTimeout(saveFeedbackTimerRef.current);
+    saveFeedbackTimerRef.current = setTimeout(() => {
+      setSavedRowId(null);
+      saveFeedbackTimerRef.current = null;
+    }, 1800);
   }
 
   function exportJson() {
@@ -164,15 +191,8 @@ export default function CommunityCalendarPage() {
         <p className="muted">`community.html` 캘린더 및 참여하기 버튼 링크 기준입니다. 월 칸을 누르면 일정·링크·메모를 편집할 수 있습니다.</p>
         <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.9rem" }}>
           <button className="btn btn-primary" type="button" onClick={saveDraft}>
-            로컬 저장 (PC에 문서로 저장합니다)
+            웹 저장하기
           </button>
-          <button className="btn btn-outline" type="button" onClick={exportJson}>
-            JSON 내보내기 (웹 게시용 파일로 저장합니다.)
-          </button>
-          <label className="btn btn-outline" style={{ cursor: "pointer" }}>
-            JSON 불러오기 (웹 게시용 파일을 불러옵니다.)
-            <input type="file" accept="application/json,.json" onChange={importJson} style={{ display: "none" }} />
-          </label>
           <button className="btn btn-outline" type="button" onClick={resetDefault}>
             기본값 복원
           </button>
@@ -209,7 +229,38 @@ export default function CommunityCalendarPage() {
 
         {rows.map((row, rowIndex) => (
           <div key={row.id} className="panel" style={{ marginTop: "0.85rem" }}>
-            <p className="card-label">프로그램 캘린더</p>
+            <div className="admin-actions" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.5rem", marginBottom: "0.35rem" }}>
+              <p className="card-label" style={{ margin: 0 }}>
+                프로그램 캘린더
+              </p>
+              <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+                <button className="btn btn-primary" type="button" onClick={() => saveRowDraft(row)}>
+                  웹 저장하기
+                </button>
+                {savedRowId === row.id ? (
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: "50%",
+                      bottom: "calc(100% + 0.3rem)",
+                      transform: "translateX(-50%)",
+                      background: "#047857",
+                      color: "#ffffff",
+                      fontSize: "0.72rem",
+                      fontWeight: 600,
+                      lineHeight: 1,
+                      padding: "0.22rem 0.42rem",
+                      borderRadius: "999px",
+                      whiteSpace: "nowrap",
+                      pointerEvents: "none",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                    }}
+                  >
+                    저장됨
+                  </span>
+                ) : null}
+              </div>
+            </div>
             <AdminProgramCalendarTable
               row={row}
               rowIndex={rowIndex}

@@ -4,7 +4,7 @@
     {
       "id": "book-1",
       "title": "가인지 경영",
-      "imageUrl": "assets/images/책 표지 샘플 이미지 1.jpg",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 1.webp",
       "link": "https://gainge.com/contents/products/216",
       "createdAt": "2026-04-28T00:00:00.000Z",
       "updatedAt": "2026-04-28T00:00:00.000Z"
@@ -12,7 +12,7 @@
     {
       "id": "book-2",
       "title": "비즈니스는 사랑입니다",
-      "imageUrl": "assets/images/책 표지 샘플 이미지 2.jpg",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 2.webp",
       "link": "https://gainge.com/contents/products/693",
       "createdAt": "2026-04-28T00:00:00.000Z",
       "updatedAt": "2026-04-28T00:00:00.000Z"
@@ -20,15 +20,15 @@
     {
       "id": "book-3",
       "title": "조직 역동성",
-      "imageUrl": "assets/images/책 표지 샘플 이미지 7.jpg",
-      "link": "https://product.kyobobook.co.kr/detail/S000214793562",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 7.webp",
+      "link": "https://gainge.com/contents/products/536",
       "createdAt": "2026-04-28T00:00:00.000Z",
       "updatedAt": "2026-04-28T00:00:00.000Z"
     },
     {
       "id": "book-4",
       "title": "OKR 파",
-      "imageUrl": "assets/images/책 표지 샘플 이미지 3.jpg",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 3.webp",
       "link": "https://gainge.com/contents/products/996",
       "createdAt": "2026-04-28T00:00:00.000Z",
       "updatedAt": "2026-04-28T00:00:00.000Z"
@@ -36,7 +36,7 @@
     {
       "id": "book-5",
       "title": "언더백 경영 인사이드 아웃",
-      "imageUrl": "assets/images/책 표지 샘플 이미지 4.jpg",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 4.webp",
       "link": "https://gainge.com/contents/products/995",
       "createdAt": "2026-04-28T00:00:00.000Z",
       "updatedAt": "2026-04-28T00:00:00.000Z"
@@ -44,7 +44,7 @@
     {
       "id": "book-6",
       "title": "메시지의 품격",
-      "imageUrl": "assets/images/책 표지 샘플 이미지 8.jpg",
+      "imageUrl": "assets/images/책 표지 샘플 이미지 8.webp",
       "link": "https://gainge.com/contents/products/998",
       "createdAt": "2026-04-28T00:00:00.000Z",
       "updatedAt": "2026-04-28T00:00:00.000Z"

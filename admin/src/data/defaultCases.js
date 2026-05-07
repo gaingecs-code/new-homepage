@@ -13,7 +13,9 @@ export const defaultCasesData = {
       consultingTypeTags: ["HR 컨설팅"],
       content:
         "여기에 고객 사례 본문을 작성합니다.\n문단은 줄바꿈으로 구분할 수 있습니다.",
-      imageUrl: "assets/간증 이미지 샘플 1.jpg",
+      imageUrl: "assets/간증 이미지 샘플 1.webp",
+      thumbnailUrl: "",
+      featuredImageUrl: "assets/간증 이미지 샘플 1.webp",
       contentBlocks: [
         {
           id: "block-1",
@@ -23,7 +25,7 @@ export const defaultCasesData = {
         {
           id: "block-2",
           type: "image",
-          imageUrl: "assets/간증 이미지 샘플 1.jpg",
+          imageUrl: "assets/간증 이미지 샘플 1.webp",
           caption: "사례 대표 이미지",
           align: "center",
         },

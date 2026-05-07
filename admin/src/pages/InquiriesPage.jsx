@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { defaultInquiriesData } from "../data/defaultInquiries";
 import { downloadCsv } from "../lib/csvDownload";
 import { INQUIRIES_EXPORT_HEADERS, buildInquiriesDataRows } from "../lib/inquiriesExport";
@@ -6,6 +6,23 @@ import { downloadInquiriesXlsx } from "../lib/inquiriesXlsx";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
 
 const STORAGE_KEY = "admin.local.inquiries.v1";
+
+/** 과거 번들 데모 문의(inq_001~003) — 기존 로컬 저장분에서 제거 */
+const REMOVED_LEGACY_DUMMY_IDS = new Set(["inq_001", "inq_002", "inq_003"]);
+
+function bootstrapInquiriesState() {
+  const loaded = loadLocalDraft(STORAGE_KEY, defaultInquiriesData);
+  const prev = loaded.items || [];
+  const items = prev.filter((it) => !REMOVED_LEGACY_DUMMY_IDS.has(it.id));
+  if (items.length === prev.length) {
+    return { data: loaded, selectedId: prev[0]?.id ?? null };
+  }
+  const stripped = { ...loaded, items, updatedAt: nowIso() };
+  saveLocalDraft(STORAGE_KEY, stripped);
+  return { data: stripped, selectedId: items[0]?.id ?? null };
+}
+
+const inquiriesInitialState = bootstrapInquiriesState();
 
 const PAGE_SIZES = [5, 10, 20, 50];
 const PAGE_ALL = "all";
@@ -101,7 +118,7 @@ function exportStamp() {
 }
 
 export default function InquiriesPage() {
-  const [data, setData] = useState(() => loadLocalDraft(STORAGE_KEY, defaultInquiriesData));
+  const [data, setData] = useState(inquiriesInitialState.data);
   /** 입력 중인 조건(목록에는 「검색」 시 반영) */
   const [draftSearch, setDraftSearch] = useState("");
   const [draftDateFrom, setDraftDateFrom] = useState("");
@@ -110,7 +127,7 @@ export default function InquiriesPage() {
   const [appliedSearch, setAppliedSearch] = useState("");
   const [appliedDateFrom, setAppliedDateFrom] = useState("");
   const [appliedDateTo, setAppliedDateTo] = useState("");
-  const [selectedId, setSelectedId] = useState(() => defaultInquiriesData.items?.[0]?.id ?? null);
+  const [selectedId, setSelectedId] = useState(inquiriesInitialState.selectedId);
   const [message, setMessage] = useState("");
   const [sortKey, setSortKey] = useState(/** @type {SortKey} */ ("createdAt"));
   const [sortDir, setSortDir] = useState("desc");
@@ -118,15 +135,14 @@ export default function InquiriesPage() {
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState([]);
 
-  const readAt = useMemo(() => new Date().toISOString(), []);
   const inquiries = useMemo(
     () =>
       (data.items || []).map((item) => ({
         ...item,
-        isRead: true,
-        readAt: item.readAt || readAt,
+        isRead: !!item.isRead,
+        readAt: item.readAt || null,
       })),
-    [data.items, readAt]
+    [data.items]
   );
 
   const filtered = useMemo(() => {
@@ -179,7 +195,7 @@ export default function InquiriesPage() {
     return sorted.slice(start, start + ps);
   }, [sorted, effectivePage, pageSize, isAllPage]);
 
-  const selected = useMemo(() => sorted.find((item) => item.id === selectedId) ?? sorted[0] ?? null, [sorted, selectedId]);
+  const selected = useMemo(() => sorted.find((item) => item.id === selectedId) ?? null, [sorted, selectedId]);
 
   function setSort(key, dir) {
     setSortKey(key);
@@ -189,6 +205,53 @@ export default function InquiriesPage() {
 
   function toggleSelected(id) {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  }
+
+  function markInquiryRead(id) {
+    if (!id) return;
+    setData((prev) => ({
+      ...prev,
+      updatedAt: nowIso(),
+      items: (prev.items || []).map((it) =>
+        it.id === id
+          ? {
+              ...it,
+              isRead: true,
+              readAt: it.readAt || nowIso(),
+              updatedAt: nowIso(),
+            }
+          : it
+      ),
+    }));
+  }
+
+  function markSelectedInquiriesUnread() {
+    if (selectedIds.length === 0) {
+      setMessage("안 읽음 처리할 문의를 선택해 주세요.");
+      return;
+    }
+    const targets = new Set(selectedIds);
+    let changed = 0;
+    setData((prev) => ({
+      ...prev,
+      updatedAt: nowIso(),
+      items: (prev.items || []).map((it) => {
+        if (!targets.has(it.id)) return it;
+        if (!it.isRead && !it.readAt) return it;
+        changed += 1;
+        return {
+          ...it,
+          isRead: false,
+          readAt: null,
+          updatedAt: nowIso(),
+        };
+      }),
+    }));
+    if (changed === 0) {
+      setMessage("선택한 문의는 이미 안 읽음 상태입니다.");
+      return;
+    }
+    setMessage(`선택한 ${changed}건을 안 읽음 처리했습니다.`);
   }
 
   const pageIds = useMemo(() => paged.map((i) => i.id), [paged]);
@@ -263,10 +326,37 @@ export default function InquiriesPage() {
     setMessage("문의를 삭제했습니다.");
   }
 
-  function saveDraft() {
-    saveLocalDraft(STORAGE_KEY, { ...data, items: inquiries });
-    setMessage("로컬 문의 DB를 저장했습니다.");
+  function deleteSelectedInquiries() {
+    if (selectedIds.length === 0) {
+      setMessage("삭제할 문의를 선택해 주세요.");
+      return;
+    }
+    const toRemove = new Set(selectedIds);
+    const prevItems = data.items || [];
+    const nextItems = prevItems.filter((it) => !toRemove.has(it.id));
+    const removedCount = prevItems.length - nextItems.length;
+    if (removedCount === 0) {
+      setMessage("삭제할 문의를 찾을 수 없습니다.");
+      setSelectedIds([]);
+      return;
+    }
+    let nextSelectedId = selectedId;
+    if (selectedId != null && (toRemove.has(selectedId) || !nextItems.some((it) => it.id === selectedId))) {
+      nextSelectedId = nextItems[0]?.id ?? null;
+    }
+    setData((prev) => ({
+      ...prev,
+      updatedAt: nowIso(),
+      items: nextItems,
+    }));
+    setSelectedId(nextSelectedId);
+    setSelectedIds([]);
+    setMessage(`선택한 ${removedCount}건을 삭제했습니다.`);
   }
+
+  useEffect(() => {
+    saveLocalDraft(STORAGE_KEY, { ...data, items: inquiries });
+  }, [data, inquiries]);
 
   function exportJson() {
     downloadJson("inquiries.json", { ...data, items: inquiries });
@@ -300,12 +390,6 @@ export default function InquiriesPage() {
       <h2 className="page-title">문의 관리</h2>
 
       <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.7rem" }}>
-        <button className="btn btn-primary" type="button" onClick={saveDraft}>
-          로컬 저장 (PC에 문서로 저장합니다)
-        </button>
-        <button className="btn btn-outline" type="button" onClick={exportJson}>
-          JSON 내보내기 (웹 게시용 파일로 저장합니다.)
-        </button>
         <button className="btn btn-outline" type="button" disabled={selectedIds.length === 0} onClick={downloadSelectedCsv}>
           선택 문의 CSV 다운로드
         </button>
@@ -320,10 +404,6 @@ export default function InquiriesPage() {
             필터 결과 전체 엑셀(.xlsx) 다운로드
           </button>
         </div>
-        <label className="btn btn-outline" style={{ cursor: "pointer" }}>
-          JSON 불러오기 (웹 게시용 파일을 불러옵니다.)
-          <input type="file" accept="application/json,.json" onChange={importJson} style={{ display: "none" }} />
-        </label>
       </div>
       {message && <p className="muted">{message}</p>}
 
@@ -395,6 +475,24 @@ export default function InquiriesPage() {
             </select>
             개
           </label>
+          <button
+            className="btn btn-outline"
+            type="button"
+            disabled={selectedIds.length === 0}
+            onClick={deleteSelectedInquiries}
+            title="체크한 문의만 삭제합니다"
+          >
+            삭제하기
+          </button>
+          <button
+            className="btn btn-outline"
+            type="button"
+            disabled={selectedIds.length === 0}
+            onClick={markSelectedInquiriesUnread}
+            title="체크한 문의를 안 읽음 상태로 되돌립니다"
+          >
+            안 읽음 처리
+          </button>
           <span className="muted inquiries-page-meta">
             {isAllPage ? (
               <>
@@ -425,10 +523,10 @@ export default function InquiriesPage() {
         정책: Admin 접속 시 모든 문의는 열람 처리됩니다. 키워드·접수일을 입력한 뒤 「검색」 또는 Enter로 적용합니다(키워드만, 접수 기간만, 또는 둘 다 가능). 「접수 기간 지우기」는 적용 중인 날짜 필터만 비웁니다. 선택 다운로드는 체크한 행만, 「필터 결과 전체」는 적용된 검색·접수 기간·정렬이 반영된 목록 전체를 내보냅니다(CSV UTF-8 BOM / 시트명 「문의내용 목록」).
       </p>
 
-      <div className="split-grid">
-        <div className="panel">
+      <div className="split-grid inquiries-split-grid">
+        <div className="panel inquiries-list-panel">
           <div className="table-scroll">
-            <table className="table">
+            <table className="table inquiries-table">
               <thead>
                 <tr>
                   <th scope="col" className="inquiries-th-check">
@@ -473,8 +571,11 @@ export default function InquiriesPage() {
                 {paged.map((item) => (
                   <tr
                     key={item.id}
-                    className={selected?.id === item.id ? "is-selected" : ""}
-                    onClick={() => setSelectedId(item.id)}
+                    className={`${selected?.id === item.id ? "is-selected " : ""}${item.isRead ? "inquiries-row-read" : "inquiries-row-unread"}`}
+                    onClick={() => {
+                      setSelectedId(item.id);
+                      markInquiryRead(item.id);
+                    }}
                   >
                     <td className="inquiries-td-check" onClick={(e) => e.stopPropagation()}>
                       <input type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => toggleSelected(item.id)} aria-label={`${item.company} 선택`} />
@@ -502,7 +603,7 @@ export default function InquiriesPage() {
           </div>
         </div>
 
-        <aside className="panel detail-panel">
+        <aside className="panel detail-panel inquiries-detail-panel">
           {selected ? (
             <>
               <h3>문의 상세</h3>
@@ -511,26 +612,28 @@ export default function InquiriesPage() {
                   현재 문의 삭제
                 </button>
               </div>
-              <dl className="detail-list">
-                <dt>기업명</dt>
-                <dd>{selected.company}</dd>
-                <dt>이름/직책</dt>
-                <dd>{selected.name}</dd>
-                <dt>연락처</dt>
-                <dd>{selected.phone}</dd>
-                <dt>이메일</dt>
-                <dd>{selected.email || "-"}</dd>
-                <dt>열람 여부</dt>
-                <dd>{selected.isRead ? "열람 완료" : "미열람"}</dd>
-                <dt>열람 시간</dt>
-                <dd>{new Date(selected.readAt).toLocaleString("ko-KR")}</dd>
-                <dt>문의 내용</dt>
-                <dd>{selected.message}</dd>
-                <dt>관리 메모</dt>
-                <dd>
-                  <textarea className="input" rows={4} value={selected.memo || ""} onChange={(e) => updateMemo(selected.id, e.target.value)} />
-                </dd>
-              </dl>
+              <div className="inquiries-detail-scroll">
+                <dl className="detail-list inquiries-detail-list">
+                  <dt>기업명</dt>
+                  <dd>{selected.company}</dd>
+                  <dt>이름/직책</dt>
+                  <dd>{selected.name}</dd>
+                  <dt>연락처</dt>
+                  <dd>{selected.phone}</dd>
+                  <dt>이메일</dt>
+                  <dd>{selected.email || "-"}</dd>
+                  <dt>열람 여부</dt>
+                  <dd>{selected.isRead ? "열람 완료" : "미열람"}</dd>
+                  <dt>열람 시간</dt>
+                  <dd>{new Date(selected.readAt).toLocaleString("ko-KR")}</dd>
+                  <dt>문의 내용</dt>
+                  <dd className="inquiries-message-content">{selected.message}</dd>
+                  <dt>관리 메모</dt>
+                  <dd>
+                    <textarea className="input" rows={4} value={selected.memo || ""} onChange={(e) => updateMemo(selected.id, e.target.value)} />
+                  </dd>
+                </dl>
+              </div>
             </>
           ) : (
             <p className="muted">선택된 문의가 없습니다.</p>
