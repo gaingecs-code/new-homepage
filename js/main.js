@@ -1144,6 +1144,9 @@ $(function () {
           '" data-board-link-href="' +
           escapeHtml(href) +
           '">' +
+          '<a class="board-link" href="' +
+          escapeHtml(href) +
+          '" style="display:flex;gap:1.1rem;align-items:stretch;width:100%;text-decoration:none;color:inherit;">' +
           '<span class="board-thumb-link">' +
           (thumb
             ? '<img class="board-thumb-image" src="' + escapeHtml(thumb) + '" alt="' + escapeHtml(title) + '" loading="lazy" decoding="async" />'
@@ -1160,6 +1163,7 @@ $(function () {
           escapeHtml(contentSummary) +
           "</span>" +
           "</span>" +
+          "</a>" +
           "</li>"
         );
       })
