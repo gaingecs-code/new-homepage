@@ -1,8 +1,10 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AdminProgramCalendarTable from "../components/AdminProgramCalendarTable";
 import { ADMIN_CAL_MONTHS, emptyMonthEntries } from "../lib/adminCalendarConstants";
 import { defaultCommunityCalendarData } from "../data/defaultCommunityCalendar";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
+import { supabaseEnabled } from "../lib/supabase";
+import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
 
 const STORAGE_KEY = "admin.local.community-calendar.v1";
 const PUBLISHED_STORAGE_KEY = "admin.published.community-calendar.v1";
@@ -36,6 +38,20 @@ export default function CommunityCalendarPage() {
   const [savedRowId, setSavedRowId] = useState(null);
   const saveFeedbackTimerRef = useRef(null);
   const rows = useMemo(() => normalizeRows(data.rows), [data.rows]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function bootstrapRemote() {
+      if (!supabaseEnabled) return;
+      const next = await loadRemoteJsonByKey(STORAGE_KEY, defaultCommunityCalendarData);
+      if (cancelled) return;
+      setData({ ...next, rows: normalizeRows(next.rows || []) });
+    }
+    bootstrapRemote();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function updateMeta(key, value) {
     setData((prev) => ({ ...prev, [key]: value, updatedAt: nowIso() }));
@@ -131,25 +147,41 @@ export default function CommunityCalendarPage() {
     setMessage("프로그램 행을 삭제했습니다.");
   }
 
-  function saveDraft() {
-    saveLocalDraft(STORAGE_KEY, data);
-    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+  async function saveDraft() {
+    if (supabaseEnabled) {
+      const { error } = await saveRemoteJsonByKey(STORAGE_KEY, data);
+      if (error) {
+        setMessage(`저장 실패: ${error.message}`);
+        return;
+      }
+    } else {
+      saveLocalDraft(STORAGE_KEY, data);
+      saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    }
     setMessage("타이틀/보조 타이틀/참여링크 포함 전체 변경사항을 웹 반영용으로 저장했습니다.");
   }
 
-  function saveRowDraft(row) {
-    saveLocalDraft(STORAGE_KEY, data);
-    const published = loadLocalDraft(PUBLISHED_STORAGE_KEY, data);
-    const nextRows = normalizeRows(published.rows || []);
-    const rowIndex = nextRows.findIndex((x) => x.id === row?.id);
-    if (rowIndex >= 0) nextRows[rowIndex] = row;
-    else if (row) nextRows.push(row);
-    const nextPublished = {
-      ...published,
-      rows: nextRows,
-      updatedAt: nowIso(),
-    };
-    saveLocalDraft(PUBLISHED_STORAGE_KEY, nextPublished);
+  async function saveRowDraft(row) {
+    if (supabaseEnabled) {
+      const { error } = await saveRemoteJsonByKey(STORAGE_KEY, data);
+      if (error) {
+        setMessage(`저장 실패: ${error.message}`);
+        return;
+      }
+    } else {
+      saveLocalDraft(STORAGE_KEY, data);
+      const published = loadLocalDraft(PUBLISHED_STORAGE_KEY, data);
+      const nextRows = normalizeRows(published.rows || []);
+      const rowIndex = nextRows.findIndex((x) => x.id === row?.id);
+      if (rowIndex >= 0) nextRows[rowIndex] = row;
+      else if (row) nextRows.push(row);
+      const nextPublished = {
+        ...published,
+        rows: nextRows,
+        updatedAt: nowIso(),
+      };
+      saveLocalDraft(PUBLISHED_STORAGE_KEY, nextPublished);
+    }
     const name = String(row?.program || "프로그램").trim() || "프로그램";
     setMessage(`「${name}」 캘린더 행만 웹 반영용으로 저장했습니다.`);
     setSavedRowId(row?.id || null);

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { defaultBooksData } from "../data/defaultBooks";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
+import { supabaseEnabled } from "../lib/supabase";
+import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
 
 const STORAGE_KEY = "admin.local.books.v1";
 const PUBLISHED_STORAGE_KEY = "admin.published.books.v1";
@@ -26,6 +28,21 @@ export default function BooksPage() {
 
   const selectedIndex = useMemo(() => items.findIndex((x) => x.id === selectedId), [items, selectedId]);
   const selected = selectedIndex >= 0 ? items[selectedIndex] : null;
+
+  useEffect(() => {
+    let cancelled = false;
+    async function bootstrapRemote() {
+      if (!supabaseEnabled) return;
+      const next = await loadRemoteJsonByKey(STORAGE_KEY, defaultBooksData);
+      if (cancelled) return;
+      setData(next);
+      setSelectedId(next.items?.[0]?.id ?? null);
+    }
+    bootstrapRemote();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(
     () => () => {
@@ -111,9 +128,17 @@ export default function BooksPage() {
     });
   }
 
-  function saveDraft() {
-    saveLocalDraft(STORAGE_KEY, data);
-    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+  async function saveDraft() {
+    if (supabaseEnabled) {
+      const { error } = await saveRemoteJsonByKey(STORAGE_KEY, data);
+      if (error) {
+        setMessage(`저장 실패: ${error.message}`);
+        return;
+      }
+    } else {
+      saveLocalDraft(STORAGE_KEY, data);
+      saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    }
     setMessage("웹 저장하기: 도서 변경사항을 즉시 반영용으로 저장했습니다.");
     setShowSavedBadge(true);
     if (saveFeedbackTimerRef.current) clearTimeout(saveFeedbackTimerRef.current);

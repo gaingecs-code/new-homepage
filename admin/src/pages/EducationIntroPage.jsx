@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { defaultEducationProgramsData } from "../data/defaultEducationPrograms";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
+import { supabaseEnabled } from "../lib/supabase";
+import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
 
 const STORAGE_KEY = "admin.local.education-programs.v1";
 const PUBLISHED_STORAGE_KEY = "admin.published.education-programs.v1";
@@ -49,6 +51,21 @@ export default function EducationIntroPage() {
   const selected = selectedIndex >= 0 ? items[selectedIndex] : null;
 
   const grouped = useMemo(() => groupItemsBySection(items), [items]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function bootstrapRemote() {
+      if (!supabaseEnabled) return;
+      const next = await loadRemoteJsonByKey(STORAGE_KEY, defaultEducationProgramsData);
+      if (cancelled) return;
+      setData(next);
+      setSelectedId(next.items?.[0]?.id ?? null);
+    }
+    bootstrapRemote();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(
     () => () => {
@@ -164,9 +181,17 @@ export default function EducationIntroPage() {
     setMessage("프로그램을 삭제했습니다.");
   }
 
-  function saveDraft() {
-    saveLocalDraft(STORAGE_KEY, data);
-    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+  async function saveDraft() {
+    if (supabaseEnabled) {
+      const { error } = await saveRemoteJsonByKey(STORAGE_KEY, data);
+      if (error) {
+        setMessage(`저장 실패: ${error.message}`);
+        return;
+      }
+    } else {
+      saveLocalDraft(STORAGE_KEY, data);
+      saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    }
     setMessage("웹 저장하기: 기업교육 프로그램 변경사항을 즉시 반영용으로 저장했습니다.");
     setShowSavedBadge(true);
     if (saveFeedbackTimerRef.current) clearTimeout(saveFeedbackTimerRef.current);

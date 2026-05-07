@@ -8,6 +8,8 @@ import Underline from "@tiptap/extension-underline";
 import { isNodeSelection, mergeAttributes, ResizableNodeView } from "@tiptap/core";
 import { defaultCasesData } from "../data/defaultCases";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
+import { supabaseEnabled } from "../lib/supabase";
+import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
 
 function IconAlignLeft() {
   return (
@@ -336,6 +338,21 @@ export default function CasesEditorPage() {
   const items = useMemo(() => withDerivedFields(data.items || []), [data.items]);
   const selected = items.find((x) => x.id === selectedId) || null;
 
+  useEffect(() => {
+    let cancelled = false;
+    async function bootstrapRemote() {
+      if (!supabaseEnabled) return;
+      const next = normalizeData(await loadRemoteJsonByKey(STORAGE_KEY, defaultCasesData));
+      if (cancelled) return;
+      setData(next);
+      setSelectedId(next.items?.[0]?.id ?? null);
+    }
+    bootstrapRemote();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   function patchItems(updater) {
     setData((prev) => ({ ...prev, items: withDerivedFields(updater(withDerivedFields(prev.items || []))), updatedAt: nowIso() }));
   }
@@ -401,9 +418,17 @@ export default function CasesEditorPage() {
     if (selectedId === id) setSelectedId(null);
   }
 
-  function saveDraft() {
-    saveLocalDraft(STORAGE_KEY, data);
-    saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+  async function saveDraft() {
+    if (supabaseEnabled) {
+      const { error } = await saveRemoteJsonByKey(STORAGE_KEY, data);
+      if (error) {
+        setMessage(`저장 실패: ${error.message}`);
+        return;
+      }
+    } else {
+      saveLocalDraft(STORAGE_KEY, data);
+      saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+    }
     setMessage("웹 저장하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.");
     flashButtonFeedback("save");
   }
@@ -590,7 +615,7 @@ export default function CasesEditorPage() {
     editor.chain().focus().updateAttributes("image", attrs).run();
   }
 
-  function publishSelected() {
+  async function publishSelected() {
     if (!selected) return;
     const now = nowIso();
     let publishedData = null;
@@ -600,7 +625,15 @@ export default function CasesEditorPage() {
       return nextItems;
     });
     if (publishedData) {
-      saveLocalDraft(PUBLISHED_STORAGE_KEY, publishedData);
+      if (supabaseEnabled) {
+        const { error } = await saveRemoteJsonByKey(STORAGE_KEY, publishedData);
+        if (error) {
+          setMessage(`저장 실패: ${error.message}`);
+          return;
+        }
+      } else {
+        saveLocalDraft(PUBLISHED_STORAGE_KEY, publishedData);
+      }
     }
     setMessage("작성 완료 처리 후 웹 반영용으로 저장했습니다.");
     flashButtonFeedback("publish");
