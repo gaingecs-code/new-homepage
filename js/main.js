@@ -1152,6 +1152,12 @@ $(function () {
     } catch (e) {}
   }
 
+  function clearTestimonialsCasesCache() {
+    try {
+      localStorage.removeItem(TESTIMONIALS_CASES_CACHE_KEY);
+    } catch (e) {}
+  }
+
   function buildTestimonialsBoardFromCasesPayload(raw) {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
@@ -1232,9 +1238,10 @@ $(function () {
         buildTestimonialsBoardFromCasesPayload(next);
         applyTestimonialsBoardFilter();
         writeTestimonialsCasesCache(next);
-      } else if (!cachedCasesPayload || !cachedCasesPayload.items || !cachedCasesPayload.items.length) {
+      } else {
         buildTestimonialsBoardFromCasesPayload(next);
         applyTestimonialsBoardFilter();
+        clearTestimonialsCasesCache();
       }
     });
   }
