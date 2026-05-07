@@ -23,7 +23,7 @@ export default function AdminLayout() {
     <div className="admin-shell">
       <aside className="sidebar">
         <h1 className="sidebar-title">Admin</h1>
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav" translate="no">
           {menus.map((menu) => (
             <NavLink
               key={menu.to}
@@ -32,7 +32,7 @@ export default function AdminLayout() {
                 `sidebar-link${isActive ? " sidebar-link--active" : ""}`
               }
             >
-              {menu.label}
+              <span translate="no">{menu.label}</span>
             </NavLink>
           ))}
         </nav>
