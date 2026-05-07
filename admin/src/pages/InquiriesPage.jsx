@@ -4,6 +4,7 @@ import { downloadCsv } from "../lib/csvDownload";
 import { INQUIRIES_EXPORT_HEADERS, buildInquiriesDataRows } from "../lib/inquiriesExport";
 import { downloadInquiriesXlsx } from "../lib/inquiriesXlsx";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
+import { supabase, supabaseEnabled } from "../lib/supabase";
 
 const STORAGE_KEY = "admin.local.inquiries.v1";
 
@@ -117,8 +118,29 @@ function exportStamp() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function mapRemoteInquiry(row) {
+  return {
+    id: row.id,
+    createdAt: row.created_at || nowIso(),
+    company: row.company || "",
+    name: row.name || "",
+    phone: row.phone || "",
+    email: row.email || "",
+    message: row.message || "",
+    memo: "",
+    isRead: false,
+    readAt: null,
+    recipientEmail: row.recipient_email || "",
+    sourcePage: row.source_page || "",
+    inquiryType: row.source_type || "",
+    updatedAt: nowIso(),
+  };
+}
+
 export default function InquiriesPage() {
-  const [data, setData] = useState(inquiriesInitialState.data);
+  const [data, setData] = useState(
+    supabaseEnabled ? { updatedAt: nowIso(), items: [] } : inquiriesInitialState.data
+  );
   /** 입력 중인 조건(목록에는 「검색」 시 반영) */
   const [draftSearch, setDraftSearch] = useState("");
   const [draftDateFrom, setDraftDateFrom] = useState("");
@@ -127,7 +149,7 @@ export default function InquiriesPage() {
   const [appliedSearch, setAppliedSearch] = useState("");
   const [appliedDateFrom, setAppliedDateFrom] = useState("");
   const [appliedDateTo, setAppliedDateTo] = useState("");
-  const [selectedId, setSelectedId] = useState(inquiriesInitialState.selectedId);
+  const [selectedId, setSelectedId] = useState(supabaseEnabled ? null : inquiriesInitialState.selectedId);
   const [message, setMessage] = useState("");
   const [sortKey, setSortKey] = useState(/** @type {SortKey} */ ("createdAt"));
   const [sortDir, setSortDir] = useState("desc");
@@ -153,6 +175,34 @@ export default function InquiriesPage() {
       return bySearch && byDate;
     });
   }, [inquiries, appliedSearch, appliedDateFrom, appliedDateTo]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadRemoteInquiries() {
+      if (!supabaseEnabled || !supabase) return;
+      const { data: rows, error } = await supabase
+        .from("inquiries")
+        .select("id, created_at, company, name, phone, email, message, recipient_email, source_page, source_type")
+        .order("created_at", { ascending: false });
+
+      if (cancelled) return;
+      if (error) {
+        setMessage(`문의 목록 조회 실패: ${error.message}`);
+        return;
+      }
+
+      const mapped = (rows || []).map(mapRemoteInquiry);
+      setData({ updatedAt: nowIso(), items: mapped });
+      setSelectedId(mapped[0]?.id ?? null);
+    }
+
+    loadRemoteInquiries();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function applySearchFilters() {
     setAppliedSearch(draftSearch);
@@ -311,7 +361,14 @@ export default function InquiriesPage() {
     }));
   }
 
-  function deleteInquiry(id) {
+  async function deleteInquiry(id) {
+    if (supabaseEnabled && supabase) {
+      const { error } = await supabase.from("inquiries").delete().eq("id", id);
+      if (error) {
+        setMessage(`문의 삭제 실패: ${error.message}`);
+        return;
+      }
+    }
     setData((prev) => {
       const nextItems = (prev.items || []).filter((it) => it.id !== id);
       const nextSelectedId = nextItems[0]?.id ?? null;
@@ -326,10 +383,17 @@ export default function InquiriesPage() {
     setMessage("문의를 삭제했습니다.");
   }
 
-  function deleteSelectedInquiries() {
+  async function deleteSelectedInquiries() {
     if (selectedIds.length === 0) {
       setMessage("삭제할 문의를 선택해 주세요.");
       return;
+    }
+    if (supabaseEnabled && supabase) {
+      const { error } = await supabase.from("inquiries").delete().in("id", selectedIds);
+      if (error) {
+        setMessage(`문의 삭제 실패: ${error.message}`);
+        return;
+      }
     }
     const toRemove = new Set(selectedIds);
     const prevItems = data.items || [];
@@ -355,6 +419,7 @@ export default function InquiriesPage() {
   }
 
   useEffect(() => {
+    if (supabaseEnabled) return;
     saveLocalDraft(STORAGE_KEY, { ...data, items: inquiries });
   }, [data, inquiries]);
 
