@@ -1137,13 +1137,12 @@ $(function () {
           escapeHtml(scale) +
           '" data-testimonial-consulting="' +
           escapeHtml(consulting) +
-          '">' +
-          '<a class="board-link" href="' +
-          escapeHtml(href) +
           '" data-board-popup-title="' +
           escapeHtml(title) +
           '" data-board-popup-content-html="' +
           escapeHtml(contentHtml) +
+          '" data-board-link-href="' +
+          escapeHtml(href) +
           '">' +
           '<span class="board-thumb-link">' +
           (thumb
@@ -1161,7 +1160,6 @@ $(function () {
           escapeHtml(contentSummary) +
           "</span>" +
           "</span>" +
-          "</a>" +
           "</li>"
         );
       })
@@ -1464,9 +1462,8 @@ $(function () {
     if ($(e.target).closest(".board-author").length) return;
     e.preventDefault();
     var $item = $(this);
-    var $link = $item.find(".board-link").first();
-    var title = $link.attr("data-board-popup-title") || $item.find(".board-title").text().trim();
-    var contentHtml = $link.attr("data-board-popup-content-html") || "";
+    var title = $item.attr("data-board-popup-title") || $item.find(".board-title").text().trim();
+    var contentHtml = $item.attr("data-board-popup-content-html") || "";
     if ($boardOverlay.length) {
       openBoardArticle(title, contentHtml);
     }
