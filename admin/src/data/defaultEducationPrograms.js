@@ -8,7 +8,7 @@ export const defaultEducationProgramsData = {
       id: "cert-1",
       group: "자격증 과정",
       title: "원온원 코칭 자격증",
-      imageUrl: "assets/images/교육페이지 소개 1.webp",
+      imageUrl: "assets/images/교육 페이지 소개 1.webp",
       hashtags: ["#1on1미팅", "#리더십", "#성과관리자"],
       overview:
         "1on1 미팅을 통해 성과관리와 동기부여의 방법을 알게 됩니다.\n조직 구성원의 변화를 경험하십시오.",
@@ -103,7 +103,7 @@ export const defaultEducationProgramsData = {
       id: "workshop-2",
       group: "직무별 교육",
       title: "강점 기반 영업 워크샵",
-      imageUrl: "assets/images/교육페이지 소개 6.webp",
+      imageUrl: "assets/images/교육 페이지 소개 6.webp",
       hashtags: ["#강점영업", "#세일즈코칭", "#영업교육"],
       overview:
         "Clifton Strengths for Sales 진단을 기반으로\n나의 영업 방식을 설계하고 실행법을 만드십시오.",
