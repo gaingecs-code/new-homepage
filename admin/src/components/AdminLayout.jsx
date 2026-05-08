@@ -20,7 +20,7 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="admin-shell">
+    <div className="admin-shell" translate="no">
       <aside className="sidebar">
         <h1 className="sidebar-title">Admin</h1>
         <nav className="sidebar-nav" translate="no">
