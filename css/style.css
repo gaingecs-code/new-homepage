@@ -6311,6 +6311,7 @@ a.about-service-btn[href*="greetinghr.com/ko/home"]:hover {
   line-height: 1.52;
   word-break: break-all;
   overflow-wrap: anywhere;
+  white-space: pre-line;
 }
 
 .corporate-education-intro-overview-container,
