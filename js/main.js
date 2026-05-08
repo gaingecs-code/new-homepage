@@ -2159,16 +2159,34 @@ $(function () {
           $n.find(".corporate-education-intro-card-title").text(it.title || "");
           $n.find(".corporate-education-intro-image").attr("src", it.imageUrl || "");
           var tags = Array.isArray(it.hashtags) ? it.hashtags : [];
-          var $tags = $n.find(".corporate-education-intro-hashtags").empty();
-          tags.forEach(function (t) {
-            $tags.append($("<span>").addClass("corporate-education-intro-hashtag").text(t || ""));
+          var $tagsWrap = $n.find(".corporate-education-intro-tags").first();
+          tags.forEach(function (t, i) {
+            var $span = $tagsWrap.find(".corporate-education-intro-tag").eq(i);
+            if ($span.length) {
+              $span.text(t || "");
+            } else {
+              $tagsWrap.append($("<span>").addClass("corporate-education-intro-tag").text(t || ""));
+            }
           });
+          while ($tagsWrap.find(".corporate-education-intro-tag").length > tags.length) {
+            $tagsWrap.find(".corporate-education-intro-tag").last().remove();
+          }
           $n.find(".corporate-education-intro-overlay-text").text(it.overview || "");
           var targets = Array.isArray(it.targets) ? it.targets : [];
-          var $targets = $n.find(".corporate-education-intro-targets").empty();
-          targets.forEach(function (t) {
-            $targets.append($("<p>").addClass("corporate-education-intro-target").attr("data-admin-field", "target").text(t || ""));
+          var $targetsWrap = $n.find(".corporate-education-intro-target-container").first();
+          targets.forEach(function (t, i) {
+            var $tp = $targetsWrap.find(".corporate-education-intro-target").eq(i);
+            if ($tp.length) {
+              $tp.text(t || "");
+            } else {
+              $targetsWrap.append(
+                $("<p>").addClass("corporate-education-intro-target").attr("data-admin-field", "target").text(t || "")
+              );
+            }
           });
+          while ($targetsWrap.find(".corporate-education-intro-target").length > targets.length) {
+            $targetsWrap.find(".corporate-education-intro-target").last().remove();
+          }
           $n.find(".corporate-education-intro-meta").text(it.schedule || "");
           $n.find(".corporate-education-intro-cta").attr("href", it.link || "#");
           $n.removeClass("corporate-education-intro-item--ended").removeAttr("aria-label");
