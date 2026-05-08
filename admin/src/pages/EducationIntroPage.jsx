@@ -103,10 +103,7 @@ export default function EducationIntroPage() {
   }
 
   function updateTargets(index, value) {
-    const lines = value
-      .split("\n")
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const lines = value.split("\n");
     updateItem(index, "targets", lines);
   }
 
@@ -487,6 +484,9 @@ export default function EducationIntroPage() {
                     rows={4}
                     value={(selected.targets || []).join("\n")}
                     onChange={(e) => updateTargets(selectedIndex, e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.stopPropagation();
+                    }}
                   />
                 </label>
                 <label className="field">
