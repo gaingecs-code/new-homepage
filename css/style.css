@@ -785,7 +785,7 @@ textarea {
   color: inherit;
   outline-offset: 4px;
   box-sizing: border-box;
-  border: 1px solid #525252;
+  border: 1px solid transparent;
   border-radius: 14px;
   padding: clamp(1.1rem, 2.8vw, 1.65rem) clamp(1rem, 2.2vw, 1.4rem);
 }
@@ -796,7 +796,7 @@ textarea {
 
 .home-copy-col-link:hover {
   transform: scale(1.02);
-  border-color: #6b7280;
+  border-color: transparent;
 }
 
 .home-copy-col-link:focus-visible {
