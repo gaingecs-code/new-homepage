@@ -2188,7 +2188,7 @@ $(function () {
             $targetsWrap.find(".corporate-education-intro-target").last().remove();
           }
           $n.find(".corporate-education-intro-meta").text(it.schedule || "");
-          $n.find(".corporate-education-intro-cta").attr("href", it.link || "#");
+          $n.find(".corporate-education-intro-link").attr("href", it.link || "#");
           $n.removeClass("corporate-education-intro-item--ended").removeAttr("aria-label");
           $n.find(".corporate-education-intro-ended-panel").remove();
           if (it.ended === true) {
