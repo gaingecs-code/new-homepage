@@ -5023,7 +5023,7 @@ button.story-thumb-link {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.44);
+  background: rgba(0, 0, 0, 0.34);
   pointer-events: none;
 }
 
