@@ -5023,7 +5023,7 @@ button.story-thumb-link {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.34);
+  background: rgba(0, 0, 0, 0.44);
   pointer-events: none;
 }
 
@@ -9037,7 +9037,7 @@ a.consulting-voc-video-btn.consulting-voc-story-link {
 
 
 .community-main > .consulting-group-photo-section .consulting-group-photo-overlay {
-  background: rgba(0, 0, 0, 0.36);
+  background: rgba(0, 0, 0, 0.34);
 }
 
 .community-main .community-hero-dots-section {
