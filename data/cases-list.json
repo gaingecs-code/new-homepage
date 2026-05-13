@@ -1,41 +1,6 @@
 {
   "schema": "cases-list.v1",
-  "updatedAt": "2026-05-13T06:05:24.014Z",
+  "updatedAt": "2026-05-13T06:06:16.982Z",
   "note": "게시판 목록용. 본문은 data/cases/<id>.json 에서 클릭 시 로드합니다.",
-  "items": [
-    {
-      "id": "case-1778652316378",
-      "slug": "새-고객-사례",
-      "title": "새 고객 사례1515",
-      "authorName": "155151",
-      "industryTags": [],
-      "companySize": "",
-      "consultingTypeTags": [],
-      "thumbnailUrl": "",
-      "featuredImageUrl": "",
-      "imageUrl": "",
-      "link": "testimonials.html?id=case-1778652316378",
-      "publishedAt": "2026-05-13T06:05:24.013Z",
-      "searchText": "11515 15151551 151515"
-    },
-    {
-      "id": "case-1",
-      "slug": "sample-case-1",
-      "title": "고객 사례 샘플 1",
-      "authorName": "작성자 1",
-      "industryTags": [
-        "ICT·전자"
-      ],
-      "companySize": "10~20인",
-      "consultingTypeTags": [
-        "HR 컨설팅"
-      ],
-      "thumbnailUrl": "",
-      "featuredImageUrl": "assets/간증 이미지 샘플 1.webp",
-      "imageUrl": "assets/간증 이미지 샘플 1.webp",
-      "link": "testimonials.html?id=case-1",
-      "publishedAt": "2026-04-28T00:00:00.000Z",
-      "searchText": "여기에 고객 사례 본문을 작성합니다. 문단은 줄바꿈으로 구분할 수 있습니다. 사례 대표 이미지"
-    }
-  ]
+  "items": []
 }
