@@ -119,3 +119,77 @@ export async function importCasesReplaceAll(items) {
   const { error } = await supabase.rpc("import_cases_replace_all", { p_items: clean });
   return { error };
 }
+
+const DEPLOYED_LIST_SCHEMA = "cases-list.v1";
+const DEPLOYED_DETAIL_SCHEMA = "cases-detail.v1";
+
+function escapeHtmlMinimal(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/**
+ * Supabase cases 조회 실패 시, 배포된 사이트의 data/cases-list.json + data/cases/<id>.json 과 동일 목록.
+ * @returns {Promise<{ items: unknown[], updatedAt: string } | null>}
+ */
+export async function loadCasesItemsFromDeployedStatic() {
+  if (typeof window === "undefined" || !window.location?.origin) return null;
+  const origin = window.location.origin;
+  const listUrl = new URL("/data/cases-list.json", origin).href;
+  try {
+    const listRes = await fetch(listUrl, { cache: "no-store" });
+    if (!listRes.ok) return null;
+    const list = await listRes.json();
+    if (!list || list.schema !== DEPLOYED_LIST_SCHEMA || !Array.isArray(list.items) || list.items.length === 0) {
+      return null;
+    }
+    const updatedAt = list.updatedAt || new Date().toISOString();
+    const detailPromises = list.items.map(async (row) => {
+      const id = row && row.id;
+      if (!id || String(id).trim() === "") return null;
+      const detailUrl = new URL(`/data/cases/${encodeURIComponent(String(id))}.json`, origin).href;
+      let detail = null;
+      try {
+        const dr = await fetch(detailUrl, { cache: "no-store" });
+        if (dr.ok) {
+          const j = await dr.json();
+          if (j && j.schema === DEPLOYED_DETAIL_SCHEMA) detail = j;
+        }
+      } catch {
+        /* ignore */
+      }
+      const search = String((row && row.searchText) || "").trim();
+      const contentHtml =
+        detail?.contentHtml ||
+        (search ? `<p>${escapeHtmlMinimal(search.slice(0, 800))}</p>` : "<p></p>");
+      return {
+        ...row,
+        ...detail,
+        id: String(id),
+        title: (detail && detail.title) || row.title || "",
+        authorName: (detail && detail.authorName) ?? row.authorName ?? "",
+        contentHtml,
+        industryTags: Array.isArray(row.industryTags) ? row.industryTags : [],
+        consultingTypeTags: Array.isArray(row.consultingTypeTags) ? row.consultingTypeTags : [],
+        companySize: row.companySize || "",
+        thumbnailUrl: row.thumbnailUrl || "",
+        featuredImageUrl: row.featuredImageUrl || "",
+        imageUrl: row.imageUrl || "",
+        link: row.link || "",
+        slug: row.slug || "",
+        publishedAt: row.publishedAt || "",
+        status: "published",
+        createdAt: row.publishedAt || updatedAt,
+        updatedAt: row.publishedAt || updatedAt,
+      };
+    });
+    const merged = (await Promise.all(detailPromises)).filter(Boolean);
+    if (merged.length === 0) return null;
+    return { items: merged, updatedAt };
+  } catch {
+    return null;
+  }
+}

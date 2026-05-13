@@ -13,6 +13,7 @@ import { supabaseEnabled } from "../lib/supabase";
 import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
 import {
   loadCasesAdminData,
+  loadCasesItemsFromDeployedStatic,
   upsertCaseRow,
   deleteCaseRow,
   importCasesReplaceAll,
@@ -392,6 +393,8 @@ export default function CasesEditorPage() {
   const [selectedId, setSelectedId] = useState(null);
   const [message, setMessage] = useState("");
   const [casesRowMode, setCasesRowMode] = useState(false);
+  /** Supabase cases 읽기 실패 시 배포 JSON 으로 채운 읽기 전용 미러 */
+  const [casesStaticMirror, setCasesStaticMirror] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [previewModal, setPreviewModal] = useState({ open: false, title: "", author: "", html: "" });
   const [buttonFeedbackKey, setButtonFeedbackKey] = useState("");
@@ -410,10 +413,28 @@ export default function CasesEditorPage() {
       const res = await loadCasesAdminData();
       if (cancelled) return;
       if (res.error) {
+        const fb = await loadCasesItemsFromDeployedStatic();
+        if (!cancelled && fb && fb.items.length) {
+          setCasesStaticMirror(true);
+          setCasesRowMode(true);
+          setMessage(
+            `Supabase cases 를 읽지 못했습니다: ${res.error}. 배포된 웹과 동일한 목록을 표시합니다(읽기 전용). SQL(GRANT) 적용 후 새로고침하면 저장할 수 있습니다.`
+          );
+          setData(
+            normalizeData({
+              items: fb.items,
+              updatedAt: fb.updatedAt,
+            })
+          );
+          setSelectedId(null);
+          return;
+        }
+        setCasesStaticMirror(false);
         setMessage(`원격 사례를 불러오지 못했습니다: ${res.error}`);
         setCasesRowMode(false);
         return;
       }
+      setCasesStaticMirror(false);
       setCasesRowMode(res.useRowStorage);
       const next = normalizeData({
         items: res.data.items || [],
@@ -429,6 +450,10 @@ export default function CasesEditorPage() {
   }, []);
 
   function patchItems(updater) {
+    if (casesStaticMirror) {
+      setMessage("배포본만 표시 중일 때는 목록을 수정할 수 없습니다. Supabase 권한 복구 후 새로고침해 주세요.");
+      return;
+    }
     setData((prev) => ({ ...prev, items: withDerivedFields(updater(withDerivedFields(prev.items || []))), updatedAt: nowIso() }));
   }
 
@@ -457,6 +482,10 @@ export default function CasesEditorPage() {
   }
 
   function addCase() {
+    if (casesStaticMirror) {
+      setMessage("배포본만 표시 중일 때는 사례를 추가할 수 없습니다.");
+      return;
+    }
     const id = `case-${Date.now()}`;
     patchItems((arr) => [
       {
@@ -490,6 +519,10 @@ export default function CasesEditorPage() {
   }
 
   function removeCase(id) {
+    if (casesStaticMirror) {
+      setMessage("배포본만 표시 중일 때는 삭제할 수 없습니다.");
+      return;
+    }
     if (supabaseEnabled && casesRowMode) {
       const it = items.find((x) => x.id === id);
       void (async () => {
@@ -510,6 +543,10 @@ export default function CasesEditorPage() {
   }
 
   async function saveDraft() {
+    if (casesStaticMirror) {
+      setMessage("배포본만 표시 중일 때는 배포할 수 없습니다.");
+      return;
+    }
     if (supabaseEnabled && casesRowMode) {
       const savedRows = items.filter((x) => x.status === "saved");
       for (const item of savedRows) {
@@ -605,6 +642,11 @@ export default function CasesEditorPage() {
   async function importJson(e) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (casesStaticMirror) {
+      setMessage("배포본만 표시 중일 때는 JSON 불러오기를 사용할 수 없습니다.");
+      e.target.value = "";
+      return;
+    }
     try {
       const next = normalizeData(await readJsonFile(file));
       if (supabaseEnabled && casesRowMode) {
@@ -680,6 +722,11 @@ export default function CasesEditorPage() {
     if (!editor) return;
     setEditorImages(extractImageSourcesFromEditorJson(editor.getJSON()));
   }, [editor, selected?.id]);
+
+  useEffect(() => {
+    if (!editor) return;
+    editor.setEditable(!casesStaticMirror);
+  }, [editor, casesStaticMirror]);
 
   useEffect(
     () => () => {
@@ -793,6 +840,7 @@ export default function CasesEditorPage() {
 
   function updateSelectedImageAttrs(attrs) {
     if (!editor) return;
+    if (casesStaticMirror) return;
     const sel = editor.state.selection;
     if (!isNodeSelection(sel) || sel.node.type.name !== "image") {
       setMessage("본문에서 위치를 바꿀 이미지를 먼저 클릭해 선택해 주세요.");
@@ -803,6 +851,10 @@ export default function CasesEditorPage() {
 
   async function publishSelected() {
     if (!selected) return;
+    if (casesStaticMirror) {
+      setMessage("배포본만 표시 중일 때는 작성 완료를 사용할 수 없습니다.");
+      return;
+    }
     const now = nowIso();
 
     if (supabaseEnabled && casesRowMode) {
@@ -869,6 +921,10 @@ export default function CasesEditorPage() {
 
   function saveSelectedAsDraft() {
     if (!selected) return;
+    if (casesStaticMirror) {
+      setMessage("배포본만 표시 중일 때는 임시 저장을 사용할 수 없습니다.");
+      return;
+    }
     if (supabaseEnabled && casesRowMode) {
       void (async () => {
         const html = editor?.getHTML() || String(selected.contentHtml || "<p></p>");
@@ -903,6 +959,7 @@ export default function CasesEditorPage() {
 
   function insertOrEditLink() {
     if (!editor) return;
+    if (casesStaticMirror) return;
     const previousUrl = editor.getAttributes("link").href || "";
     const url = window.prompt("링크 URL (비우면 링크 제거)", previousUrl || "https://");
     if (url === null) return;
@@ -939,12 +996,30 @@ export default function CasesEditorPage() {
   return (
     <section className="page">
       <h2 className="page-title">고객 사례 관리</h2>
+      {casesStaticMirror ? (
+        <p
+          className="muted"
+          style={{
+            marginTop: 0,
+            marginBottom: "0.65rem",
+            padding: "0.55rem 0.75rem",
+            border: "1px solid #fca5a5",
+            borderRadius: "8px",
+            background: "#fef2f2",
+            color: "#991b1b",
+            fontWeight: 600,
+          }}
+        >
+          배포된 웹 JSON 기준 읽기 전용입니다. Supabase <code>public.cases</code> GRANT 적용 후 새로고침하면 저장·배포가 가능합니다.
+        </p>
+      ) : null}
       <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.7rem" }}>
         <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
           <button
             className="btn btn-outline"
             type="button"
             onClick={saveDraft}
+            disabled={casesStaticMirror}
             style={{
               color: "#b91c1c",
               borderColor: "#b91c1c",
@@ -976,7 +1051,9 @@ export default function CasesEditorPage() {
             </span>
           ) : null}
         </div>
-        <button className="btn btn-outline" type="button" onClick={addCase}>사례 추가</button>
+        <button className="btn btn-outline" type="button" onClick={addCase} disabled={casesStaticMirror}>
+          사례 추가
+        </button>
       </div>
       {message && <p className="muted">{message}</p>}
       <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: supabaseEnabled && casesRowMode ? "0.45rem" : "0.85rem", lineHeight: 1.55 }}>
@@ -1027,7 +1104,7 @@ export default function CasesEditorPage() {
                   <td>{item.authorName || "-"}</td>
                   <td>{statusLabel(item.status)}</td>
                   <td><button className="btn btn-outline" type="button" onClick={() => editCase(item.id)}>수정</button></td>
-                  <td><button className="btn btn-outline" type="button" onClick={() => removeCase(item.id)}>삭제</button></td>
+                  <td><button className="btn btn-outline" type="button" onClick={() => removeCase(item.id)} disabled={casesStaticMirror}>삭제</button></td>
                 </tr>
               ))}
             </tbody>
@@ -1104,7 +1181,7 @@ export default function CasesEditorPage() {
                   </button>
                   <span style={{ display: "inline-block", width: "1px", height: "1.5rem", margin: "0 0.15rem", background: "#e5e7eb", alignSelf: "center" }} aria-hidden />
                   <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-                    <button className="btn btn-primary" type="button" onClick={publishSelected}>
+                    <button className="btn btn-primary" type="button" onClick={publishSelected} disabled={casesStaticMirror}>
                       작성 완료
                     </button>
                     {buttonFeedbackKey === "publish" ? (
@@ -1130,7 +1207,7 @@ export default function CasesEditorPage() {
                       </span>
                     ) : null}
                   </div>
-                  <button className="btn btn-outline" type="button" onClick={saveSelectedAsDraft}>
+                  <button className="btn btn-outline" type="button" onClick={saveSelectedAsDraft} disabled={casesStaticMirror}>
                     임시 저장
                   </button>
                   <button className="btn btn-outline" type="button" onClick={openPreviewModal}>
@@ -1208,7 +1285,7 @@ export default function CasesEditorPage() {
                 </div>
                 <div style={{ marginTop: "0.7rem", display: "flex", justifyContent: "center" }}>
                   <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-                    <button className="btn btn-primary" type="button" onClick={publishSelected}>
+                    <button className="btn btn-primary" type="button" onClick={publishSelected} disabled={casesStaticMirror}>
                       작성 완료
                     </button>
                     {buttonFeedbackKey === "publish" ? (
