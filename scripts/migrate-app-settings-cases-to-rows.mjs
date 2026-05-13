@@ -4,13 +4,25 @@
  * 사용: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
  *   node scripts/migrate-app-settings-cases-to-rows.mjs
  *   node scripts/migrate-app-settings-cases-to-rows.mjs --force   # cases 비우고 다시 이전
+ *
+ * Realtime(ws) 미사용 — Windows libuv Assertion 등 불필요 이슈 방지.
  */
 import { createClient } from "@supabase/supabase-js";
-import ws from "ws";
 
 const STORAGE_KEY = "admin.local.cases.v1";
 
 const force = process.argv.includes("--force");
+
+function logSupabaseError(label, err) {
+  if (!err) return;
+  const head = label ? `${label}: ` : "";
+  console.error(`${head}${err.message || "(message 없음)"}`);
+  try {
+    console.error("상세:", JSON.stringify(err, null, 2));
+  } catch {
+    console.error("상세:", String(err));
+  }
+}
 
 async function main() {
   const url = (process.env.SUPABASE_URL || "").trim();
@@ -22,13 +34,15 @@ async function main() {
 
   const supabase = createClient(url, key, {
     auth: { persistSession: false },
-    realtime: { transport: ws },
   });
 
   const { count, error: cErr } = await supabase.from("cases").select("*", { count: "exact", head: true });
   if (cErr) {
-    console.error("cases 테이블 조회 실패:", cErr.message);
-    console.error("Supabase에 migrations/20260513140000_cases_row_storage.sql 을 적용했는지 확인하세요.");
+    console.error("cases 테이블 조회 실패.");
+    logSupabaseError("", cErr);
+    console.error(
+      "확인: (1) migrations SQL 적용 (2) service_role JWT(보통 eyJ로 시작) — sb_secret 전용 키와 혼동 주의 (3) URL·키가 같은 프로젝트"
+    );
     process.exit(1);
   }
 
@@ -40,13 +54,15 @@ async function main() {
   if (force && (count || 0) > 0) {
     const { data: ids, error: idErr } = await supabase.from("cases").select("id");
     if (idErr) {
-      console.error("cases id 목록 실패:", idErr.message);
+      console.error("cases id 목록 실패.");
+      logSupabaseError("", idErr);
       process.exit(1);
     }
     for (const row of ids || []) {
       const { error: delErr } = await supabase.from("cases").delete().eq("id", row.id);
       if (delErr) {
-        console.error("행 삭제 실패:", row.id, delErr.message);
+        console.error("행 삭제 실패:", row.id);
+        logSupabaseError("", delErr);
         process.exit(1);
       }
     }
@@ -55,7 +71,8 @@ async function main() {
 
   const { data: row, error } = await supabase.from("app_settings").select("value").eq("key", STORAGE_KEY).maybeSingle();
   if (error) {
-    console.error("app_settings 조회 실패:", error.message);
+    console.error("app_settings 조회 실패.");
+    logSupabaseError("", error);
     process.exit(1);
   }
   if (!row?.value) {
@@ -89,7 +106,8 @@ async function main() {
       version: 1,
     });
     if (insErr) {
-      console.error("행 삽입 실패:", id, insErr.message);
+      console.error("행 삽입 실패:", id);
+      logSupabaseError("", insErr);
       process.exit(1);
     }
   }
