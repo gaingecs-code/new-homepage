@@ -1,0 +1,7 @@
+{
+  "schema": "cases-detail.v1",
+  "id": "case-1",
+  "title": "고객 사례 샘플 1151551",
+  "authorName": "작성자 1",
+  "contentHtml": "<p>여기에 고객 사례 본문을 작성합니다.<br>문단은 줄바꿈으로 구분할 수 있습니다.</p><img src=\"assets/간증 이미지 샘플 1.webp\" align=\"center\" data-align=\"center\" style=\"display: block; max-width: 100%; margin: 0px auto;\"><p>사례 대표 이미지1515</p><p>15</p><p>15</p><p>15</p><p>15</p>"
+}
