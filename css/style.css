@@ -12389,14 +12389,21 @@ a.community-intro-more-link:hover {
 }
 
 /* -------- case-view (사례 본문 전용 뷰어, case-view.html) -------- */
-html:has(body.case-view-page) {
+/* html.case-view-html: case-view.html head 인라인 스크립트로 부여(:has 미사용, 구형 대응) */
+html.case-view-html {
   overflow: hidden;
   height: 100%;
+  width: 100%;
 }
 
 .case-view-page {
-  min-height: 100vh;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
   overflow: hidden;
   display: flex;

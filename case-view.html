@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    try {
+      var root = document.documentElement;
+      if (root.classList) root.classList.add("case-view-html");
+      else root.className += " case-view-html";
+    } catch (e) {}
+  </script>
   <title>사례 보기</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
