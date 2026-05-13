@@ -8,6 +8,7 @@ import Underline from "@tiptap/extension-underline";
 import { isNodeSelection, mergeAttributes, ResizableNodeView } from "@tiptap/core";
 import { defaultCasesData } from "../data/defaultCases";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
+import { useAuth } from "../context/AuthContext";
 import { supabaseEnabled } from "../lib/supabase";
 import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
 import { triggerGithubCasesWorkflow } from "../lib/triggerGithubCaseSync";
@@ -380,6 +381,7 @@ function normalizeData(data) {
 }
 
 export default function CasesEditorPage() {
+  const { session } = useAuth();
   const [data, setData] = useState(() => normalizeData(loadLocalDraft(STORAGE_KEY, defaultCasesData)));
   const [selectedId, setSelectedId] = useState(data.items?.[0]?.id ?? null);
   const [message, setMessage] = useState("");
@@ -481,7 +483,7 @@ export default function CasesEditorPage() {
         setMessage(`저장 실패: ${error.message}`);
         return;
       }
-      const wf = await triggerGithubCasesWorkflow();
+      const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
       if (!wf.ok) {
         setMessage(`저장은 완료되었으나 GitHub 동기화 요청 실패: ${wf.message}`);
         flashButtonFeedback("save");
@@ -711,7 +713,7 @@ export default function CasesEditorPage() {
           setMessage(`저장 실패: ${error.message}`);
           return;
         }
-        const wf = await triggerGithubCasesWorkflow();
+        const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
         if (!wf.ok) {
           setMessage(`저장은 완료되었으나 GitHub 동기화 요청 실패: ${wf.message}`);
           flashButtonFeedback("publish");
@@ -809,7 +811,13 @@ export default function CasesEditorPage() {
       </div>
       {message && <p className="muted">{message}</p>}
       <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.85rem" }}>
-        배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다. 「배포용 분리보내기」로 받은 파일을 프로젝트 <code>data/</code> 폴더에 넣어 주세요. 원복 시에는 「통합 JSON 백업」과 예전 <code>cases.json</code>만으로도 동작합니다.
+        배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다.
+        {supabaseEnabled ? (
+          <> 원격 저장 시 GitHub Actions로 위 파일이 자동 동기화되도록 설정되어 있으면, 별도 분리보내기 없이 반영됩니다.</>
+        ) : (
+          <> 「배포용 분리보내기」로 받은 파일을 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>
+        )}{" "}
+        원복 시에는 「통합 JSON 백업」과 예전 <code>cases.json</code>만으로도 동작합니다.
       </p>
 
       <div className="split-grid" style={{ gridTemplateColumns: "1fr" }}>
