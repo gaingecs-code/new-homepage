@@ -132,21 +132,67 @@ function escapeHtmlMinimal(s) {
 }
 
 /**
- * Supabase cases 조회 실패 시, 배포된 사이트의 data/cases-list.json + data/cases/<id>.json 과 동일 목록.
+ * Supabase cases 조회 실패 시: 공개 API(/api/public-cases) → 배포 data/cases-list.json (+ 분리 상세) 순.
  * @returns {Promise<{ items: unknown[], updatedAt: string } | null>}
  */
 export async function loadCasesItemsFromDeployedStatic() {
   if (typeof window === "undefined" || !window.location?.origin) return null;
   const origin = window.location.origin;
+
+  const apiUrl = new URL("/api/public-cases", origin).href;
+  try {
+    const apiRes = await fetch(apiUrl, { cache: "no-store" });
+    if (apiRes.ok) {
+      const list = await apiRes.json();
+      if (
+        list &&
+        list.ok === true &&
+        list.schema === DEPLOYED_LIST_SCHEMA &&
+        Array.isArray(list.items)
+      ) {
+        const updatedAt = list.updatedAt || new Date().toISOString();
+        const merged = list.items.map((row) => {
+          const contentHtml = String(row.contentHtml || "<p></p>");
+          const id = row && row.id != null ? String(row.id) : "";
+          return {
+            ...row,
+            id,
+            title: row.title || "",
+            authorName: row.authorName || "",
+            contentHtml,
+            industryTags: Array.isArray(row.industryTags) ? row.industryTags : [],
+            consultingTypeTags: Array.isArray(row.consultingTypeTags) ? row.consultingTypeTags : [],
+            companySize: row.companySize || "",
+            thumbnailUrl: row.thumbnailUrl || "",
+            featuredImageUrl: row.featuredImageUrl || "",
+            imageUrl: row.imageUrl || "",
+            link: row.link || "",
+            slug: row.slug || "",
+            publishedAt: row.publishedAt || "",
+            status: "published",
+            createdAt: row.publishedAt || updatedAt,
+            updatedAt: row.publishedAt || updatedAt,
+          };
+        });
+        return { items: merged, updatedAt };
+      }
+    }
+  } catch {
+    /* fall through */
+  }
+
   const listUrl = new URL("/data/cases-list.json", origin).href;
   try {
     const listRes = await fetch(listUrl, { cache: "no-store" });
     if (!listRes.ok) return null;
     const list = await listRes.json();
-    if (!list || list.schema !== DEPLOYED_LIST_SCHEMA || !Array.isArray(list.items) || list.items.length === 0) {
+    if (!list || list.schema !== DEPLOYED_LIST_SCHEMA || !Array.isArray(list.items)) {
       return null;
     }
     const updatedAt = list.updatedAt || new Date().toISOString();
+    if (list.items.length === 0) {
+      return { items: [], updatedAt };
+    }
     const detailPromises = list.items.map(async (row) => {
       const id = row && row.id;
       if (!id || String(id).trim() === "") return null;

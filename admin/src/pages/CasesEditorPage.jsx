@@ -410,11 +410,13 @@ export default function CasesEditorPage() {
     let cancelled = false;
     async function bootstrapRemote() {
       if (!supabaseEnabled) return;
+      // ProtectedRoute 이후여도 JWT 부착 전에 SELECT 가 나가면 anon 으로 실패할 수 있어 세션 확정 후 로드
+      if (!session?.user) return;
       const res = await loadCasesAdminData();
       if (cancelled) return;
       if (res.error) {
         const fb = await loadCasesItemsFromDeployedStatic();
-        if (!cancelled && fb && fb.items.length) {
+        if (!cancelled && fb && Array.isArray(fb.items)) {
           setCasesStaticMirror(true);
           setCasesRowMode(true);
           setMessage(
@@ -447,7 +449,7 @@ export default function CasesEditorPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [supabaseEnabled, session?.user?.id]);
 
   function patchItems(updater) {
     if (casesStaticMirror) {

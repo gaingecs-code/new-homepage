@@ -1,6 +1,6 @@
 /**
  * 사례 본문 전용 뷰어 (case-view.html). main.js 비로드.
- * 본문은 data/cases/<id>.json 단일 요청만 사용 (레거시 통합 묶음 미사용).
+ * https에서는 /api/public-cases?id= 우선, 실패 시 data/cases/<id>.json.
  */
 (function () {
   var SCHEMA_DETAIL = "cases-detail.v1";
@@ -59,19 +59,46 @@
     document.title = (title || "사례") + " | 가인지컨설팅그룹";
   }
 
+  function isHttpPage() {
+    try {
+      return String(window.location.protocol || "") !== "file:";
+    } catch (e) {
+      return true;
+    }
+  }
+
   function fetchDetailJson(id) {
-    var base = new URL("data/cases/" + encodeURIComponent(id) + ".json", window.location.href).href;
     var rev = getCaseViewRev();
-    var url = rev ? base + "?v=" + encodeURIComponent(rev) : base;
-    var opts = { cache: rev ? "default" : "no-cache" };
-    return fetch(url, opts)
+    var base = new URL("data/cases/" + encodeURIComponent(id) + ".json", window.location.href).href;
+    var staticUrl = rev ? base + "?v=" + encodeURIComponent(rev) : base;
+    var staticOpts = { cache: rev ? "default" : "no-cache" };
+    function loadStatic() {
+      return fetch(staticUrl, staticOpts)
+        .then(function (r) {
+          if (!r.ok) throw new Error("no detail");
+          return r.json();
+        })
+        .then(function (d) {
+          if (!d || d.schema !== SCHEMA_DETAIL) throw new Error("bad detail");
+          return d;
+        });
+    }
+    if (!isHttpPage()) return loadStatic();
+    var apiUrl = new URL(
+      "/api/public-cases?id=" + encodeURIComponent(id),
+      window.location.href
+    ).href;
+    return fetch(apiUrl, { cache: "no-store" })
       .then(function (r) {
-        if (!r.ok) throw new Error("no detail");
+        if (!r.ok) throw new Error("api miss");
         return r.json();
       })
       .then(function (d) {
         if (!d || d.schema !== SCHEMA_DETAIL) throw new Error("bad detail");
         return d;
+      })
+      .catch(function () {
+        return loadStatic();
       });
   }
 

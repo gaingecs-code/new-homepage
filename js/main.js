@@ -1098,7 +1098,7 @@ $(function () {
   /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
-  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v2";
+  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v3";
   var TESTIMONIALS_SCHEMA_LIST = "cases-list.v1";
   var TESTIMONIALS_SCHEMA_DETAIL = "cases-detail.v1";
   var TESTIMONIALS_HIDDEN_MESSAGE = "해당 게시글은 숨김 처리되었습니다.";
@@ -1248,22 +1248,41 @@ $(function () {
         return { mode: "legacy", payload: leg || { items: [] } };
       });
     }
-    return fetch("data/cases-list.json", { cache: "no-store" })
-      .then(function (r) {
-        if (!r.ok) return null;
-        return r.json();
-      })
-      .then(function (d) {
-        // items가 비어 있으면 split으로 채택하지 않음 → Supabase·cases.json 폴백 (빈 placeholder JSON 배포 대응)
-        if (
-          d &&
-          d.schema === TESTIMONIALS_SCHEMA_LIST &&
-          Array.isArray(d.items) &&
-          d.items.length > 0
-        ) {
-          return { mode: "split", payload: d };
-        }
+    return fetch("/api/public-cases", { cache: "no-store" })
+      .catch(function () {
         return null;
+      })
+      .then(function (r) {
+        if (!r || !r.ok) return Promise.resolve(null);
+        return r.json().then(function (j) {
+          if (
+            j &&
+            j.ok === true &&
+            j.schema === TESTIMONIALS_SCHEMA_LIST &&
+            Array.isArray(j.items)
+          ) {
+            return { mode: "split", payload: j };
+          }
+          return null;
+        });
+      })
+      .then(function (apiResult) {
+        if (apiResult) return apiResult;
+        return fetch("data/cases-list.json", { cache: "no-store" }).then(function (r2) {
+          if (!r2.ok) return null;
+          return r2.json();
+        }).then(function (d) {
+          // 정적 분리 목록: 항목이 있을 때만 split (비어 있으면 레거시 폴백)
+          if (
+            d &&
+            d.schema === TESTIMONIALS_SCHEMA_LIST &&
+            Array.isArray(d.items) &&
+            d.items.length > 0
+          ) {
+            return { mode: "split", payload: d };
+          }
+          return null;
+        });
       })
       .then(function (got) {
         if (got) return got;
@@ -1565,17 +1584,41 @@ $(function () {
 
   function fetchTestimonialsCaseDetail(caseId) {
     if (boardCaseDetailCache[caseId]) return Promise.resolve(boardCaseDetailCache[caseId]);
-    var url = testimonialsCaseDetailUrl(caseId);
-    if (!url) return Promise.reject(new Error("bad id"));
-    return fetch(url, { cache: "no-store" })
+    if (!isSafeCaseDetailId(caseId)) return Promise.reject(new Error("bad id"));
+    var useApi =
+      window.SiteData &&
+      (!window.SiteData.isFileProtocol || !window.SiteData.isFileProtocol());
+    function loadFromStatic() {
+      var url = testimonialsCaseDetailUrl(caseId);
+      if (!url) return Promise.reject(new Error("bad id"));
+      return fetch(url, { cache: "no-store" })
+        .then(function (r) {
+          if (!r.ok) throw new Error("not found");
+          return r.json();
+        })
+        .then(function (d) {
+          if (!d || d.schema !== TESTIMONIALS_SCHEMA_DETAIL) throw new Error("bad detail");
+          boardCaseDetailCache[caseId] = d;
+          return d;
+        });
+    }
+    if (!useApi) return loadFromStatic();
+    var apiUrl = new URL(
+      "/api/public-cases?id=" + encodeURIComponent(caseId),
+      window.location.href
+    ).href;
+    return fetch(apiUrl, { cache: "no-store" })
       .then(function (r) {
-        if (!r.ok) throw new Error("not found");
+        if (!r.ok) throw new Error("api miss");
         return r.json();
       })
       .then(function (d) {
         if (!d || d.schema !== TESTIMONIALS_SCHEMA_DETAIL) throw new Error("bad detail");
         boardCaseDetailCache[caseId] = d;
         return d;
+      })
+      .catch(function () {
+        return loadFromStatic();
       });
   }
 
