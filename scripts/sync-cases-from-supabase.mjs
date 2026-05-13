@@ -1,6 +1,8 @@
 /**
  * Admin CasesEditorPage.jsx 의 「배포용 분리보내기」와 동일 규칙으로
  * data/cases-list.json + data/cases/<id>.json 을 생성합니다.
+ * 데이터 소스: public.cases 가 비어 있지 않으면 행 단위 테이블을 사용하고,
+ * 비어 있으면 레거시 app_settings(admin.local.cases.v1) 를 사용합니다.
  * GitHub Actions 또는 로컬에서 SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY 로 실행.
  */
 import { createClient } from "@supabase/supabase-js";
@@ -129,6 +131,73 @@ function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
+/** @returns {Promise<{ items: unknown[], updatedAt: string, source: string } | null>} */
+async function loadDatasetFromCasesTable(supabase) {
+  const { data: rows, error } = await supabase
+    .from("cases")
+    .select("id, payload, updated_at")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.warn("public.cases 조회 실패 — app_settings 로 폴백합니다:", error.message);
+    return null;
+  }
+  if (!rows || rows.length === 0) return null;
+
+  const items = rows.map((r) => {
+    const p = r.payload && typeof r.payload === "object" ? { ...r.payload } : {};
+    return { ...p, id: r.id };
+  });
+  const updatedAtMs = rows.reduce((m, r) => {
+    const t = new Date(r.updated_at || 0).getTime();
+    return t > m ? t : m;
+  }, 0);
+
+  return {
+    items,
+    updatedAt: new Date(updatedAtMs || Date.now()).toISOString(),
+    source: "public.cases",
+  };
+}
+
+/** @returns {Promise<{ items: unknown[], updatedAt: string, source: string } | null>} */
+async function loadDatasetFromAppSettings(supabase) {
+  const { data: row, error } = await supabase.from("app_settings").select("value").eq("key", STORAGE_KEY).maybeSingle();
+
+  if (error) {
+    console.error("Supabase(app_settings) 조회 실패:", error.message);
+    return null;
+  }
+  if (!row || row.value === undefined || row.value === null) {
+    console.error(
+      "app_settings 에서 key=",
+      STORAGE_KEY,
+      "인 행이 없습니다. public.cases 마이그레이션 전이면 Admin 저장 또는 npm run migrate:cases-to-rows 를 실행하세요."
+    );
+    return null;
+  }
+
+  let rawValue = row.value;
+  if (typeof rawValue === "string") {
+    try {
+      rawValue = JSON.parse(rawValue);
+    } catch (e) {
+      console.error("app_settings.value 가 JSON 문자열로 파싱되지 않습니다.");
+      return null;
+    }
+  }
+  if (!rawValue || typeof rawValue !== "object") {
+    console.error("app_settings.value 가 객체가 아닙니다. (key=", STORAGE_KEY, ")");
+    return null;
+  }
+
+  return {
+    items: Array.isArray(rawValue.items) ? rawValue.items : [],
+    updatedAt: rawValue.updatedAt || new Date().toISOString(),
+    source: "app_settings",
+  };
+}
+
 async function main() {
   const url = (process.env.SUPABASE_URL || "").trim();
   const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
@@ -149,35 +218,20 @@ async function main() {
       transport: ws,
     },
   });
-  const { data: row, error } = await supabase.from("app_settings").select("value").eq("key", STORAGE_KEY).maybeSingle();
 
-  if (error) {
-    console.error("Supabase 조회 실패:", error.message);
-    process.exit(1);
+  let dataset = await loadDatasetFromCasesTable(supabase);
+  if (!dataset) {
+    dataset = await loadDatasetFromAppSettings(supabase);
   }
-  if (!row || row.value === undefined || row.value === null) {
-    console.error("app_settings 에서 key=", STORAGE_KEY, "인 행이 없거나 value 가 비어 있습니다. Admin에서 웹 저장하기로 한 번 저장했는지 확인하세요.");
-    process.exit(1);
-  }
-
-  let rawValue = row.value;
-  if (typeof rawValue === "string") {
-    try {
-      rawValue = JSON.parse(rawValue);
-    } catch (e) {
-      console.error("app_settings.value 가 JSON 문자열로 파싱되지 않습니다.");
-      process.exit(1);
-    }
-  }
-  if (!rawValue || typeof rawValue !== "object") {
-    console.error("app_settings.value 가 객체가 아닙니다. (key=", STORAGE_KEY, ")");
+  if (!dataset) {
     process.exit(1);
   }
 
-  const raw = rawValue;
+  console.log("데이터 소스:", dataset.source, "| 사례", dataset.items.length, "건");
+
   const data = normalizeData({
-    items: Array.isArray(raw.items) ? raw.items : [],
-    updatedAt: raw.updatedAt || new Date().toISOString(),
+    items: dataset.items,
+    updatedAt: dataset.updatedAt,
   });
 
   const { listPayload, details } = buildWebCasesExport(data.items, data.updatedAt);

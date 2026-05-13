@@ -11,6 +11,12 @@ import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } fr
 import { useAuth } from "../context/AuthContext";
 import { supabaseEnabled } from "../lib/supabase";
 import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
+import {
+  loadCasesAdminData,
+  upsertCaseRow,
+  deleteCaseRow,
+  importCasesReplaceAll,
+} from "../lib/casesRemoteStorage";
 import { triggerGithubCasesWorkflow } from "../lib/triggerGithubCaseSync";
 
 function IconAlignLeft() {
@@ -385,6 +391,7 @@ export default function CasesEditorPage() {
   const [data, setData] = useState(() => normalizeData(loadLocalDraft(STORAGE_KEY, defaultCasesData)));
   const [selectedId, setSelectedId] = useState(null);
   const [message, setMessage] = useState("");
+  const [casesRowMode, setCasesRowMode] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [previewModal, setPreviewModal] = useState({ open: false, title: "", author: "", html: "" });
   const [buttonFeedbackKey, setButtonFeedbackKey] = useState("");
@@ -400,8 +407,18 @@ export default function CasesEditorPage() {
     let cancelled = false;
     async function bootstrapRemote() {
       if (!supabaseEnabled) return;
-      const next = normalizeData(await loadRemoteJsonByKey(STORAGE_KEY, defaultCasesData));
+      const res = await loadCasesAdminData();
       if (cancelled) return;
+      if (res.error) {
+        setMessage(`원격 사례를 불러오지 못했습니다: ${res.error}`);
+        setCasesRowMode(false);
+        return;
+      }
+      setCasesRowMode(res.useRowStorage);
+      const next = normalizeData({
+        items: res.data.items || [],
+        updatedAt: res.data.updatedAt || new Date().toISOString(),
+      });
       setData(next);
       setSelectedId(null);
     }
@@ -472,12 +489,39 @@ export default function CasesEditorPage() {
   }
 
   function removeCase(id) {
+    if (supabaseEnabled && casesRowMode) {
+      const it = items.find((x) => x.id === id);
+      void (async () => {
+        if (it != null && it._syncVersion != null) {
+          const { error } = await deleteCaseRow(id);
+          if (error) {
+            setMessage(`삭제 실패: ${error.message}`);
+            return;
+          }
+        }
+        patchItems((arr) => arr.filter((x) => x.id !== id));
+        if (selectedId === id) setSelectedId(null);
+      })();
+      return;
+    }
     patchItems((arr) => arr.filter((x) => x.id !== id));
     if (selectedId === id) setSelectedId(null);
   }
 
   async function saveDraft() {
-    if (supabaseEnabled) {
+    if (supabaseEnabled && casesRowMode) {
+      const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
+      if (!wf.ok) {
+        setMessage(`GitHub 동기화 요청 실패: ${wf.message}`);
+        flashButtonFeedback("save");
+        return;
+      }
+      let msg = "웹 저장하기: GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
+      if (wf.skipped) {
+        msg = "GitHub 동기화를 건너뛰었습니다. 로그인 세션을 확인해 주세요.";
+      }
+      setMessage(msg);
+    } else if (supabaseEnabled) {
       const { error } = await saveRemoteJsonByKey(STORAGE_KEY, data);
       if (error) {
         setMessage(`저장 실패: ${error.message}`);
@@ -525,9 +569,31 @@ export default function CasesEditorPage() {
     if (!file) return;
     try {
       const next = normalizeData(await readJsonFile(file));
-      setData(next);
-      setSelectedId(next.items?.[0]?.id ?? null);
-      setMessage("고객 사례 JSON을 불러왔습니다.");
+      if (supabaseEnabled && casesRowMode) {
+        const { error } = await importCasesReplaceAll(next.items || []);
+        if (error) {
+          setMessage(`불러오기 실패: ${error.message}`);
+          return;
+        }
+        const res = await loadCasesAdminData();
+        if (res.error) {
+          setMessage(`불러온 뒤 다시 읽기 실패: ${res.error}`);
+          return;
+        }
+        setCasesRowMode(res.useRowStorage);
+        setData(
+          normalizeData({
+            items: res.data.items || [],
+            updatedAt: res.data.updatedAt || new Date().toISOString(),
+          })
+        );
+        setSelectedId(null);
+        setMessage("고객 사례 JSON을 불러와 Supabase에 반영했습니다.");
+      } else {
+        setData(next);
+        setSelectedId(next.items?.[0]?.id ?? null);
+        setMessage("고객 사례 JSON을 불러왔습니다.");
+      }
     } catch (err) {
       setMessage(`불러오기 실패: ${err.message || String(err)}`);
     } finally {
@@ -700,6 +766,37 @@ export default function CasesEditorPage() {
   async function publishSelected() {
     if (!selected) return;
     const now = nowIso();
+
+    if (supabaseEnabled && casesRowMode) {
+      const html = editor?.getHTML() || String(selected.contentHtml || "<p></p>");
+      const sources = editor ? extractImageSourcesFromEditorJson(editor.getJSON()) : [];
+      let featuredImageUrl = selected.featuredImageUrl || "";
+      if (featuredImageUrl && !sources.includes(featuredImageUrl)) featuredImageUrl = "";
+      const thumbnailUrl = selected.thumbnailUrl || "";
+      const nextItem = {
+        ...selected,
+        contentHtml: html,
+        featuredImageUrl,
+        imageUrl: thumbnailUrl || featuredImageUrl || "",
+        status: "published",
+        publishedAt: selected.publishedAt || now,
+        updatedAt: now,
+      };
+      const expected = selected._syncVersion ?? 0;
+      const res = await upsertCaseRow(nextItem, expected);
+      if (!res.ok) {
+        setMessage(res.message || "저장 실패");
+        flashButtonFeedback("publish");
+        return;
+      }
+      patchItems((arr) =>
+        arr.map((x) => (x.id === selected.id ? { ...nextItem, _syncVersion: res.newVersion } : x))
+      );
+      setMessage("작성 완료: Supabase에 저장했습니다. 공개 사이트 반영은 「웹 저장하기」로 배포해 주세요.");
+      flashButtonFeedback("publish");
+      return;
+    }
+
     let publishedData = null;
     patchItems((arr) => {
       const nextItems = arr.map((x) => (x.id === selected.id ? { ...x, status: "published", publishedAt: x.publishedAt || now, updatedAt: now } : x));
@@ -734,6 +831,34 @@ export default function CasesEditorPage() {
 
   function saveSelectedAsDraft() {
     if (!selected) return;
+    if (supabaseEnabled && casesRowMode) {
+      void (async () => {
+        const html = editor?.getHTML() || String(selected.contentHtml || "<p></p>");
+        const sources = editor ? extractImageSourcesFromEditorJson(editor.getJSON()) : [];
+        let featuredImageUrl = selected.featuredImageUrl || "";
+        if (featuredImageUrl && !sources.includes(featuredImageUrl)) featuredImageUrl = "";
+        const thumbnailUrl = selected.thumbnailUrl || "";
+        const nextItem = {
+          ...selected,
+          contentHtml: html,
+          featuredImageUrl,
+          imageUrl: thumbnailUrl || featuredImageUrl || "",
+          status: "draft",
+          updatedAt: nowIso(),
+        };
+        const expected = selected._syncVersion ?? 0;
+        const res = await upsertCaseRow(nextItem, expected);
+        if (!res.ok) {
+          setMessage(res.message || "저장 실패");
+          return;
+        }
+        patchItems((arr) =>
+          arr.map((x) => (x.id === selected.id ? { ...nextItem, _syncVersion: res.newVersion } : x))
+        );
+        setMessage("임시 저장(초안)을 Supabase에 반영했습니다.");
+      })();
+      return;
+    }
     patchItems((arr) => arr.map((x) => (x.id === selected.id ? { ...x, status: "draft", updatedAt: nowIso() } : x)));
     setMessage("임시 저장(초안)으로 저장했습니다.");
   }
@@ -806,7 +931,12 @@ export default function CasesEditorPage() {
       {message && <p className="muted">{message}</p>}
       <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.85rem" }}>
         배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다.
-        {supabaseEnabled ? (
+        {supabaseEnabled && casesRowMode ? (
+          <>
+            {" "}
+            각 사례는 Supabase <strong>public.cases</strong> 행으로 저장됩니다. 「작성 완료」「임시 저장」은 DB만 갱신하고, 공개 사이트 반영은 「웹 저장하기」로 GitHub 동기화를 실행하세요.
+          </>
+        ) : supabaseEnabled ? (
           <> 원격 저장 후 GitHub Actions가 연결되어 있으면 위 파일이 자동으로 맞춰집니다.</>
         ) : (
           <> 사례를 선택한 뒤 게시글 영역 맨 아래 「고급 필드」를 펼쳐 분리 JSON을 받아 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>

@@ -11,7 +11,8 @@
     "check:assets": "node scripts/check-asset-paths.js",
     "build:admin": "cd admin && npm install && npm run build && node ../scripts/sync-admin-dist.mjs",
     "vercel-build": "npm run build:admin",
-    "sync-cases-data": "node scripts/sync-cases-from-supabase.mjs"
+    "sync-cases-data": "node scripts/sync-cases-from-supabase.mjs",
+    "migrate:cases-to-rows": "node scripts/migrate-app-settings-cases-to-rows.mjs"
   },
   "devDependencies": {
     "@supabase/supabase-js": "^2.49.1",
