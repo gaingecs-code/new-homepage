@@ -1098,7 +1098,7 @@ $(function () {
   /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
-  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v3";
+  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v4";
   var TESTIMONIALS_SCHEMA_LIST = "cases-list.v1";
   var TESTIMONIALS_SCHEMA_DETAIL = "cases-detail.v1";
   var TESTIMONIALS_HIDDEN_MESSAGE = "해당 게시글은 숨김 처리되었습니다.";
@@ -1286,8 +1286,8 @@ $(function () {
       })
       .then(function (got) {
         if (got) return got;
-        return window.SiteData.resolveSettingPayload({
-          settingKey: "admin.local.cases.v1",
+        // admin.local.cases.v1(app_settings) 폴백 제외 — 레거시 원격 설정에 옛 샘플이 남으면 공개 게시판에 다시 노출됨
+        return window.SiteData.resolvePayload({
           url: "data/cases.json",
           inlineId: "",
           validate: function (d2) {
