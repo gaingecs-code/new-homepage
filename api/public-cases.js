@@ -14,6 +14,52 @@ function stripHtmlToSearchText(html) {
     .trim();
 }
 
+function escapeHtmlMinimal(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Admin withDerivedFields 와 동일: payload 에 contentHtml 이 없을 때 블록·텍스트에서 본문 생성 */
+function blocksToHtml(blocks) {
+  if (!Array.isArray(blocks)) return "";
+  return blocks
+    .map(function (block) {
+      if (!block || typeof block !== "object") return "";
+      if (block.type === "image") {
+        var src = block.imageUrl || "";
+        var caption = block.caption
+          ? "<figcaption>" + escapeHtmlMinimal(block.caption) + "</figcaption>"
+          : "";
+        return src
+          ? '<figure><img src="' +
+            String(src).replace(/"/g, "&quot;") +
+            '" style="max-width:100%;" alt="" />' +
+            caption +
+            "</figure>"
+          : "";
+      }
+      var text = block.text;
+      return text ? "<p>" + String(text).replace(/\n/g, "<br/>") + "</p>" : "";
+    })
+    .join("");
+}
+
+function payloadDisplayHtml(p) {
+  if (!p || typeof p !== "object") return "";
+  var direct = String(p.contentHtml || "").trim();
+  if (direct) return direct;
+  var fromBlocks = blocksToHtml(p.contentBlocks);
+  if (fromBlocks) return fromBlocks;
+  var c = p.content;
+  if (c != null && String(c).trim()) {
+    return "<p>" + String(c).replace(/\n/g, "<br/>") + "</p>";
+  }
+  return "";
+}
+
 function slugify(input) {
   var text = String(input || "")
     .toLowerCase()
@@ -45,7 +91,7 @@ function withDerivedSlugLink(items) {
 function rowToListItem(row, index) {
   var p = row.payload && typeof row.payload === "object" ? row.payload : {};
   var id = String(row.id || p.id || "");
-  var contentHtml = String(p.contentHtml || "");
+  var contentHtml = payloadDisplayHtml(p);
   var searchText = stripHtmlToSearchText(contentHtml);
   return {
     id: id,
@@ -134,7 +180,7 @@ module.exports = async function handler(req, res) {
         id: row0.id,
         title: p0.title || "",
         authorName: p0.authorName || "",
-        contentHtml: String(p0.contentHtml || ""),
+        contentHtml: payloadDisplayHtml(p0),
         publishedAt: p0.publishedAt || "",
       });
     }
