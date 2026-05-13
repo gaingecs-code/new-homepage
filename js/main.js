@@ -1098,7 +1098,7 @@ $(function () {
   /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
-  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v4";
+  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v5";
   var TESTIMONIALS_SCHEMA_LIST = "cases-list.v1";
   var TESTIMONIALS_SCHEMA_DETAIL = "cases-detail.v1";
   var TESTIMONIALS_HIDDEN_MESSAGE = "해당 게시글은 숨김 처리되었습니다.";
@@ -1167,10 +1167,24 @@ $(function () {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
     var arr = raw && Array.isArray(raw.items) ? raw.items.slice() : [];
+    function caseIdEpochMs(id) {
+      var m = /^case-(\d+)$/.exec(String(id == null ? "" : id));
+      if (!m) return 0;
+      var n = Number(m[1]);
+      return Number.isFinite(n) && n > 0 ? n : 0;
+    }
     function testimonialsRecencyTs(it) {
       if (!it || typeof it !== "object") return 0;
-      var keys = ["rowUpdatedAt", "publishedAt", "updatedAt", "createdAt"];
-      for (var i = 0; i < keys.length; i++) {
+      var fromId = caseIdEpochMs(it.id);
+      if (fromId) return fromId;
+      var c = it.createdAt;
+      if (c) {
+        var t0 = new Date(c).getTime();
+        if (Number.isFinite(t0) && t0 > 0) return t0;
+      }
+      var keys = ["publishedAt", "updatedAt", "rowUpdatedAt"];
+      var i;
+      for (i = 0; i < keys.length; i++) {
         var v = it[keys[i]];
         if (v) {
           var t = new Date(v).getTime();

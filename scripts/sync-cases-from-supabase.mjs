@@ -85,11 +85,46 @@ function stripHtmlToSearchText(html) {
     .trim();
 }
 
+function caseIdEpochMs(id) {
+  const m = /^case-(\d+)$/.exec(String(id ?? ""));
+  if (!m) return 0;
+  const n = Number(m[1]);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+/** admin/src/lib/casesRemoteStorage.js 의 sortCasesItemsNewestFirst 와 동일 */
+function sortCasesItemsNewestFirst(items) {
+  const arr = Array.isArray(items) ? [...items] : [];
+  function ts(it) {
+    if (!it || typeof it !== "object") return 0;
+    const fromId = caseIdEpochMs(it.id);
+    if (fromId) return fromId;
+    const c = it.createdAt;
+    if (c) {
+      const t0 = new Date(c).getTime();
+      if (Number.isFinite(t0) && t0 > 0) return t0;
+    }
+    const keys = ["publishedAt", "updatedAt", "rowUpdatedAt"];
+    for (const k of keys) {
+      const v = it[k];
+      if (v) {
+        const t = new Date(v).getTime();
+        if (Number.isFinite(t) && t > 0) return t;
+      }
+    }
+    return 0;
+  }
+  arr.sort((a, b) => ts(b) - ts(a) || String(b.id || "").localeCompare(String(a.id || "")));
+  return arr;
+}
+
 function buildWebCasesExport(items, updatedAt) {
+  const published = sortCasesItemsNewestFirst(
+    (items || []).filter((item) => item && item.status === "published")
+  );
   const listItems = [];
   const details = [];
-  for (const item of items || []) {
-    if (item.status !== "published") continue;
+  for (const item of published) {
     const contentHtml = String(item.contentHtml || "");
     const searchText = stripHtmlToSearchText(contentHtml);
     listItems.push({
@@ -105,6 +140,7 @@ function buildWebCasesExport(items, updatedAt) {
       imageUrl: item.imageUrl || "",
       link: `testimonials.html?id=${encodeURIComponent(item.id)}`,
       publishedAt: item.publishedAt || "",
+      createdAt: item.createdAt || "",
       searchText,
     });
     details.push({

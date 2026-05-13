@@ -11,12 +11,27 @@ export function casePayloadForDb(item) {
   return rest;
 }
 
-/** 목록 표시: 최근 수정·발행이 위로 (payload 타임스탬프 기준) */
+/** id 가 case-<숫자> 형태일 때만 그 ms 값 (admin 신규 작성은 Date.now() 기반) */
+function caseIdEpochMs(id) {
+  const m = /^case-(\d+)$/.exec(String(id || ""));
+  if (!m) return 0;
+  const n = Number(m[1]);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+/** 목록 표시: id 가 case-<epochMs> 이면 그 값(작성 시각) 우선, 아니면 createdAt → publishedAt … 수정만으로는 순서 변경 없음 */
 export function sortCasesItemsNewestFirst(items) {
   const arr = Array.isArray(items) ? [...items] : [];
   function ts(it) {
     if (!it || typeof it !== "object") return 0;
-    const keys = ["rowUpdatedAt", "updatedAt", "publishedAt", "createdAt"];
+    const fromId = caseIdEpochMs(it.id);
+    if (fromId) return fromId;
+    const c = it.createdAt;
+    if (c) {
+      const t0 = new Date(c).getTime();
+      if (Number.isFinite(t0) && t0 > 0) return t0;
+    }
+    const keys = ["publishedAt", "updatedAt", "rowUpdatedAt"];
     for (const k of keys) {
       const v = it[k];
       if (v) {
@@ -61,7 +76,7 @@ export async function loadCasesAdminData() {
       error: null,
       useRowStorage: true,
       data: {
-        items,
+        items: sortCasesItemsNewestFirst(items),
         updatedAt: new Date(updatedAtMs || Date.now()).toISOString(),
       },
     };
@@ -190,7 +205,7 @@ export async function loadCasesItemsFromDeployedStatic() {
             slug: row.slug || "",
             publishedAt: row.publishedAt || "",
             status: "published",
-            createdAt: row.publishedAt || updatedAt,
+            createdAt: row.createdAt || row.publishedAt || updatedAt,
             updatedAt: row.publishedAt || updatedAt,
           };
         });
@@ -248,7 +263,7 @@ export async function loadCasesItemsFromDeployedStatic() {
         slug: row.slug || "",
         publishedAt: row.publishedAt || "",
         status: "published",
-        createdAt: row.publishedAt || updatedAt,
+        createdAt: row.createdAt || row.publishedAt || updatedAt,
         updatedAt: row.publishedAt || updatedAt,
       };
     });

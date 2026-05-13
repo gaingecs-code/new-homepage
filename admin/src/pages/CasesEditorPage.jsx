@@ -17,6 +17,7 @@ import {
   upsertCaseRow,
   deleteCaseRow,
   importCasesReplaceAll,
+  sortCasesItemsNewestFirst,
 } from "../lib/casesRemoteStorage";
 import { triggerGithubCasesWorkflow } from "../lib/triggerGithubCaseSync";
 
@@ -112,10 +113,12 @@ function stripHtmlToSearchText(html) {
 
 /** 웹 배포용: 목록 JSON + 사례별 상세 JSON 분리 */
 function buildWebCasesExport(items, updatedAt) {
+  const published = sortCasesItemsNewestFirst(
+    (items || []).filter((item) => item && item.status === "published")
+  );
   const listItems = [];
   const details = [];
-  for (const item of items || []) {
-    if (item.status !== "published") continue;
+  for (const item of published) {
     const contentHtml = String(item.contentHtml || "");
     const searchText = stripHtmlToSearchText(contentHtml);
     listItems.push({
@@ -131,6 +134,7 @@ function buildWebCasesExport(items, updatedAt) {
       imageUrl: item.imageUrl || "",
       link: `testimonials.html?id=${encodeURIComponent(item.id)}`,
       publishedAt: item.publishedAt || "",
+      createdAt: item.createdAt || "",
       searchText,
     });
     details.push({
@@ -403,7 +407,10 @@ export default function CasesEditorPage() {
   const thumbnailInputRef = useRef(null);
   const buttonFeedbackTimerRef = useRef(null);
   const [editorImages, setEditorImages] = useState([]);
-  const items = useMemo(() => withDerivedFields(data.items || []), [data.items]);
+  const items = useMemo(
+    () => withDerivedFields(sortCasesItemsNewestFirst(data.items || [])),
+    [data.items]
+  );
   const selected = items.find((x) => x.id === selectedId) || null;
 
   useEffect(() => {

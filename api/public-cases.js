@@ -105,6 +105,7 @@ function rowToListItem(row, index) {
     featuredImageUrl: p.featuredImageUrl || "",
     imageUrl: p.imageUrl || "",
     publishedAt: p.publishedAt || "",
+    createdAt: p.createdAt || "",
     rowUpdatedAt: row.updated_at || "",
     searchText: searchText,
     contentHtml: contentHtml,
@@ -193,6 +194,38 @@ module.exports = async function handler(req, res) {
     derived.forEach(function (it) {
       it.link = "testimonials.html?id=" + encodeURIComponent(it.id);
       delete it._index;
+    });
+
+    function caseIdEpochMs(id) {
+      var m = /^case-(\d+)$/.exec(String(id || ""));
+      if (!m) return 0;
+      var n = Number(m[1]);
+      return Number.isFinite(n) && n > 0 ? n : 0;
+    }
+    function listSortTs(it) {
+      if (!it || typeof it !== "object") return 0;
+      var fromId = caseIdEpochMs(it.id);
+      if (fromId) return fromId;
+      var c = it.createdAt;
+      if (c) {
+        var t0 = new Date(c).getTime();
+        if (Number.isFinite(t0) && t0 > 0) return t0;
+      }
+      var keys = ["publishedAt", "updatedAt", "rowUpdatedAt"];
+      for (var i = 0; i < keys.length; i++) {
+        var v = it[keys[i]];
+        if (v) {
+          var t = new Date(v).getTime();
+          if (Number.isFinite(t) && t > 0) return t;
+        }
+      }
+      return 0;
+    }
+    derived.sort(function (a, b) {
+      var tb = listSortTs(b);
+      var ta = listSortTs(a);
+      if (tb !== ta) return tb - ta;
+      return String(b.id || "").localeCompare(String(a.id || ""));
     });
 
     var updatedAtMs = rows.reduce(function (m, row) {
