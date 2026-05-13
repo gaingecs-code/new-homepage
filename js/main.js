@@ -1753,8 +1753,15 @@ $(function () {
     e.preventDefault();
     var $item = $(this);
     var caseId = ($item.attr("data-admin-item-key") || "").trim();
-    if (!$boardOverlay.length || !caseId) return;
-    openBoardByCaseId(caseId, { pushUrl: true });
+    if (!caseId) return;
+    var popupUrl;
+    try {
+      popupUrl = new URL("testimonials.html?id=" + encodeURIComponent(caseId), window.location.href).href;
+    } catch (err) {
+      return;
+    }
+    var popupFeatures = "noopener,noreferrer,width=1080,height=900";
+    window.open(popupUrl, "_blank", popupFeatures);
   });
 
   $(document).on("click", ".board-author", function (e) {
