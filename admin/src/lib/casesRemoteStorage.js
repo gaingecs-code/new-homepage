@@ -11,6 +11,25 @@ export function casePayloadForDb(item) {
   return rest;
 }
 
+/** 목록 표시: 최근 수정·발행이 위로 (payload 타임스탬프 기준) */
+export function sortCasesItemsNewestFirst(items) {
+  const arr = Array.isArray(items) ? [...items] : [];
+  function ts(it) {
+    if (!it || typeof it !== "object") return 0;
+    const keys = ["rowUpdatedAt", "updatedAt", "publishedAt", "createdAt"];
+    for (const k of keys) {
+      const v = it[k];
+      if (v) {
+        const t = new Date(v).getTime();
+        if (Number.isFinite(t) && t > 0) return t;
+      }
+    }
+    return 0;
+  }
+  arr.sort((a, b) => ts(b) - ts(a) || String(b.id || "").localeCompare(String(a.id || "")));
+  return arr;
+}
+
 /**
  * @returns {Promise<{ error: string | null, useRowStorage: boolean, data: { items: unknown[], updatedAt: string } }>}
  */
@@ -22,7 +41,8 @@ export async function loadCasesAdminData() {
   const { data: rows, error } = await supabase
     .from("cases")
     .select("id, payload, version, updated_at")
-    .order("id", { ascending: true });
+    .order("updated_at", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) {
     return { error: error.message, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
@@ -31,7 +51,7 @@ export async function loadCasesAdminData() {
   if (rows && rows.length > 0) {
     const items = rows.map((r) => {
       const p = r.payload && typeof r.payload === "object" ? { ...r.payload } : {};
-      return { ...p, id: r.id, _syncVersion: r.version };
+      return { ...p, id: r.id, _syncVersion: r.version, rowUpdatedAt: r.updated_at };
     });
     const updatedAtMs = rows.reduce((m, r) => {
       const t = new Date(r.updated_at || 0).getTime();
@@ -54,7 +74,7 @@ export async function loadCasesAdminData() {
     error: null,
     useRowStorage: true,
     data: {
-      items: Array.isArray(legacy.items) ? legacy.items : [],
+      items: sortCasesItemsNewestFirst(Array.isArray(legacy.items) ? legacy.items : []),
       updatedAt: legacy.updatedAt || new Date().toISOString(),
     },
   };
@@ -174,7 +194,7 @@ export async function loadCasesItemsFromDeployedStatic() {
             updatedAt: row.publishedAt || updatedAt,
           };
         });
-        return { items: merged, updatedAt };
+        return { items: sortCasesItemsNewestFirst(merged), updatedAt };
       }
     }
   } catch {
@@ -234,7 +254,7 @@ export async function loadCasesItemsFromDeployedStatic() {
     });
     const merged = (await Promise.all(detailPromises)).filter(Boolean);
     if (merged.length === 0) return null;
-    return { items: merged, updatedAt };
+    return { items: sortCasesItemsNewestFirst(merged), updatedAt };
   } catch {
     return null;
   }

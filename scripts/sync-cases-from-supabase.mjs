@@ -136,7 +136,8 @@ async function loadDatasetFromCasesTable(supabase) {
   const { data: rows, error } = await supabase
     .from("cases")
     .select("id, payload, updated_at")
-    .order("id", { ascending: true });
+    .order("updated_at", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) {
     console.warn("public.cases 조회 실패 — app_settings 로 폴백합니다:", error.message);

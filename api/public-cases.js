@@ -105,6 +105,7 @@ function rowToListItem(row, index) {
     featuredImageUrl: p.featuredImageUrl || "",
     imageUrl: p.imageUrl || "",
     publishedAt: p.publishedAt || "",
+    rowUpdatedAt: row.updated_at || "",
     searchText: searchText,
     contentHtml: contentHtml,
     link: "",
@@ -137,7 +138,7 @@ module.exports = async function handler(req, res) {
   try {
     var url =
       SUPABASE_URL +
-      "/rest/v1/cases?status=eq.published&select=id,payload,updated_at&order=id.asc";
+      "/rest/v1/cases?status=eq.published&select=id,payload,updated_at&order=updated_at.desc,id.desc";
     if (idFilter) {
       url =
         SUPABASE_URL +

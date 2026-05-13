@@ -1166,7 +1166,25 @@ $(function () {
   function buildTestimonialsBoardFromCasesPayload(raw) {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
-    var arr = raw && Array.isArray(raw.items) ? raw.items : [];
+    var arr = raw && Array.isArray(raw.items) ? raw.items.slice() : [];
+    function testimonialsRecencyTs(it) {
+      if (!it || typeof it !== "object") return 0;
+      var keys = ["rowUpdatedAt", "publishedAt", "updatedAt", "createdAt"];
+      for (var i = 0; i < keys.length; i++) {
+        var v = it[keys[i]];
+        if (v) {
+          var t = new Date(v).getTime();
+          if (Number.isFinite(t) && t > 0) return t;
+        }
+      }
+      return 0;
+    }
+    arr.sort(function (a, b) {
+      var tb = testimonialsRecencyTs(b);
+      var ta = testimonialsRecencyTs(a);
+      if (tb !== ta) return tb - ta;
+      return String(b.id || "").localeCompare(String(a.id || ""));
+    });
     boardCasesListMode = raw && raw.schema === TESTIMONIALS_SCHEMA_LIST ? "split" : "legacy";
     if (!arr.length) {
       $list.empty();
