@@ -7,6 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import ws from "ws";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -142,7 +143,12 @@ async function main() {
     process.exit(1);
   }
 
-  const supabase = createClient(url, key, { auth: { persistSession: false } });
+  const supabase = createClient(url, key, {
+    auth: { persistSession: false },
+    realtime: {
+      transport: ws,
+    },
+  });
   const { data: row, error } = await supabase.from("app_settings").select("value").eq("key", STORAGE_KEY).maybeSingle();
 
   if (error) {
