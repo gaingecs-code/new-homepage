@@ -10,6 +10,7 @@ import { defaultCasesData } from "../data/defaultCases";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
 import { supabaseEnabled } from "../lib/supabase";
 import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
+import { triggerGithubCasesWorkflow } from "../lib/triggerGithubCaseSync";
 
 function IconAlignLeft() {
   return (
@@ -480,11 +481,22 @@ export default function CasesEditorPage() {
         setMessage(`저장 실패: ${error.message}`);
         return;
       }
+      const wf = await triggerGithubCasesWorkflow();
+      if (!wf.ok) {
+        setMessage(`저장은 완료되었으나 GitHub 동기화 요청 실패: ${wf.message}`);
+        flashButtonFeedback("save");
+        return;
+      }
+      let msg = "웹 저장하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.";
+      if (!wf.skipped) {
+        msg += " GitHub 동기화가 시작되었습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
+      }
+      setMessage(msg);
     } else {
       saveLocalDraft(STORAGE_KEY, data);
       saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
+      setMessage("웹 저장하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.");
     }
-    setMessage("웹 저장하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.");
     flashButtonFeedback("save");
   }
 
@@ -699,11 +711,22 @@ export default function CasesEditorPage() {
           setMessage(`저장 실패: ${error.message}`);
           return;
         }
+        const wf = await triggerGithubCasesWorkflow();
+        if (!wf.ok) {
+          setMessage(`저장은 완료되었으나 GitHub 동기화 요청 실패: ${wf.message}`);
+          flashButtonFeedback("publish");
+          return;
+        }
+        let msg = "작성 완료 처리 후 웹 반영용으로 저장했습니다.";
+        if (!wf.skipped) {
+          msg += " GitHub 동기화가 시작되었습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
+        }
+        setMessage(msg);
       } else {
         saveLocalDraft(PUBLISHED_STORAGE_KEY, publishedData);
+        setMessage("작성 완료 처리 후 웹 반영용으로 저장했습니다.");
       }
     }
-    setMessage("작성 완료 처리 후 웹 반영용으로 저장했습니다.");
     flashButtonFeedback("publish");
   }
 

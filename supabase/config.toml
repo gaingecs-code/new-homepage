@@ -1,0 +1,5 @@
+# 로컬/배포: supabase link --project-ref <프로젝트 ref>
+# Edge: supabase functions deploy trigger-github-case-sync
+
+[functions.trigger-github-case-sync]
+verify_jwt = true
