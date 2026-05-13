@@ -438,6 +438,7 @@ export default function CasesEditorPage() {
         if (x.id !== id) return x;
         const next = { ...x, [key]: value, updatedAt: nowIso() };
         if (key === "status" && value === "published" && !x.publishedAt) next.publishedAt = nowIso();
+        if (key === "status" && value === "saved") next.publishedAt = "";
         return next;
       })
     );
@@ -510,13 +511,50 @@ export default function CasesEditorPage() {
 
   async function saveDraft() {
     if (supabaseEnabled && casesRowMode) {
-      const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
-      if (!wf.ok) {
-        setMessage(`GitHub 동기화 요청 실패: ${wf.message}`);
+      const savedRows = items.filter((x) => x.status === "saved");
+      for (const item of savedRows) {
+        const expected = item._syncVersion ?? 0;
+        const now = nowIso();
+        const nextItem = {
+          ...item,
+          status: "published",
+          publishedAt: item.publishedAt || now,
+          updatedAt: now,
+        };
+        const res = await upsertCaseRow(nextItem, expected);
+        if (!res.ok) {
+          setMessage(
+            `전체 사례 배포 중 발행 처리 실패 (${item.title || item.id}): ${res.message || res.err || "오류"}. 새로고침 후 다시 시도해 주세요.`
+          );
+          flashButtonFeedback("save");
+          return;
+        }
+      }
+
+      const resReload = await loadCasesAdminData();
+      if (resReload.error) {
+        setMessage(`발행 반영 후 다시 불러오기에 실패했습니다: ${resReload.error}`);
         flashButtonFeedback("save");
         return;
       }
-      let msg = "웹 저장하기: GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
+      setCasesRowMode(resReload.useRowStorage);
+      setData(
+        normalizeData({
+          items: resReload.data.items || [],
+          updatedAt: resReload.data.updatedAt || new Date().toISOString(),
+        })
+      );
+
+      const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
+      if (!wf.ok) {
+        setMessage(`DB는 발행 상태로 맞췄으나 GitHub 동기화 요청 실패: ${wf.message}`);
+        flashButtonFeedback("save");
+        return;
+      }
+      let msg = "전체 사례 배포하기: 저장된 사례를 발행한 뒤 GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
+      if (savedRows.length === 0) {
+        msg = "전체 사례 배포하기: GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
+      }
       if (wf.skipped) {
         msg = "GitHub 동기화를 건너뛰었습니다. 로그인 세션을 확인해 주세요.";
       }
@@ -533,7 +571,7 @@ export default function CasesEditorPage() {
         flashButtonFeedback("save");
         return;
       }
-      let msg = "웹 저장하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.";
+      let msg = "전체 사례 배포하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.";
       if (!wf.skipped) {
         msg += " GitHub 동기화가 시작되었습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
       }
@@ -541,7 +579,7 @@ export default function CasesEditorPage() {
     } else {
       saveLocalDraft(STORAGE_KEY, data);
       saveLocalDraft(PUBLISHED_STORAGE_KEY, data);
-      setMessage("웹 저장하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.");
+      setMessage("전체 사례 배포하기: 전체 고객 사례를 즉시 반영용으로 저장했습니다.");
     }
     flashButtonFeedback("save");
   }
@@ -778,8 +816,8 @@ export default function CasesEditorPage() {
         contentHtml: html,
         featuredImageUrl,
         imageUrl: thumbnailUrl || featuredImageUrl || "",
-        status: "published",
-        publishedAt: selected.publishedAt || now,
+        status: "saved",
+        publishedAt: "",
         updatedAt: now,
       };
       const expected = selected._syncVersion ?? 0;
@@ -792,7 +830,7 @@ export default function CasesEditorPage() {
       patchItems((arr) =>
         arr.map((x) => (x.id === selected.id ? { ...nextItem, _syncVersion: res.newVersion } : x))
       );
-      setMessage("작성 완료: Supabase에 저장했습니다. 공개 사이트 반영은 「웹 저장하기」로 배포해 주세요.");
+      setMessage("작성 완료: Supabase에 저장했습니다. 공개 사이트 반영은 「전체 사례 배포하기」로 해 주세요.");
       flashButtonFeedback("publish");
       return;
     }
@@ -894,6 +932,7 @@ export default function CasesEditorPage() {
 
   function statusLabel(status) {
     if (status === "published") return "발행";
+    if (status === "saved") return "저장";
     return "임시";
   }
 
@@ -902,7 +941,18 @@ export default function CasesEditorPage() {
       <h2 className="page-title">고객 사례 관리</h2>
       <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.7rem" }}>
         <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-          <button className="btn btn-primary" type="button" onClick={saveDraft}>웹 저장하기</button>
+          <button
+            className="btn btn-outline"
+            type="button"
+            onClick={saveDraft}
+            style={{
+              color: "#b91c1c",
+              borderColor: "#b91c1c",
+              fontWeight: 700,
+            }}
+          >
+            전체 사례 배포하기
+          </button>
           {buttonFeedbackKey === "save" ? (
             <span
               style={{
@@ -929,20 +979,35 @@ export default function CasesEditorPage() {
         <button className="btn btn-outline" type="button" onClick={addCase}>사례 추가</button>
       </div>
       {message && <p className="muted">{message}</p>}
-      <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.85rem" }}>
-        배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다.
+      <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: supabaseEnabled && casesRowMode ? "0.45rem" : "0.85rem", lineHeight: 1.55 }}>
+        배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다.{" "}
         {supabaseEnabled && casesRowMode ? (
           <>
-            {" "}
-            각 사례는 Supabase <strong>public.cases</strong> 행으로 저장됩니다. 「작성 완료」「임시 저장」은 DB만 갱신하고, 공개 사이트 반영은 「웹 저장하기」로 GitHub 동기화를 실행하세요.
+            원격 저장 후 GitHub Actions가 연결되어 있으면 위 파일이 자동으로 맞춰집니다. 비상 배포·원복은 같은 「고급 필드」 안의 통합 백업과 예전 <code>cases.json</code>을 참고하세요.
           </>
         ) : supabaseEnabled ? (
-          <> 원격 저장 후 GitHub Actions가 연결되어 있으면 위 파일이 자동으로 맞춰집니다.</>
+          <>
+            원격 저장 후 GitHub Actions가 연결되어 있으면 위 파일이 자동으로 맞춰집니다. 비상 배포·원복은 같은 「고급 필드」 안의 통합 백업과 예전 <code>cases.json</code>을 참고하세요.
+          </>
         ) : (
-          <> 사례를 선택한 뒤 게시글 영역 맨 아래 「고급 필드」를 펼쳐 분리 JSON을 받아 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>
-        )}{" "}
-        비상 배포·원복은 같은 「고급 필드」 안의 통합 백업과 예전 <code>cases.json</code>을 참고하세요.
+          <>사례를 선택한 뒤 게시글 영역 맨 아래 「고급 필드」를 펼쳐 분리 JSON을 받아 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>
+        )}
       </p>
+      {supabaseEnabled && casesRowMode ? (
+        <blockquote
+          style={{
+            margin: "0 0 0.85rem 0",
+            padding: "0.55rem 0.85rem",
+            borderLeft: "4px solid #b91c1c",
+            color: "#b91c1c",
+            fontSize: "0.9rem",
+            lineHeight: 1.55,
+            background: "#fef2f2",
+          }}
+        >
+          동시에 작성하는 경우에는 「작성 완료」 버튼만 눌러주세요. 동시 작성이 종료된 이후에 「전체 사례 배포하기」 버튼을 눌러야 작성 중인 게시글이 사라지지 않습니다.
+        </blockquote>
+      ) : null}
 
       <div className="split-grid" style={{ gridTemplateColumns: "1fr" }}>
         <div className="panel">
@@ -1072,7 +1137,12 @@ export default function CasesEditorPage() {
                     미리보기
                   </button>
                   <span className="muted" style={{ fontSize: "0.85rem", alignSelf: "center" }}>
-                    현재: {selected.status === "published" ? "발행됨" : "임시 저장(초안)"}
+                    현재:{" "}
+                    {selected.status === "published"
+                      ? "발행됨"
+                      : selected.status === "saved"
+                        ? "저장됨(웹 배포 전)"
+                        : "임시 저장(초안)"}
                   </span>
                 </div>
                 <input
@@ -1174,7 +1244,7 @@ export default function CasesEditorPage() {
                     <label className="field"><span>게시일시 (자동)</span><input className="input" value={selected.publishedAt || "-"} disabled /></label>
                   </div>
                   <p className="muted" style={{ margin: "0.75rem 0 0.45rem", fontSize: "0.88rem" }}>
-                    Actions가 잠시 막혔거나 로컬에서만 파일이 필요할 때만 사용하세요. 평소에는 「웹 저장하기」만으로 충분합니다.
+                    Actions가 잠시 막혔거나 로컬에서만 파일이 필요할 때만 사용하세요. 평소에는 「전체 사례 배포하기」만으로 충분합니다.
                   </p>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                     <button className="btn btn-primary" type="button" onClick={() => void exportWebSplitJson()}>

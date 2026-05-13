@@ -47,10 +47,12 @@ export async function loadCasesAdminData() {
     };
   }
 
+  // cases 가 비어 있어도 조회에 성공했다면 행 저장(RPC) 경로를 켠다.
+  // 레거시 app_settings 목록은 초기 표시용이며, 임시 저장·작성 완료 시 upsert_case 로 첫 행이 생긴다.
   const legacy = await loadRemoteJsonByKey(LEGACY_STORAGE_KEY, defaultCasesData);
   return {
     error: null,
-    useRowStorage: false,
+    useRowStorage: true,
     data: {
       items: Array.isArray(legacy.items) ? legacy.items : [],
       updatedAt: legacy.updatedAt || new Date().toISOString(),
