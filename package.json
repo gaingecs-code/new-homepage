@@ -10,6 +10,10 @@
     "preview": "npx --yes serve -l 5500 .",
     "check:assets": "node scripts/check-asset-paths.js",
     "build:admin": "cd admin && npm install && npm run build && node ../scripts/sync-admin-dist.mjs",
-    "vercel-build": "npm run build:admin"
+    "vercel-build": "npm run build:admin",
+    "sync-cases-data": "node scripts/sync-cases-from-supabase.mjs"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.49.1"
   }
 }

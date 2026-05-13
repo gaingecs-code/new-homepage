@@ -1,0 +1,54 @@
+# Supabase → data/cases-list.json + data/cases/<id>.json 동기화 후 커밋·푸시 → Vercel 등 자동 배포
+#
+# 필요한 Repository secrets:
+#   SUPABASE_URL
+#   SUPABASE_SERVICE_ROLE_KEY  (서비스 롤 — RLS 우회로 app_settings 읽기 전용 용도, 절대 프론트에 넣지 마세요)
+#
+# 실행: Actions 탭 → "Sync cases data from Supabase" → Run workflow
+# (저장소 정책에 따라 main 직접 푸시가 막혀 있으면 이 워크플로는 실패할 수 있습니다. Settings → Actions → General 확인)
+
+name: Sync cases data from Supabase
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [sync-cases]
+
+concurrency:
+  group: sync-cases-data
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install root deps
+        run: npm ci
+
+      - name: Sync data files from Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npm run sync-cases-data
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/cases-list.json data/cases/
+          if git diff --staged --quiet; then
+            echo "No data changes."
+            exit 0
+          fi
+          git commit -m "chore(data): sync published cases from Supabase"
+          git push
