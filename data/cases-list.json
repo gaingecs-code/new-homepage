@@ -1,11 +1,26 @@
 {
   "schema": "cases-list.v1",
-  "updatedAt": "2026-05-13T00:57:01.973Z",
+  "updatedAt": "2026-05-13T04:28:34.569Z",
   "note": "게시판 목록용. 본문은 data/cases/<id>.json 에서 클릭 시 로드합니다.",
   "items": [
     {
-      "id": "case-1778574060206",
+      "id": "case-1778646504578",
       "slug": "새-고객-사례",
+      "title": "새 고객 사례1213",
+      "authorName": "1313",
+      "industryTags": [],
+      "companySize": "",
+      "consultingTypeTags": [],
+      "thumbnailUrl": "",
+      "featuredImageUrl": "",
+      "imageUrl": "",
+      "link": "testimonials.html?id=case-1778646504578",
+      "publishedAt": "2026-05-13T04:28:34.569Z",
+      "searchText": "131331"
+    },
+    {
+      "id": "case-1778574060206",
+      "slug": "새-고객-사례-2",
       "title": "\"경영진만 고민하던 '다음 먹거리'를 전 직원이 함께 찾았다\" 전 직원이 함께 만든 비전 워크샵",
       "authorName": "안우림 컨설턴트",
       "industryTags": [
