@@ -129,10 +129,16 @@ function ensureDir(dir) {
 }
 
 async function main() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = (process.env.SUPABASE_URL || "").trim();
+  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
   if (!url || !key) {
-    console.error("SUPABASE_URL 및 SUPABASE_SERVICE_ROLE_KEY 가 필요합니다.");
+    console.error("SUPABASE_URL 및 SUPABASE_SERVICE_ROLE_KEY 가 필요합니다. (저장소 Settings → Secrets → Actions)");
+    process.exit(1);
+  }
+  if (!/^https:\/\/.+/.test(url)) {
+    console.error(
+      "SUPABASE_URL 은 https:// 로 시작하는 프로젝트 URL 이어야 합니다. (JWT/eyJ 로 시작하는 값은 API 키입니다 — SUPABASE_SERVICE_ROLE_KEY 에 넣으세요.)"
+    );
     process.exit(1);
   }
 
@@ -143,12 +149,26 @@ async function main() {
     console.error("Supabase 조회 실패:", error.message);
     process.exit(1);
   }
-  if (!row || !row.value || typeof row.value !== "object") {
-    console.error("app_settings 에서 key=", STORAGE_KEY, "인 value 가 없습니다.");
+  if (!row || row.value === undefined || row.value === null) {
+    console.error("app_settings 에서 key=", STORAGE_KEY, "인 행이 없거나 value 가 비어 있습니다. Admin에서 웹 저장하기로 한 번 저장했는지 확인하세요.");
     process.exit(1);
   }
 
-  const raw = row.value;
+  let rawValue = row.value;
+  if (typeof rawValue === "string") {
+    try {
+      rawValue = JSON.parse(rawValue);
+    } catch (e) {
+      console.error("app_settings.value 가 JSON 문자열로 파싱되지 않습니다.");
+      process.exit(1);
+    }
+  }
+  if (!rawValue || typeof rawValue !== "object") {
+    console.error("app_settings.value 가 객체가 아닙니다. (key=", STORAGE_KEY, ")");
+    process.exit(1);
+  }
+
+  const raw = rawValue;
   const data = normalizeData({
     items: Array.isArray(raw.items) ? raw.items : [],
     updatedAt: raw.updatedAt || new Date().toISOString(),
