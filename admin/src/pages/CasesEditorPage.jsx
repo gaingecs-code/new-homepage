@@ -802,23 +802,33 @@ export default function CasesEditorPage() {
           ) : null}
         </div>
         <button className="btn btn-outline" type="button" onClick={addCase}>사례 추가</button>
-        <button className="btn btn-primary" type="button" onClick={() => void exportWebSplitJson()}>
-          배포용 분리보내기
-        </button>
-        <button className="btn btn-outline" type="button" onClick={exportMonolithicBackup}>
-          통합 JSON 백업
-        </button>
       </div>
       {message && <p className="muted">{message}</p>}
-      <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.85rem" }}>
+      <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.55rem" }}>
         배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다.
         {supabaseEnabled ? (
-          <> 원격 저장 시 GitHub Actions로 위 파일이 자동 동기화되도록 설정되어 있으면, 별도 분리보내기 없이 반영됩니다.</>
+          <> 원격 저장 후 GitHub Actions가 연결되어 있으면 위 파일이 자동으로 맞춰집니다.</>
         ) : (
-          <> 「배포용 분리보내기」로 받은 파일을 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>
+          <> 아래 「고급 · 수동 파일」에서 분리 JSON을 받아 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>
         )}{" "}
-        원복 시에는 「통합 JSON 백업」과 예전 <code>cases.json</code>만으로도 동작합니다.
+        비상 배포·원복은 「고급 · 수동 파일」의 통합 백업과 예전 <code>cases.json</code>을 참고하세요.
       </p>
+      <details style={{ marginBottom: "0.85rem" }}>
+        <summary style={{ cursor: "pointer", fontWeight: 600, color: "var(--muted-foreground, #64748b)" }}>
+          고급 · 수동 파일
+        </summary>
+        <p className="muted" style={{ margin: "0.45rem 0 0.5rem", fontSize: "0.88rem" }}>
+          Actions가 잠시 막혔거나 로컬에서만 파일이 필요할 때 사용합니다. 평소에는 「웹 저장하기」만으로 충분합니다.
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+          <button className="btn btn-primary" type="button" onClick={() => void exportWebSplitJson()}>
+            배포용 분리보내기
+          </button>
+          <button className="btn btn-outline" type="button" onClick={exportMonolithicBackup}>
+            통합 JSON 백업
+          </button>
+        </div>
+      </details>
 
       <div className="split-grid" style={{ gridTemplateColumns: "1fr" }}>
         <div className="panel">
