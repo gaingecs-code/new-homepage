@@ -804,31 +804,15 @@ export default function CasesEditorPage() {
         <button className="btn btn-outline" type="button" onClick={addCase}>사례 추가</button>
       </div>
       {message && <p className="muted">{message}</p>}
-      <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.55rem" }}>
+      <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.85rem" }}>
         배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다.
         {supabaseEnabled ? (
           <> 원격 저장 후 GitHub Actions가 연결되어 있으면 위 파일이 자동으로 맞춰집니다.</>
         ) : (
-          <> 아래 「고급 · 수동 파일」에서 분리 JSON을 받아 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>
+          <> 사례를 선택한 뒤 게시글 영역 맨 아래 「고급 필드」를 펼쳐 분리 JSON을 받아 프로젝트 <code>data/</code> 폴더에 넣어 주세요.</>
         )}{" "}
-        비상 배포·원복은 「고급 · 수동 파일」의 통합 백업과 예전 <code>cases.json</code>을 참고하세요.
+        비상 배포·원복은 같은 「고급 필드」 안의 통합 백업과 예전 <code>cases.json</code>을 참고하세요.
       </p>
-      <details style={{ marginBottom: "0.85rem" }}>
-        <summary style={{ cursor: "pointer", fontWeight: 600, color: "var(--muted-foreground, #64748b)" }}>
-          고급 · 수동 파일
-        </summary>
-        <p className="muted" style={{ margin: "0.45rem 0 0.5rem", fontSize: "0.88rem" }}>
-          Actions가 잠시 막혔거나 로컬에서만 파일이 필요할 때 사용합니다. 평소에는 「웹 저장하기」만으로 충분합니다.
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-          <button className="btn btn-primary" type="button" onClick={() => void exportWebSplitJson()}>
-            배포용 분리보내기
-          </button>
-          <button className="btn btn-outline" type="button" onClick={exportMonolithicBackup}>
-            통합 JSON 백업
-          </button>
-        </div>
-      </details>
 
       <div className="split-grid" style={{ gridTemplateColumns: "1fr" }}>
         <div className="panel">
@@ -1052,12 +1036,23 @@ export default function CasesEditorPage() {
                   </div>
                 </div>
                 <details style={{ marginTop: "0.85rem" }} open={advancedOpen} onToggle={(e) => setAdvancedOpen(e.currentTarget.open)}>
-                  <summary>고급 필드 (자동 생성값 확인)</summary>
+                  <summary>고급 필드 (자동 생성값 · 수동 파일)</summary>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginTop: "0.5rem" }}>
                     <label className="field"><span>ID</span><input className="input" value={selected.id} disabled /></label>
                     <label className="field"><span>Slug (자동)</span><input className="input" value={selected.slug || ""} disabled /></label>
                     <label className="field"><span>연결 링크 (자동)</span><input className="input" value={selected.link || ""} disabled /></label>
                     <label className="field"><span>게시일시 (자동)</span><input className="input" value={selected.publishedAt || "-"} disabled /></label>
+                  </div>
+                  <p className="muted" style={{ margin: "0.75rem 0 0.45rem", fontSize: "0.88rem" }}>
+                    Actions가 잠시 막혔거나 로컬에서만 파일이 필요할 때만 사용하세요. 평소에는 「웹 저장하기」만으로 충분합니다.
+                  </p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                    <button className="btn btn-primary" type="button" onClick={() => void exportWebSplitJson()}>
+                      배포용 분리보내기
+                    </button>
+                    <button className="btn btn-outline" type="button" onClick={exportMonolithicBackup}>
+                      통합 JSON 백업
+                    </button>
                   </div>
                 </details>
               </div>
