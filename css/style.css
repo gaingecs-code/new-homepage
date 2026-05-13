@@ -12388,3 +12388,85 @@ a.community-intro-more-link:hover {
   }
 }
 
+/* -------- case-view (사례 본문 전용 뷰어, case-view.html) -------- */
+.case-view-page {
+  min-height: 100vh;
+  margin: 0;
+  background: #0b1120;
+  color: var(--color-text, #e2e8f0);
+}
+
+.case-view-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+  padding: 0.85rem 1.25rem;
+  background: rgba(15, 23, 42, 0.96);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.case-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(30, 41, 59, 0.9);
+  color: #e2e8f0;
+}
+
+.case-view-btn:hover,
+.case-view-btn:focus-visible {
+  background: rgba(51, 65, 85, 0.95);
+}
+
+.case-view-btn--primary {
+  border-color: rgba(56, 189, 248, 0.45);
+  margin-left: auto;
+}
+
+.case-view-link-muted {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  text-decoration: underline;
+}
+
+.case-view-main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+.case-view-state {
+  margin: 2rem 0;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.case-view-state.case-view-state--error {
+  color: #cbd5e1;
+}
+
+.case-view-article {
+  margin-top: 0.5rem;
+}
+
+.case-view-meta {
+  margin: 0 0 1.25rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #94a3b8);
+}
+
+.case-view-article .board-article-title {
+  color: var(--color-primary, #38bdf8);
+}
+

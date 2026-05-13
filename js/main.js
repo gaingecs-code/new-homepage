@@ -1186,7 +1186,7 @@ $(function () {
         var scale = (item && item.companySize) || "";
         var consulting = Array.isArray(item && item.consultingTypeTags) ? item.consultingTypeTags.join("|") : "";
         var caseId = (item && item.id) || "case-" + (idx + 1);
-        var shareHref = "testimonials.html?id=" + encodeURIComponent(caseId);
+        var shareHref = "case-view.html?id=" + encodeURIComponent(caseId);
         var modeAttr =
           boardCasesListMode === "split"
             ? ' data-board-case-split="1"'
@@ -1756,7 +1756,7 @@ $(function () {
     if (!caseId) return;
     var popupUrl;
     try {
-      popupUrl = new URL("testimonials.html?id=" + encodeURIComponent(caseId), window.location.href).href;
+      popupUrl = new URL("case-view.html?id=" + encodeURIComponent(caseId), window.location.href).href;
     } catch (err) {
       return;
     }
