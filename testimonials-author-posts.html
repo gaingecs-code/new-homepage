@@ -48,6 +48,25 @@
         }
       }
 
+      function escapeHtml(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      /** collectBoardPosts() 의 id; 없거나 board-post-* 이면 상세 링크 없음 */
+      function postDetailHref(post) {
+        var id = post && post.id != null ? String(post.id).trim() : "";
+        if (!id || id.indexOf("board-post-") === 0) return "#";
+        try {
+          return new URL("case-view.html?id=" + encodeURIComponent(id), window.location.href).href;
+        } catch (e) {
+          return "#";
+        }
+      }
+
       function render(posts, page) {
         var totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
         currentPage = Math.max(1, Math.min(page, totalPages));
@@ -56,15 +75,39 @@
 
         listEl.innerHTML = "";
         pagePosts.forEach(function (post) {
+          var href = postDetailHref(post);
+          var isOpenable = href !== "#";
+          var linkAttrs =
+            'href="' + href.replace(/"/g, "%22") + '"' + (isOpenable ? ' target="_blank" rel="noopener noreferrer"' : "");
+          var titleText = post.title || "제목 없음";
           var li = document.createElement("li");
           li.className = "board-item";
+          if (isOpenable && post.id) {
+            li.setAttribute("data-admin-item-key", String(post.id));
+          }
           li.innerHTML =
-            '<a href="#" class="board-thumb-link" aria-label="게시글 썸네일">' +
-            '<img class="board-thumb-image" src="' + (post.thumbnail || "") + '" alt="' + (post.title || "게시글") + ' 썸네일" loading="lazy" decoding="async" />' +
+            "<a " +
+            linkAttrs +
+            ' class="board-thumb-link" aria-label="' +
+            escapeHtml(titleText + " 썸네일") +
+            '">' +
+            '<img class="board-thumb-image" src="' +
+            escapeHtml(post.thumbnail || "") +
+            '" alt="' +
+            escapeHtml(titleText + " 썸네일") +
+            '" loading="lazy" decoding="async" />' +
             "</a>" +
             '<div class="board-meta">' +
-            '<a href="#" class="board-title">' + (post.title || "제목 없음") + "</a>" +
-            '<span class="board-author">' + (post.author || "작성자") + "</span>" +
+            "<a " +
+            linkAttrs +
+            ' class="board-title" aria-label="' +
+            escapeHtml(titleText + " 본문 열기") +
+            '">' +
+            escapeHtml(titleText) +
+            "</a>" +
+            '<span class="board-author">' +
+            escapeHtml(post.author || "작성자") +
+            "</span>" +
             "</div>";
           listEl.appendChild(li);
         });
