@@ -12428,17 +12428,6 @@ a.community-intro-more-link:hover {
   background: rgba(51, 65, 85, 0.95);
 }
 
-.case-view-btn--primary {
-  border-color: rgba(56, 189, 248, 0.45);
-  margin-left: auto;
-}
-
-.case-view-link-muted {
-  font-size: 0.82rem;
-  color: #94a3b8;
-  text-decoration: underline;
-}
-
 .case-view-main {
   max-width: 1120px;
   margin: 0 auto;
