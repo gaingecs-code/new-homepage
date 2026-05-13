@@ -67,6 +67,19 @@
         }
       }
 
+      var CASE_VIEW_POPUP_FEATURES = "noopener,noreferrer,width=1080,height=900";
+
+      listEl.addEventListener("click", function (e) {
+        var a = e.target.closest("a.author-posts-open-case");
+        if (!a || !listEl.contains(a)) return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (e.button !== 0) return;
+        var url = a.getAttribute("href");
+        if (!url || url === "#") return;
+        e.preventDefault();
+        window.open(url, "_blank", CASE_VIEW_POPUP_FEATURES);
+      });
+
       function render(posts, page) {
         var totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
         currentPage = Math.max(1, Math.min(page, totalPages));
@@ -77,8 +90,9 @@
         pagePosts.forEach(function (post) {
           var href = postDetailHref(post);
           var isOpenable = href !== "#";
-          var linkAttrs =
-            'href="' + href.replace(/"/g, "%22") + '"' + (isOpenable ? ' target="_blank" rel="noopener noreferrer"' : "");
+          var linkAttrs = 'href="' + href.replace(/"/g, "%22") + '"';
+          var thumbClass = "board-thumb-link" + (isOpenable ? " author-posts-open-case" : "");
+          var titleClass = "board-title" + (isOpenable ? " author-posts-open-case" : "");
           var titleText = post.title || "제목 없음";
           var li = document.createElement("li");
           li.className = "board-item";
@@ -88,7 +102,9 @@
           li.innerHTML =
             "<a " +
             linkAttrs +
-            ' class="board-thumb-link" aria-label="' +
+            ' class="' +
+            thumbClass +
+            '" aria-label="' +
             escapeHtml(titleText + " 썸네일") +
             '">' +
             '<img class="board-thumb-image" src="' +
@@ -100,7 +116,9 @@
             '<div class="board-meta">' +
             "<a " +
             linkAttrs +
-            ' class="board-title" aria-label="' +
+            ' class="' +
+            titleClass +
+            '" aria-label="' +
             escapeHtml(titleText + " 본문 열기") +
             '">' +
             escapeHtml(titleText) +
