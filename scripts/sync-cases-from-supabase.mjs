@@ -236,6 +236,24 @@ async function main() {
 
   const { listPayload, details } = buildWebCasesExport(data.items, data.updatedAt);
 
+  const allowEmptyExport =
+    process.argv.includes("--allow-empty-export") ||
+    String(process.env.CASES_SYNC_ALLOW_EMPTY || "").trim() === "1";
+
+  if (!details.length && !allowEmptyExport) {
+    console.error(
+      "발행(published) 상태 사례가 없습니다. data/cases-list.json 과 data/cases/ 를 덮어쓰거나 비우지 않고 종료합니다."
+    );
+    console.error(
+      "의도적으로 웹 사례를 모두 비우려면 CASES_SYNC_ALLOW_EMPTY=1 또는 npm run sync-cases-data -- --allow-empty-export 를 사용하세요."
+    );
+    process.exit(1);
+  }
+
+  if (!details.length && allowEmptyExport) {
+    console.warn("발행 사례 0건 — 빈 목록으로 동기화합니다(기존 data/cases/*.json 은 삭제됩니다).");
+  }
+
   ensureDir(CASES_DIR);
 
   const publishedIds = new Set(details.map((d) => d.payload.id));

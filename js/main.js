@@ -1545,8 +1545,17 @@ $(function () {
     return u.pathname + u.search + u.hash;
   }
 
+  /** 경로 조작 방지. 영문·숫자만 허용하던 제한을 완화해(한글 id 등) 본문 JSON 로드 실패를 줄입니다. */
+  function isSafeCaseDetailId(caseId) {
+    var id = String(caseId == null ? "" : caseId).trim();
+    if (!id || id.length > 256) return false;
+    if (id.indexOf("..") !== -1) return false;
+    if (id.indexOf("/") !== -1 || id.indexOf("\\") !== -1) return false;
+    return true;
+  }
+
   function testimonialsCaseDetailUrl(caseId) {
-    if (!/^[a-zA-Z0-9_-]+$/.test(caseId)) return "";
+    if (!isSafeCaseDetailId(caseId)) return "";
     try {
       return new URL("data/cases/" + encodeURIComponent(caseId) + ".json", window.location.href).href;
     } catch (e) {
@@ -1558,7 +1567,7 @@ $(function () {
     if (boardCaseDetailCache[caseId]) return Promise.resolve(boardCaseDetailCache[caseId]);
     var url = testimonialsCaseDetailUrl(caseId);
     if (!url) return Promise.reject(new Error("bad id"));
-    return fetch(url, { cache: "default" })
+    return fetch(url, { cache: "no-store" })
       .then(function (r) {
         if (!r.ok) throw new Error("not found");
         return r.json();
@@ -1683,7 +1692,7 @@ $(function () {
   function openBoardByCaseId(caseId, opts) {
     var o = opts || {};
     if (!$boardOverlay.length) return;
-    if (!caseId || !/^[a-zA-Z0-9_-]+$/.test(caseId)) {
+    if (!caseId || !isSafeCaseDetailId(caseId)) {
       openBoardArticleHiddenNotice();
       return;
     }

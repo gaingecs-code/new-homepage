@@ -5,7 +5,14 @@
 (function () {
   var SCHEMA_DETAIL = "cases-detail.v1";
   var NOT_FOUND_MSG = "해당 사례를 찾을 수 없거나 준비 중입니다.";
-  var ID_RE = /^[a-zA-Z0-9_-]+$/;
+
+  function isSafeCaseDetailId(id) {
+    var s = String(id == null ? "" : id).trim();
+    if (!s || s.length > 256) return false;
+    if (s.indexOf("..") !== -1) return false;
+    if (s.indexOf("/") !== -1 || s.indexOf("\\") !== -1) return false;
+    return true;
+  }
 
   function getCaseViewRev() {
     try {
@@ -77,7 +84,7 @@
 
   function run() {
     var id = getId();
-    if (!id || !ID_RE.test(id)) {
+    if (!id || !isSafeCaseDetailId(id)) {
       showState(NOT_FOUND_MSG, true);
       return;
     }

@@ -35,6 +35,8 @@ jobs:
       - name: Install root deps
         run: npm ci
 
+      # 발행(published) 사례가 0건이면 스크립트가 exit 1 로 중단되어 기존 data/cases 를 지우지 않습니다.
+      # 정말 비울 때만 Repository variable CASES_SYNC_ALLOW_EMPTY=1 등을 추가하세요.
       - name: Sync data files from Supabase
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
