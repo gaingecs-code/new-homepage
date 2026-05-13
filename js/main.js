@@ -1254,7 +1254,15 @@ $(function () {
         return r.json();
       })
       .then(function (d) {
-        if (d && d.schema === TESTIMONIALS_SCHEMA_LIST && Array.isArray(d.items)) return { mode: "split", payload: d };
+        // items가 비어 있으면 split으로 채택하지 않음 → Supabase·cases.json 폴백 (빈 placeholder JSON 배포 대응)
+        if (
+          d &&
+          d.schema === TESTIMONIALS_SCHEMA_LIST &&
+          Array.isArray(d.items) &&
+          d.items.length > 0
+        ) {
+          return { mode: "split", payload: d };
+        }
         return null;
       })
       .then(function (got) {
