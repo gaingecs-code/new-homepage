@@ -167,13 +167,6 @@
       });
   }
 
-  var closeBtn = document.getElementById("case-view-close");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", function () {
-      window.close();
-    });
-  }
-
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", run);
   } else {
