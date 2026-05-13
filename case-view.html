@@ -11,7 +11,17 @@
     } catch (e) {}
   </script>
   <title>사례 보기</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- 배포 후 본문·에셋 캐시 갱신: 아래 content만 올리면 CSS/JS/JSON URL에 동일 v가 붙습니다. -->
+  <meta name="case-view-rev" content="case-view-1" />
+  <link id="case-view-stylesheet" rel="stylesheet" href="css/style.css" />
+  <script>
+    try {
+      var m = document.querySelector('meta[name="case-view-rev"]');
+      var v = m && m.getAttribute("content");
+      var link = document.getElementById("case-view-stylesheet");
+      if (link && v) link.href = "css/style.css?v=" + encodeURIComponent(v);
+    } catch (e) {}
+  </script>
 </head>
 <body class="case-view-page">
   <main class="case-view-main">
@@ -25,6 +35,14 @@
     </article>
   </main>
 
-  <script src="js/case-view.js"></script>
+  <script>
+    try {
+      var m = document.querySelector('meta[name="case-view-rev"]');
+      var v = m && m.getAttribute("content");
+      var s = document.createElement("script");
+      s.src = "js/case-view.js" + (v ? "?v=" + encodeURIComponent(v) : "");
+      document.body.appendChild(s);
+    } catch (e) {}
+  </script>
 </body>
 </html>
