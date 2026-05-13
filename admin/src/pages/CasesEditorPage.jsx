@@ -383,7 +383,7 @@ function normalizeData(data) {
 export default function CasesEditorPage() {
   const { session } = useAuth();
   const [data, setData] = useState(() => normalizeData(loadLocalDraft(STORAGE_KEY, defaultCasesData)));
-  const [selectedId, setSelectedId] = useState(data.items?.[0]?.id ?? null);
+  const [selectedId, setSelectedId] = useState(null);
   const [message, setMessage] = useState("");
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [previewModal, setPreviewModal] = useState({ open: false, title: "", author: "", html: "" });
@@ -403,7 +403,7 @@ export default function CasesEditorPage() {
       const next = normalizeData(await loadRemoteJsonByKey(STORAGE_KEY, defaultCasesData));
       if (cancelled) return;
       setData(next);
-      setSelectedId(next.items?.[0]?.id ?? null);
+      setSelectedId(null);
     }
     bootstrapRemote();
     return () => {
