@@ -43,9 +43,11 @@
     document.title = (title || "사례") + " | 가인지컨설팅그룹";
   }
 
-  function fetchDetailJson(id) {
+  function fetchDetailJson(id, signal) {
     var url = new URL("data/cases/" + encodeURIComponent(id) + ".json", window.location.href).href;
-    return fetch(url, { cache: "default" }).then(function (r) {
+    var opts = { cache: "default" };
+    if (signal) opts.signal = signal;
+    return fetch(url, opts).then(function (r) {
       if (!r.ok) throw new Error("no detail");
       return r.json();
     }).then(function (d) {
@@ -82,9 +84,11 @@
     };
   }
 
-  function fetchLegacyCase(id) {
+  function fetchLegacyCase(id, signal) {
     function fromCasesJson() {
-      return fetch(new URL("data/cases.json", window.location.href).href, { cache: "no-store" }).then(function (r2) {
+      var o = { cache: "no-store" };
+      if (signal) o.signal = signal;
+      return fetch(new URL("data/cases.json", window.location.href).href, o).then(function (r2) {
         if (!r2.ok) throw new Error("no cases json");
         return r2.json();
       });
@@ -96,7 +100,9 @@
       });
     }
 
-    return fetch("/api/public-settings?key=" + encodeURIComponent(SETTING_KEY), { cache: "no-store" })
+    var apiOpts = { cache: "no-store" };
+    if (signal) apiOpts.signal = signal;
+    return fetch("/api/public-settings?key=" + encodeURIComponent(SETTING_KEY), apiOpts)
       .then(function (r) {
         if (!r.ok) throw new Error("api");
         return r.json();
@@ -130,16 +136,33 @@
       return;
     }
 
-    fetchDetailJson(id)
-      .then(function (d) {
-        showArticle(d.title || "", metaLine(d), d.contentHtml || "");
-      })
+    // 상세 JSON과 레거시를 동시에 시작해 순차 대기(워터폴)를 없앰. 상세 404가 매우 짧을 때는 max(상세, 레거시)≈레거시라 체감 이득이 제한될 수 있음.
+    var ac = new AbortController();
+    var signal = ac.signal;
+    var legacyP = fetchLegacyCase(id, signal);
+    var detailP = fetchDetailJson(id, signal)
       .catch(function () {
-        return fetchLegacyCase(id).then(function (d) {
+        return null;
+      })
+      .then(function (d) {
+        if (d && d.schema === SCHEMA_DETAIL) return d;
+        return null;
+      });
+
+    detailP
+      .then(function (detail) {
+        if (detail) {
+          ac.abort();
+          legacyP.catch(function () {});
+          showArticle(detail.title || "", metaLine(detail), detail.contentHtml || "");
+          return;
+        }
+        return legacyP.then(function (d) {
           showArticle(d.title || "", metaLine(d), d.contentHtml || "");
         });
       })
-      .catch(function () {
+      .catch(function (err) {
+        if (err && err.name === "AbortError") return;
         showState(HIDDEN_MSG, true);
       });
   }
