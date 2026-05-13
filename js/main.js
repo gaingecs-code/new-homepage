@@ -1098,7 +1098,12 @@ $(function () {
   /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
-  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v1";
+  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v2";
+  var TESTIMONIALS_SCHEMA_LIST = "cases-list.v1";
+  var TESTIMONIALS_SCHEMA_DETAIL = "cases-detail.v1";
+  var TESTIMONIALS_HIDDEN_MESSAGE = "해당 게시글은 숨김 처리되었습니다.";
+  var boardCasesListMode = "legacy";
+  var boardCaseDetailCache = {};
 
   function escapeHtml(s) {
     return String(s == null ? "" : s)
@@ -1162,6 +1167,7 @@ $(function () {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
     var arr = raw && Array.isArray(raw.items) ? raw.items : [];
+    boardCasesListMode = raw && raw.schema === TESTIMONIALS_SCHEMA_LIST ? "split" : "legacy";
     if (!arr.length) {
       $list.empty();
       return;
@@ -1172,15 +1178,22 @@ $(function () {
         var author = item && item.authorName ? item.authorName : "-";
         var thumb = (item && (item.thumbnailUrl || item.imageUrl || item.featuredImageUrl)) || "";
         var contentHtml = (item && (item.contentHtml || item.content)) || "";
-        var contentPlain = stripHtmlToText(contentHtml);
-        var contentSummary = contentPlain.length > 120 ? contentPlain.slice(0, 120) + "..." : contentPlain;
+        var contentPlain =
+          boardCasesListMode === "split"
+            ? String((item && item.searchText) || "").trim() || stripHtmlToText(contentHtml)
+            : stripHtmlToText(contentHtml);
         var industry = Array.isArray(item && item.industryTags) ? item.industryTags.join("|") : "";
         var scale = (item && item.companySize) || "";
         var consulting = Array.isArray(item && item.consultingTypeTags) ? item.consultingTypeTags.join("|") : "";
-        var href = (item && item.link) || "#";
+        var caseId = (item && item.id) || "case-" + (idx + 1);
+        var shareHref = "testimonials.html?id=" + encodeURIComponent(caseId);
+        var modeAttr =
+          boardCasesListMode === "split"
+            ? ' data-board-case-split="1"'
+            : ' data-board-popup-content-html="' + escapeHtml(contentHtml) + '"';
         return (
           '<li class="board-item" data-admin-item-key="' +
-          escapeHtml((item && item.id) || "case-" + (idx + 1)) +
+          escapeHtml(caseId) +
           '" data-testimonial-industry="' +
           escapeHtml(industry) +
           '" data-testimonial-scale="' +
@@ -1189,15 +1202,15 @@ $(function () {
           escapeHtml(consulting) +
           '" data-board-popup-title="' +
           escapeHtml(title) +
-          '" data-board-popup-content-html="' +
-          escapeHtml(contentHtml) +
-          '" data-board-search-text="' +
+          '"' +
+          modeAttr +
+          ' data-board-search-text="' +
           escapeHtml(contentPlain) +
           '" data-board-link-href="' +
-          escapeHtml(href) +
+          escapeHtml(shareHref) +
           '">' +
           '<a class="board-link" href="' +
-          escapeHtml(href) +
+          escapeHtml(shareHref) +
           '" style="display:flex;gap:1.1rem;align-items:stretch;width:100%;text-decoration:none;color:inherit;">' +
           '<span class="board-thumb-link">' +
           (thumb
@@ -1220,23 +1233,57 @@ $(function () {
     $list.html(html);
   }
 
+  function fetchTestimonialsCasesBoardPayload() {
+    if (!window.SiteData) return Promise.resolve({ mode: "legacy", payload: { items: [] } });
+    if (window.SiteData.isFileProtocol && window.SiteData.isFileProtocol()) {
+      return window.SiteData.resolveSettingPayload({
+        settingKey: "admin.local.cases.v1",
+        url: "data/cases.json",
+        inlineId: "",
+        validate: function (d) {
+          return !!(d && Array.isArray(d.items));
+        },
+        defaults: { items: [] },
+      }).then(function (leg) {
+        return { mode: "legacy", payload: leg || { items: [] } };
+      });
+    }
+    return fetch("data/cases-list.json", { cache: "no-store" })
+      .then(function (r) {
+        if (!r.ok) return null;
+        return r.json();
+      })
+      .then(function (d) {
+        if (d && d.schema === TESTIMONIALS_SCHEMA_LIST && Array.isArray(d.items)) return { mode: "split", payload: d };
+        return null;
+      })
+      .then(function (got) {
+        if (got) return got;
+        return window.SiteData.resolveSettingPayload({
+          settingKey: "admin.local.cases.v1",
+          url: "data/cases.json",
+          inlineId: "",
+          validate: function (d2) {
+            return !!(d2 && Array.isArray(d2.items));
+          },
+          defaults: { items: [] },
+        }).then(function (leg) {
+          return { mode: "legacy", payload: leg || { items: [] } };
+        });
+      });
+  }
+
   if ($(".testimonials-board .board-list").length && window.SiteData) {
     renderTestimonialsBoardSkeleton(3);
     var cachedCasesPayload = readTestimonialsCasesCache();
     if (cachedCasesPayload && cachedCasesPayload.items && cachedCasesPayload.items.length) {
+      boardCasesListMode = cachedCasesPayload.schema === TESTIMONIALS_SCHEMA_LIST ? "split" : "legacy";
       buildTestimonialsBoardFromCasesPayload(cachedCasesPayload);
       applyTestimonialsBoardFilter();
     }
-    window.SiteData.resolveSettingPayload({
-      settingKey: "admin.local.cases.v1",
-      url: "data/cases.json",
-      inlineId: "",
-      validate: function (d) {
-        return !!(d && Array.isArray(d.items));
-      },
-      defaults: { items: [] },
-    }).then(function (payload) {
-      var next = payload || { items: [] };
+    fetchTestimonialsCasesBoardPayload().then(function (res) {
+      var next = (res && res.payload) || { items: [] };
+      if (res && res.mode === "split") next.schema = TESTIMONIALS_SCHEMA_LIST;
       if (next.items && next.items.length) {
         buildTestimonialsBoardFromCasesPayload(next);
         applyTestimonialsBoardFilter();
@@ -1245,6 +1292,9 @@ $(function () {
         buildTestimonialsBoardFromCasesPayload(next);
         applyTestimonialsBoardFilter();
         clearTestimonialsCasesCache();
+      }
+      if (typeof window.__applyTestimonialsUrlCase === "function") {
+        window.__applyTestimonialsUrlCase();
       }
     });
   }
@@ -1463,12 +1513,54 @@ $(function () {
     console.log("Contact form data (mock submit):", $form.serialize());
   });
 
-  // 성공 사례 게시판: 게시글 블록 클릭 시 본문 팝업
+  // 성공 사례 게시판: 게시글 블록 클릭 시 본문 팝업 + URL 동기화(?id=)
   var $boardOverlay = $("#boardArticleOverlay");
   var $boardClose = $("#boardArticleClose");
   var AUTHOR_POSTS_STORAGE_KEY = "testimonialsBoardPosts";
   var boardModalScrollTop = 0;
   var boardModalBodyLockPrev = null;
+  var boardCaseModalPushed = false;
+  var boardCaseClosingByScriptBack = false;
+
+  function testimonialsBoardReadCaseIdParam() {
+    try {
+      return (new URLSearchParams(window.location.search).get("id") || "").trim();
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function testimonialsBoardUrlWithId(id) {
+    var u = new URL(window.location.href);
+    if (id) u.searchParams.set("id", id);
+    else u.searchParams.delete("id");
+    return u.pathname + u.search + u.hash;
+  }
+
+  function testimonialsCaseDetailUrl(caseId) {
+    if (!/^[a-zA-Z0-9_-]+$/.test(caseId)) return "";
+    try {
+      return new URL("data/cases/" + encodeURIComponent(caseId) + ".json", window.location.href).href;
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function fetchTestimonialsCaseDetail(caseId) {
+    if (boardCaseDetailCache[caseId]) return Promise.resolve(boardCaseDetailCache[caseId]);
+    var url = testimonialsCaseDetailUrl(caseId);
+    if (!url) return Promise.reject(new Error("bad id"));
+    return fetch(url, { cache: "default" })
+      .then(function (r) {
+        if (!r.ok) throw new Error("not found");
+        return r.json();
+      })
+      .then(function (d) {
+        if (!d || d.schema !== TESTIMONIALS_SCHEMA_DETAIL) throw new Error("bad detail");
+        boardCaseDetailCache[caseId] = d;
+        return d;
+      });
+  }
 
   function collectBoardPosts() {
     var posts = [];
@@ -1486,7 +1578,7 @@ $(function () {
         content: $content.text().trim(),
         industry: ($item.attr("data-testimonial-industry") || "").trim(),
         scale: ($item.attr("data-testimonial-scale") || "").trim(),
-        consulting: ($item.attr("data-testimonial-consulting") || "").trim()
+        consulting: ($item.attr("data-testimonial-consulting") || "").trim(),
       });
     });
     return posts;
@@ -1505,7 +1597,7 @@ $(function () {
     window.open(popupUrl, "_blank", popupFeatures);
   }
 
-  function closeBoardArticle() {
+  function closeBoardArticleVisualOnly() {
     $boardOverlay.addClass("hidden").attr("aria-hidden", "true");
     if (boardModalBodyLockPrev) {
       document.documentElement.style.overflow = boardModalBodyLockPrev.htmlOverflow;
@@ -1520,6 +1612,22 @@ $(function () {
     }
     $boardClose.off("keydown.boardArticle");
     $(document).off("keydown.boardArticle");
+  }
+
+  function closeBoardArticle() {
+    if (!$boardOverlay.length) return;
+    if (boardCaseModalPushed) {
+      boardCaseModalPushed = false;
+      boardCaseClosingByScriptBack = true;
+      history.back();
+      return;
+    }
+    if ($(".testimonials-board .board-list").length && testimonialsBoardReadCaseIdParam()) {
+      try {
+        history.replaceState(history.state || {}, "", testimonialsBoardUrlWithId(""));
+      } catch (e2) {}
+    }
+    closeBoardArticleVisualOnly();
   }
 
   function openBoardArticle(title, contentHtml) {
@@ -1553,22 +1661,92 @@ $(function () {
       document.body.style.width = "100%";
     }
     $boardClose.focus();
-    $(document).on("keydown.boardArticle", function (e) {
+    $(document).off("keydown.boardArticle").on("keydown.boardArticle", function (e) {
       if (e.key === "Escape") {
         closeBoardArticle();
       }
     });
   }
 
-  $(document).on("click", ".board-item", function (e) {
+  function openBoardArticleHiddenNotice() {
+    openBoardArticle("알림", '<p class="board-article-hidden-msg">' + escapeHtml(TESTIMONIALS_HIDDEN_MESSAGE) + "</p>");
+  }
+
+  function openBoardByCaseId(caseId, opts) {
+    var o = opts || {};
+    if (!$boardOverlay.length) return;
+    if (!caseId || !/^[a-zA-Z0-9_-]+$/.test(caseId)) {
+      openBoardArticleHiddenNotice();
+      return;
+    }
+    if (o.pushUrl) {
+      try {
+        var openNow = !$boardOverlay.hasClass("hidden");
+        if (openNow) {
+          history.replaceState({ testimonialsCase: caseId }, "", testimonialsBoardUrlWithId(caseId));
+        } else {
+          history.pushState({ testimonialsCase: caseId }, "", testimonialsBoardUrlWithId(caseId));
+          boardCaseModalPushed = true;
+        }
+      } catch (e1) {
+        boardCaseModalPushed = false;
+      }
+    } else {
+      boardCaseModalPushed = false;
+    }
+    var $row = $(".board-list .board-item").filter(function () {
+      return String($(this).attr("data-admin-item-key") || "") === caseId;
+    });
+    var titleFromDom = $row.find(".board-title").first().text().trim();
+    var useSplit = boardCasesListMode === "split" || $row.attr("data-board-case-split") === "1";
+    if (useSplit) {
+      var t = titleFromDom || caseId;
+      openBoardArticle(t, '<p class="board-article-loading">불러오는 중…</p>');
+      fetchTestimonialsCaseDetail(caseId)
+        .then(function (d) {
+          openBoardArticle(d.title || t, d.contentHtml || "");
+        })
+        .catch(function () {
+          openBoardArticleHiddenNotice();
+        });
+      return;
+    }
+    var inlineHtml = $row.attr("data-board-popup-content-html") || "";
+    var title = $row.attr("data-board-popup-title") || titleFromDom || caseId;
+    if (!inlineHtml) {
+      openBoardArticleHiddenNotice();
+      return;
+    }
+    openBoardArticle(title, inlineHtml);
+  }
+
+  window.__applyTestimonialsUrlCase = function () {
+    if (!$(".testimonials-board .board-list").length || !$boardOverlay.length) return;
+    var id = testimonialsBoardReadCaseIdParam();
+    if (!id) return;
+    openBoardByCaseId(id, { pushUrl: false });
+  };
+
+  window.addEventListener("popstate", function () {
+    if (!$boardOverlay.length || $boardOverlay.hasClass("hidden")) return;
+    if (boardCaseClosingByScriptBack) {
+      boardCaseClosingByScriptBack = false;
+      closeBoardArticleVisualOnly();
+      return;
+    }
+    closeBoardArticleVisualOnly();
+    boardCaseModalPushed = false;
+  });
+
+  $(document).on("click", ".testimonials-board .board-item", function (e) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (e.button !== 0) return;
     if ($(e.target).closest(".board-author").length) return;
     e.preventDefault();
     var $item = $(this);
-    var title = $item.attr("data-board-popup-title") || $item.find(".board-title").text().trim();
-    var contentHtml = $item.attr("data-board-popup-content-html") || "";
-    if ($boardOverlay.length) {
-      openBoardArticle(title, contentHtml);
-    }
+    var caseId = ($item.attr("data-admin-item-key") || "").trim();
+    if (!$boardOverlay.length || !caseId) return;
+    openBoardByCaseId(caseId, { pushUrl: true });
   });
 
   $(document).on("click", ".board-author", function (e) {

@@ -1,0 +1,6 @@
+{
+  "schema": "cases-list.v1",
+  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "note": "게시판 목록용. 본문은 data/cases/<id>.json (발행 사례만). 원복 시 data/cases.json 만으로도 로드됩니다.",
+  "items": []
+}

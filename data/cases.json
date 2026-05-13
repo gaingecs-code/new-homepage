@@ -1,5 +1,5 @@
 {
   "updatedAt": "2026-04-29T00:00:00.000Z",
-  "note": "공개 게시판은 testimonials.html 의 .board-list 에 배포·렌더링합니다. 한 페이지 10건(window.TESTIMONIALS_BOARD_PAGE_SIZE와 동일).",
+  "note": "레거시 폴백: 게시판은 우선 data/cases-list.json + data/cases/<id>.json 을 사용합니다. 이 파일만 두면 예전 방식으로도 동작합니다.",
   "items": []
 }

@@ -4699,6 +4699,23 @@ body.corporate-education-page {
   color: var(--color-text);
 }
 
+.board-article-loading {
+  margin: 0;
+  padding: 1.5rem 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.board-article-hidden-msg {
+  margin: 0;
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
 .board-article-heading {
   font-size: 1.1rem;
   font-weight: 700;

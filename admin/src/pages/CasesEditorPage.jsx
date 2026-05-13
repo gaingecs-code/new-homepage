@@ -93,6 +93,61 @@ function escapeHtml(text) {
     .replace(/"/g, "&quot;");
 }
 
+/** 본문 HTML을 제거한 검색용 텍스트 (웹 목록 JSON용) */
+function stripHtmlToSearchText(html) {
+  return String(html ?? "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** 웹 배포용: 목록 JSON + 사례별 상세 JSON 분리 */
+function buildWebCasesExport(items, updatedAt) {
+  const listItems = [];
+  const details = [];
+  for (const item of items || []) {
+    if (item.status !== "published") continue;
+    const contentHtml = String(item.contentHtml || "");
+    const searchText = stripHtmlToSearchText(contentHtml);
+    listItems.push({
+      id: item.id,
+      slug: item.slug,
+      title: item.title,
+      authorName: item.authorName,
+      industryTags: item.industryTags || [],
+      companySize: item.companySize || "",
+      consultingTypeTags: item.consultingTypeTags || [],
+      thumbnailUrl: item.thumbnailUrl || "",
+      featuredImageUrl: item.featuredImageUrl || "",
+      imageUrl: item.imageUrl || "",
+      link: `testimonials.html?id=${encodeURIComponent(item.id)}`,
+      publishedAt: item.publishedAt || "",
+      searchText,
+    });
+    details.push({
+      filename: `cases/${item.id}.json`,
+      payload: {
+        schema: "cases-detail.v1",
+        id: item.id,
+        title: item.title,
+        authorName: item.authorName || "",
+        contentHtml,
+      },
+    });
+  }
+  const listPayload = {
+    schema: "cases-list.v1",
+    updatedAt: updatedAt || new Date().toISOString(),
+    note: "게시판 목록용. 본문은 data/cases/<id>.json 에서 클릭 시 로드합니다.",
+    items: listItems,
+  };
+  return { listPayload, details };
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
 const STORAGE_KEY = "admin.local.cases.v1";
 const PUBLISHED_STORAGE_KEY = "admin.published.cases.v1";
 const INDUSTRY_OPTIONS = ["소비재·F&B·뷰티", "ICT·전자", "모빌리티·산업재", "건설·에너지", "바이오·헬스케어", "콘텐츠·교육·미디어", "금융", "공공영역·NGO", "유통·라이프스타일"];
@@ -433,9 +488,22 @@ export default function CasesEditorPage() {
     flashButtonFeedback("save");
   }
 
-  function exportJson() {
+  function exportMonolithicBackup() {
     downloadJson("cases.json", data);
-    setMessage("고객 사례 JSON을 내보냈습니다.");
+    setMessage("통합 cases.json(백업용)을보냈습니다.");
+  }
+
+  async function exportWebSplitJson() {
+    const { listPayload, details } = buildWebCasesExport(items, data.updatedAt);
+    downloadJson("cases-list.json", listPayload);
+    await sleep(220);
+    for (const row of details) {
+      downloadJson(row.filename, row.payload);
+      await sleep(220);
+    }
+    setMessage(
+      `배포용 분리 JSON ${1 + details.length}개를보냈습니다. cases-list.json 과 각 cases/ 파일을 프로젝트 data/ 폴더에 넣어 주세요.`
+    );
   }
 
   async function importJson(e) {
@@ -709,10 +777,16 @@ export default function CasesEditorPage() {
           ) : null}
         </div>
         <button className="btn btn-outline" type="button" onClick={addCase}>사례 추가</button>
+        <button className="btn btn-primary" type="button" onClick={() => void exportWebSplitJson()}>
+          배포용 분리보내기
+        </button>
+        <button className="btn btn-outline" type="button" onClick={exportMonolithicBackup}>
+          통합 JSON 백업
+        </button>
       </div>
       {message && <p className="muted">{message}</p>}
       <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "0.85rem" }}>
-        배포 반영 안내: 업로드 이미지는 JSON에 포함됩니다. 작업 후 반드시 JSON 내보내기 후 배포 반영을 진행해주세요.
+        배포 반영: 웹 게시판은 <strong>cases-list.json</strong>과 <strong>data/cases/각 id.json</strong>을 사용합니다. 「배포용 분리보내기」로 받은 파일을 프로젝트 <code>data/</code> 폴더에 넣어 주세요. 원복 시에는 「통합 JSON 백업」과 예전 <code>cases.json</code>만으로도 동작합니다.
       </p>
 
       <div className="split-grid" style={{ gridTemplateColumns: "1fr" }}>
