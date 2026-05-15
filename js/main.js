@@ -1095,9 +1095,10 @@ $(function () {
     });
   }
 
-  /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
+  /** 성공 사례 게시판: 페이지당 게시글 수 */
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
+  var testimonialsBoardPage = 1;
   var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v7";
   /** file: 이 아닐 때만: 항상 사이트 루트 기준으로 data/* 요청(경로 깊은 URL에서 상대경로 404 방지) */
   function testimonialsDataUrl(pathFromSiteRoot) {
@@ -1227,6 +1228,7 @@ $(function () {
   function buildTestimonialsBoardFromCasesPayload(raw) {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
+    testimonialsBoardPage = 1;
     var arr = raw && Array.isArray(raw.items) ? raw.items.slice() : [];
     function caseIdEpochMs(id) {
       var m = /^case-(\d+)$/.exec(String(id == null ? "" : id));
@@ -1446,8 +1448,53 @@ $(function () {
     });
   }
 
-  // 고객 사례 페이지: 상세분류 + 검색어로 게시글 필터
+  // 고객 사례 페이지: 상세분류 + 검색어로 게시글 필터 + 페이지당 10건
   // 게시글 data-testimonial-* 는 Admin 체크박스 분류와 동일 문자열; 복수 선택 시 "|" 구분(예: ICT·전자|금융)
+  function renderTestimonialsBoardPagination(currentPage, totalPages) {
+    var $pag = $(".testimonials-board .board-pagination");
+    var $numbers = $pag.find("[data-board-page-numbers]");
+    if (!$pag.length || !$numbers.length) return;
+    if (totalPages <= 1) {
+      $pag.attr("hidden", "hidden");
+      $numbers.empty();
+      var $nextHide = $pag.find("[data-board-page-next]");
+      if ($nextHide.length) $nextHide.attr("hidden", "hidden");
+      return;
+    }
+    $pag.removeAttr("hidden");
+    var html = "";
+    var p;
+    for (p = 1; p <= totalPages; p += 1) {
+      html +=
+        '<a href="#" class="board-page-num' +
+        (p === currentPage ? " is-current" : "") +
+        '" data-page="' +
+        p +
+        '"' +
+        (p === currentPage ? ' aria-current="page"' : "") +
+        ">" +
+        p +
+        "</a>";
+    }
+    $numbers.html(html);
+    var $next = $pag.find("[data-board-page-next]");
+    if ($next.length) {
+      if (currentPage < totalPages) {
+        $next.removeAttr("hidden").attr("data-page", String(currentPage + 1));
+      } else {
+        $next.attr("hidden", "hidden");
+      }
+    }
+  }
+
+  function scrollTestimonialsBoardIntoView() {
+    var $board = $(".testimonials-board");
+    if (!$board.length) return;
+    var headerHeight = $(".site-header").outerHeight() || 0;
+    var top = $board.offset().top - headerHeight - 12;
+    $("html, body").animate({ scrollTop: top }, 300);
+  }
+
   function applyTestimonialsBoardFilter() {
     var $boardList = $(".testimonials-board .board-list");
     if (!$boardList.length) return;
@@ -1513,16 +1560,44 @@ $(function () {
     }
 
     var visible = 0;
+    var matchIndex = 0;
+    var pageSize = TESTIMONIALS_BOARD_PAGE_SIZE;
     $boardList.find(".board-item").each(function () {
       var $item = $(this);
       var ok = matchesFilters($item) && matchesQuery($item);
-      if (ok) {
+      if (!ok) {
+        $item.attr("hidden", "hidden");
+        return;
+      }
+      visible += 1;
+      var itemPage = Math.floor(matchIndex / pageSize) + 1;
+      matchIndex += 1;
+      if (itemPage === testimonialsBoardPage) {
         $item.removeAttr("hidden");
-        visible++;
       } else {
         $item.attr("hidden", "hidden");
       }
     });
+
+    var totalPages = Math.max(1, Math.ceil(visible / pageSize));
+    if (testimonialsBoardPage > totalPages) {
+      testimonialsBoardPage = 1;
+      if (visible > 0) {
+        matchIndex = 0;
+        $boardList.find(".board-item").each(function () {
+          var $item = $(this);
+          if (!matchesFilters($item) || !matchesQuery($item)) return;
+          var itemPage = Math.floor(matchIndex / pageSize) + 1;
+          matchIndex += 1;
+          if (itemPage === testimonialsBoardPage) {
+            $item.removeAttr("hidden");
+          } else {
+            $item.attr("hidden", "hidden");
+          }
+        });
+      }
+    }
+    renderTestimonialsBoardPagination(testimonialsBoardPage, totalPages);
 
     var $empty = $("#boardEmptyMessage");
     if ($empty.length) {
@@ -1537,21 +1612,6 @@ $(function () {
         $empty.attr("hidden", "hidden");
       }
     }
-
-    var hasFilter =
-      q !== "" ||
-      industries.length > 0 ||
-      scales.length > 0 ||
-      consultings.length > 0;
-    var showPagination = !hasFilter && totalPosts > TESTIMONIALS_BOARD_PAGE_SIZE;
-    var $pag = $(".testimonials-board .board-pagination");
-    if ($pag.length) {
-      if (showPagination) {
-        $pag.removeAttr("hidden");
-      } else {
-        $pag.attr("hidden", "hidden");
-      }
-    }
   }
 
   if ($(".testimonials-board .board-list").length) {
@@ -1562,12 +1622,32 @@ $(function () {
     var $btn = $(this);
     var on = $btn.attr("aria-pressed") === "true";
     $btn.attr("aria-pressed", on ? "false" : "true");
+    testimonialsBoardPage = 1;
     applyTestimonialsBoardFilter();
   });
 
   $(".testimonials-search-form").on("submit", function (e) {
     e.preventDefault();
+    testimonialsBoardPage = 1;
     applyTestimonialsBoardFilter();
+  });
+
+  $(document).on("click", ".testimonials-board .board-page-num", function (e) {
+    e.preventDefault();
+    var p = parseInt($(this).attr("data-page"), 10);
+    if (Number.isNaN(p) || p < 1) return;
+    testimonialsBoardPage = p;
+    applyTestimonialsBoardFilter();
+    scrollTestimonialsBoardIntoView();
+  });
+
+  $(document).on("click", ".testimonials-board [data-board-page-next]", function (e) {
+    e.preventDefault();
+    var p = parseInt($(this).attr("data-page"), 10);
+    if (Number.isNaN(p) || p < 1) return;
+    testimonialsBoardPage = p;
+    applyTestimonialsBoardFilter();
+    scrollTestimonialsBoardIntoView();
   });
 
   // 현재 연도 표시
