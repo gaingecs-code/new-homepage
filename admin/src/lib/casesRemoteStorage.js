@@ -53,44 +53,65 @@ export async function loadCasesAdminData() {
   // 아래에서 레거시 JSON으로 덮어써 DB에 있는 사례가 안 보이는 문제가 생길 수 있음.
   await supabase.auth.getSession();
 
-  const { data: rows, error } = await supabase
-    .from("cases")
-    .select("id, payload, version, updated_at")
-    .order("updated_at", { ascending: false })
-    .order("id", { ascending: false });
+  // 한 번에 payload 가 큰 행을 모두 SELECT 하면 Postgres statement_timeout 에 걸릴 수 있음.
+  // id·updated_at 만 먼저 가져온 뒤, 소수 행씩 나눠 전체 컬럼을 조회합니다.
+  const CASE_FIELDS = "id, payload, version, updated_at";
+  const PARALLEL = 3;
 
-  if (error) {
-    return { error: error.message, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
+  const { data: idRows, error: idErr } = await supabase
+    .from("cases")
+    .select("id, updated_at")
+    .order("updated_at", { ascending: false })
+    .order("id", { ascending: false })
+    .limit(500);
+
+  if (idErr) {
+    return { error: idErr.message, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
   }
 
-  const rowList = Array.isArray(rows) ? rows : [];
+  const ids = (Array.isArray(idRows) ? idRows : [])
+    .map((r) => (r && r.id != null ? String(r.id).trim() : ""))
+    .filter(Boolean);
 
-  if (rowList.length > 0) {
-    const items = rowList.map((r) => {
-      const p = r.payload && typeof r.payload === "object" ? { ...r.payload } : {};
-      return { ...p, id: r.id, _syncVersion: r.version, rowUpdatedAt: r.updated_at };
-    });
-    const updatedAtMs = rowList.reduce((m, r) => {
-      const t = new Date(r.updated_at || 0).getTime();
-      return Number.isFinite(t) && t > m ? t : m;
-    }, 0);
+  if (ids.length === 0) {
     return {
       error: null,
       useRowStorage: true,
       data: {
-        items: sortCasesItemsNewestFirst(items),
-        updatedAt: new Date(updatedAtMs || Date.now()).toISOString(),
+        items: [],
+        updatedAt: new Date().toISOString(),
       },
     };
   }
 
-  // 조회 성공 + 0행: 테이블이 비어 있거나 RLS로 가려진 경우. app_settings 레거시로 채우지 않음(실제 DB 목록과 불일치 방지).
+  const rowList = [];
+  for (let i = 0; i < ids.length; i += PARALLEL) {
+    const slice = ids.slice(i, i + PARALLEL);
+    const chunkResults = await Promise.all(
+      slice.map((id) => supabase.from("cases").select(CASE_FIELDS).eq("id", id).maybeSingle())
+    );
+    for (const res of chunkResults) {
+      if (res.error) {
+        return { error: res.error.message, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
+      }
+      if (res.data) rowList.push(res.data);
+    }
+  }
+
+  const items = rowList.map((r) => {
+    const p = r.payload && typeof r.payload === "object" ? { ...r.payload } : {};
+    return { ...p, id: r.id, _syncVersion: r.version, rowUpdatedAt: r.updated_at };
+  });
+  const updatedAtMs = rowList.reduce((m, r) => {
+    const t = new Date(r.updated_at || 0).getTime();
+    return Number.isFinite(t) && t > m ? t : m;
+  }, 0);
   return {
     error: null,
     useRowStorage: true,
     data: {
-      items: [],
-      updatedAt: new Date().toISOString(),
+      items: sortCasesItemsNewestFirst(items),
+      updatedAt: new Date(updatedAtMs || Date.now()).toISOString(),
     },
   };
 }
