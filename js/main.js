@@ -1098,7 +1098,7 @@ $(function () {
   /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
-  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v6";
+  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v7";
   /** file: 이 아닐 때만: 항상 사이트 루트 기준으로 data/* 요청(경로 깊은 URL에서 상대경로 404 방지) */
   function testimonialsDataUrl(pathFromSiteRoot) {
     var p = String(pathFromSiteRoot || "").replace(/^\//, "");
@@ -1343,63 +1343,48 @@ $(function () {
         return { mode: "legacy", payload: leg || { items: [] }, publicCasesApiOk: false };
       });
     }
-    var fetchApiPublicCasesSplit = function () {
-      return fetchTestimonialsJsonWithRetries("/api/public-cases", { cache: "no-store" }, 3)
-        .then(function (r) {
-          if (!r || !r.ok) return null;
-          return r
-            .json()
-            .catch(function () {
-              return null;
-            })
-            .then(function (j) {
-              if (
-                j &&
-                j.ok === true &&
-                j.schema === TESTIMONIALS_SCHEMA_LIST &&
-                Array.isArray(j.items)
-              ) {
-                return { mode: "split", payload: j, publicCasesApiOk: true };
-              }
+    var publicCasesApiOk = false;
+    return fetchTestimonialsJsonWithRetries("/api/public-cases", { cache: "no-store" }, 3)
+      .then(function (r) {
+        if (!r || !r.ok) return null;
+        return r
+          .json()
+          .catch(function () {
+            return null;
+          })
+          .then(function (j) {
+            if (
+              j &&
+              j.ok === true &&
+              j.schema === TESTIMONIALS_SCHEMA_LIST &&
+              Array.isArray(j.items)
+            ) {
+              publicCasesApiOk = true;
+              return { mode: "split", payload: j };
+            }
+            return null;
+          });
+      })
+      .then(function (apiResult) {
+        if (apiResult) return apiResult;
+        return fetchTestimonialsJsonWithRetries(testimonialsDataUrl("data/cases-list.json"), { cache: "no-store" }, 2)
+          .then(function (r2) {
+            if (!r2 || !r2.ok) return null;
+            return r2.json().catch(function () {
               return null;
             });
-        });
-    };
-    var fetchStaticCasesListSplit = function () {
-      return fetchTestimonialsJsonWithRetries(testimonialsDataUrl("data/cases-list.json"), { cache: "no-store" }, 2).then(function (r2) {
-        if (!r2 || !r2.ok) return null;
-        return r2.json().catch(function () {
-          return null;
-        });
-      }).then(function (d) {
-        if (
-          d &&
-          d.schema === TESTIMONIALS_SCHEMA_LIST &&
-          Array.isArray(d.items) &&
-          d.items.length > 0
-        ) {
-          return { mode: "split", payload: d, publicCasesApiOk: true };
-        }
-        return null;
-      });
-    };
-    return Promise.all([fetchApiPublicCasesSplit(), fetchStaticCasesListSplit()])
-      .then(function (pair) {
-        var apiR = pair[0];
-        var staticR = pair[1];
-        var apiN =
-          apiR && apiR.payload && Array.isArray(apiR.payload.items) ? apiR.payload.items.length : 0;
-        var staticN =
-          staticR && staticR.payload && Array.isArray(staticR.payload.items)
-            ? staticR.payload.items.length
-            : 0;
-        // Supabase에 샘플만 있고 저장소(data/cases-list.json)에 전체가 있을 때: 배포 JSON 우선
-        if (staticR && staticN > 0 && (apiN === 0 || staticN > apiN)) {
-          return staticR;
-        }
-        if (apiR) return apiR;
-        if (staticR) return staticR;
-        return null;
+          })
+          .then(function (d) {
+            if (
+              d &&
+              d.schema === TESTIMONIALS_SCHEMA_LIST &&
+              Array.isArray(d.items) &&
+              d.items.length > 0
+            ) {
+              return { mode: "split", payload: d };
+            }
+            return null;
+          });
       })
       .then(function (got) {
         if (got) return got;
@@ -1412,14 +1397,14 @@ $(function () {
           },
           defaults: { items: [] },
         }).then(function (leg) {
-          return { mode: "legacy", payload: leg || { items: [] }, publicCasesApiOk: false };
+          return { mode: "legacy", payload: leg || { items: [] } };
         });
       })
       .then(function (finalGot) {
         return {
           mode: finalGot.mode,
           payload: finalGot.payload,
-          publicCasesApiOk: !!finalGot.publicCasesApiOk,
+          publicCasesApiOk: publicCasesApiOk,
         };
       });
   }
