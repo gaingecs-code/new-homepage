@@ -53,10 +53,11 @@ export async function loadCasesAdminData() {
   // 아래에서 레거시 JSON으로 덮어써 DB에 있는 사례가 안 보이는 문제가 생길 수 있음.
   await supabase.auth.getSession();
 
-  // 한 번에 payload 가 큰 행을 모두 SELECT 하면 Postgres statement_timeout 에 걸릴 수 있음.
-  // id·updated_at 만 먼저 가져온 뒤, 소수 행씩 나눠 전체 컬럼을 조회합니다.
+  // 한 번에 전체 payload 를 SELECT 하면 statement_timeout 에 걸릴 수 있어,
+  // id 목록 후 `.in("id", …)` 배치로 묶어 왕복 수를 줄입니다(실패 시 해당 묶음만 1행씩 재시도).
   const CASE_FIELDS = "id, payload, version, updated_at";
-  const PARALLEL = 3;
+  const CHUNK_SIZE = 32;
+  const CHUNK_WAVES = 4;
 
   const { data: idRows, error: idErr } = await supabase
     .from("cases")
@@ -84,25 +85,51 @@ export async function loadCasesAdminData() {
     };
   }
 
-  const rowList = [];
-  for (let i = 0; i < ids.length; i += PARALLEL) {
-    const slice = ids.slice(i, i + PARALLEL);
-    const chunkResults = await Promise.all(
-      slice.map((id) => supabase.from("cases").select(CASE_FIELDS).eq("id", id).maybeSingle())
-    );
-    for (const res of chunkResults) {
-      if (res.error) {
-        return { error: res.error.message, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
+  async function fetchChunkRows(chunk) {
+    if (!chunk.length) return [];
+    const { data: rows, error } = await supabase.from("cases").select(CASE_FIELDS).in("id", chunk);
+    if (!error && Array.isArray(rows) && rows.length === chunk.length) {
+      return rows;
+    }
+    const rowAcc = [];
+    for (let j = 0; j < chunk.length; j += 1) {
+      const id = chunk[j];
+      const one = await supabase.from("cases").select(CASE_FIELDS).eq("id", id).maybeSingle();
+      if (one.error) {
+        return { err: one.error.message };
       }
-      if (res.data) rowList.push(res.data);
+      if (one.data) rowAcc.push(one.data);
+    }
+    return rowAcc;
+  }
+
+  const chunks = [];
+  for (let c = 0; c < ids.length; c += CHUNK_SIZE) {
+    chunks.push(ids.slice(c, c + CHUNK_SIZE));
+  }
+
+  const rowList = [];
+  for (let w = 0; w < chunks.length; w += CHUNK_WAVES) {
+    const wave = chunks.slice(w, w + CHUNK_WAVES);
+    const waveResults = await Promise.all(wave.map((chunk) => fetchChunkRows(chunk)));
+    for (const out of waveResults) {
+      if (out && typeof out === "object" && !Array.isArray(out) && out.err) {
+        return { error: out.err, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
+      }
+      (out || []).forEach((r) => {
+        if (r) rowList.push(r);
+      });
     }
   }
 
-  const items = rowList.map((r) => {
+  const byId = new Map(rowList.map((r) => [r.id, r]));
+  const orderedRows = ids.map((id) => byId.get(id)).filter(Boolean);
+
+  const items = orderedRows.map((r) => {
     const p = r.payload && typeof r.payload === "object" ? { ...r.payload } : {};
     return { ...p, id: r.id, _syncVersion: r.version, rowUpdatedAt: r.updated_at };
   });
-  const updatedAtMs = rowList.reduce((m, r) => {
+  const updatedAtMs = orderedRows.reduce((m, r) => {
     const t = new Date(r.updated_at || 0).getTime();
     return Number.isFinite(t) && t > m ? t : m;
   }, 0);

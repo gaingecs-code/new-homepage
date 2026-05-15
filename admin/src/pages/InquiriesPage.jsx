@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { defaultInquiriesData } from "../data/defaultInquiries";
 import { downloadCsv } from "../lib/csvDownload";
 import { INQUIRIES_EXPORT_HEADERS, buildInquiriesDataRows } from "../lib/inquiriesExport";
@@ -118,7 +118,7 @@ function exportStamp() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function mapRemoteInquiry(row) {
+function mapRemoteInquiryListRow(row) {
   return {
     id: row.id,
     createdAt: row.created_at || nowIso(),
@@ -126,8 +126,9 @@ function mapRemoteInquiry(row) {
     name: row.name || "",
     phone: row.phone || "",
     email: row.email || "",
-    message: row.message || "",
-    memo: "",
+    message: "",
+    messagePending: true,
+    memo: row.admin_memo || "",
     isRead: false,
     readAt: null,
     recipientEmail: row.recipient_email || "",
@@ -156,6 +157,10 @@ export default function InquiriesPage() {
   const [pageSize, setPageSize] = useState(/** @type {number | typeof PAGE_ALL} */ (10));
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [draftMemo, setDraftMemo] = useState("");
+  const [memoSaving, setMemoSaving] = useState(false);
+  const inquiriesItemsRef = useRef(data.items);
+  inquiriesItemsRef.current = data.items;
 
   const inquiries = useMemo(
     () =>
@@ -183,7 +188,7 @@ export default function InquiriesPage() {
       if (!supabaseEnabled || !supabase) return;
       const { data: rows, error } = await supabase
         .from("inquiries")
-        .select("id, created_at, company, name, phone, email, message, recipient_email, source_page, source_type")
+        .select("id, created_at, company, name, phone, email, recipient_email, source_page, source_type, admin_memo")
         .order("created_at", { ascending: false });
 
       if (cancelled) return;
@@ -192,7 +197,7 @@ export default function InquiriesPage() {
         return;
       }
 
-      const mapped = (rows || []).map(mapRemoteInquiry);
+      const mapped = (rows || []).map(mapRemoteInquiryListRow);
       setData({ updatedAt: nowIso(), items: mapped });
       setSelectedId(mapped[0]?.id ?? null);
     }
@@ -246,6 +251,48 @@ export default function InquiriesPage() {
   }, [sorted, effectivePage, pageSize, isAllPage]);
 
   const selected = useMemo(() => sorted.find((item) => item.id === selectedId) ?? null, [sorted, selectedId]);
+
+  useEffect(() => {
+    setDraftMemo(selected?.memo ?? "");
+  }, [selectedId, selected?.memo]);
+
+  useEffect(() => {
+    if (!supabaseEnabled || !supabase || !selectedId) return;
+    const item = (inquiriesItemsRef.current || []).find((i) => i.id === selectedId);
+    if (!item || item.messagePending !== true) return;
+    let cancelled = false;
+    (async () => {
+      const { data: row, error } = await supabase
+        .from("inquiries")
+        .select("message, admin_memo")
+        .eq("id", selectedId)
+        .maybeSingle();
+      if (cancelled) return;
+      if (error) {
+        setMessage(`문의 본문 조회 실패: ${error.message}`);
+        return;
+      }
+      setData((prev) => ({
+        ...prev,
+        updatedAt: nowIso(),
+        items: (prev.items || []).map((it) =>
+          it.id === selectedId
+            ? {
+                ...it,
+                message: row?.message ?? "",
+                memo: row?.admin_memo != null ? String(row.admin_memo) : it.memo,
+                messagePending: false,
+              }
+            : it
+        ),
+      }));
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedId, supabaseEnabled]);
+
+  const memoDirty = selected != null && draftMemo !== (selected.memo ?? "");
 
   function setSort(key, dir) {
     setSortKey(key);
@@ -315,50 +362,108 @@ export default function InquiriesPage() {
     }
   }
 
-  function downloadSelectedCsv() {
+  async function ensureInquiryMessagesForExport(rows) {
+    if (!supabaseEnabled || !supabase) return rows;
+    const pending = rows.filter((r) => r.messagePending === true);
+    if (pending.length === 0) return rows;
+    const ids = pending.map((r) => r.id);
+    const CHUNK = 50;
+    const merged = new Map(rows.map((r) => [r.id, { ...r }]));
+    for (let i = 0; i < ids.length; i += CHUNK) {
+      const slice = ids.slice(i, i + CHUNK);
+      const { data: extraRows, error } = await supabase.from("inquiries").select("id, message, admin_memo").in("id", slice);
+      if (error) {
+        setMessage(`보내기용 본문 조회 실패: ${error.message}`);
+        return rows;
+      }
+      (extraRows || []).forEach((row) => {
+        const cur = merged.get(row.id);
+        if (cur) {
+          merged.set(row.id, {
+            ...cur,
+            message: row.message ?? "",
+            memo: row.admin_memo != null ? String(row.admin_memo) : cur.memo,
+            messagePending: false,
+          });
+        }
+      });
+    }
+    return rows.map((r) => merged.get(r.id) || r);
+  }
+
+  async function downloadSelectedCsv() {
     const rows = sorted.filter((item) => selectedIds.includes(item.id));
     if (rows.length === 0) {
       setMessage("CSV로 내보낼 문의를 선택해 주세요.");
       return;
     }
-    downloadCsv(`inquiries-selected-${exportStamp()}.csv`, INQUIRIES_EXPORT_HEADERS, buildInquiriesDataRows(rows));
+    const full = await ensureInquiryMessagesForExport(rows);
+    downloadCsv(`inquiries-selected-${exportStamp()}.csv`, INQUIRIES_EXPORT_HEADERS, buildInquiriesDataRows(full));
     setMessage(`선택한 ${rows.length}건을 CSV로 내보냈습니다.`);
   }
-
-  function downloadSelectedXlsx() {
+  async function downloadSelectedXlsx() {
     const rows = sorted.filter((item) => selectedIds.includes(item.id));
     if (rows.length === 0) {
       setMessage("엑셀로 내보낼 문의를 선택해 주세요.");
       return;
     }
-    downloadInquiriesXlsx(rows, `inquiries-selected-${exportStamp()}.xlsx`);
+    const full = await ensureInquiryMessagesForExport(rows);
+    downloadInquiriesXlsx(full, `inquiries-selected-${exportStamp()}.xlsx`);
     setMessage(`선택한 ${rows.length}건을 엑셀(.xlsx)로 내보냈습니다.`);
   }
-
-  function downloadFilteredCsv() {
+  async function downloadFilteredCsv() {
     if (sorted.length === 0) {
       setMessage("내보낼 문의가 없습니다.");
       return;
     }
-    downloadCsv(`inquiries-filtered-${exportStamp()}.csv`, INQUIRIES_EXPORT_HEADERS, buildInquiriesDataRows(sorted));
+    const full = await ensureInquiryMessagesForExport(sorted);
+    downloadCsv(`inquiries-filtered-${exportStamp()}.csv`, INQUIRIES_EXPORT_HEADERS, buildInquiriesDataRows(full));
     setMessage(`현재 필터·정렬 결과 ${sorted.length}건을 CSV로 내보냈습니다.`);
   }
-
-  function downloadFilteredXlsx() {
+  async function downloadFilteredXlsx() {
     if (sorted.length === 0) {
       setMessage("내보낼 문의가 없습니다.");
       return;
     }
-    downloadInquiriesXlsx(sorted, `inquiries-filtered-${exportStamp()}.xlsx`);
+    const full = await ensureInquiryMessagesForExport(sorted);
+    downloadInquiriesXlsx(full, `inquiries-filtered-${exportStamp()}.xlsx`);
     setMessage(`현재 필터·정렬 결과 ${sorted.length}건을 엑셀(.xlsx)로 내보냈습니다.`);
   }
-
   function updateMemo(id, memo) {
     setData((prev) => ({
       ...prev,
       updatedAt: nowIso(),
       items: prev.items.map((it) => (it.id === id ? { ...it, memo, updatedAt: nowIso() } : it)),
     }));
+  }
+
+  async function saveInquiryMemo() {
+    if (!selectedId) {
+      setMessage("저장할 문의를 선택해 주세요.");
+      return;
+    }
+    const memo = draftMemo;
+    setMemoSaving(true);
+    try {
+      if (supabaseEnabled && supabase) {
+        const { error } = await supabase.from("inquiries").update({ admin_memo: memo }).eq("id", selectedId);
+        if (error) {
+          throw new Error(error.message);
+        }
+      }
+      updateMemo(selectedId, memo);
+      if (!supabaseEnabled) {
+        const nextItems = (data.items || []).map((it) =>
+          it.id === selectedId ? { ...it, memo, updatedAt: nowIso() } : it
+        );
+        saveLocalDraft(STORAGE_KEY, { ...data, updatedAt: nowIso(), items: nextItems });
+      }
+      setMessage("관리 메모를 저장했습니다.");
+    } catch (err) {
+      setMessage(`관리 메모 저장 실패: ${err?.message || String(err)}`);
+    } finally {
+      setMemoSaving(false);
+    }
   }
 
   async function deleteInquiry(id) {
@@ -433,7 +538,12 @@ export default function InquiriesPage() {
     if (!file) return;
     try {
       const next = await readJsonFile(file);
-      setData(next);
+      const items = (next.items || []).map((it) => ({
+        ...it,
+        message: it.message ?? "",
+        messagePending: false,
+      }));
+      setData({ ...next, items });
       setSelectedId(next.items?.[0]?.id ?? null);
       setSelectedIds([]);
       setDraftSearch("");
@@ -455,17 +565,17 @@ export default function InquiriesPage() {
       <h2 className="page-title">문의 관리</h2>
 
       <div className="admin-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.7rem" }}>
-        <button className="btn btn-outline" type="button" disabled={selectedIds.length === 0} onClick={downloadSelectedCsv}>
+        <button className="btn btn-outline" type="button" disabled={selectedIds.length === 0} onClick={() => void downloadSelectedCsv()}>
           선택 문의 CSV 다운로드
         </button>
-        <button className="btn btn-outline" type="button" disabled={selectedIds.length === 0} onClick={downloadSelectedXlsx}>
+        <button className="btn btn-outline" type="button" disabled={selectedIds.length === 0} onClick={() => void downloadSelectedXlsx()}>
           선택 문의 엑셀(.xlsx) 다운로드
         </button>
         <div className="inquiries-filter-export-pair">
-          <button className="btn btn-outline" type="button" disabled={totalCount === 0} onClick={downloadFilteredCsv}>
+          <button className="btn btn-outline" type="button" disabled={totalCount === 0} onClick={() => void downloadFilteredCsv()}>
             필터 결과 전체 CSV 다운로드
           </button>
-          <button className="btn btn-outline" type="button" disabled={totalCount === 0} onClick={downloadFilteredXlsx}>
+          <button className="btn btn-outline" type="button" disabled={totalCount === 0} onClick={() => void downloadFilteredXlsx()}>
             필터 결과 전체 엑셀(.xlsx) 다운로드
           </button>
         </div>
@@ -672,7 +782,15 @@ export default function InquiriesPage() {
           {selected ? (
             <>
               <h3>문의 상세</h3>
-              <div style={{ marginBottom: "0.65rem" }}>
+              <div className="inquiries-detail-actions" style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.65rem" }}>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  disabled={memoSaving || !memoDirty}
+                  onClick={() => void saveInquiryMemo()}
+                >
+                  {memoSaving ? "저장 중…" : "메모 저장"}
+                </button>
                 <button className="btn btn-outline" type="button" onClick={() => deleteInquiry(selected.id)}>
                   현재 문의 삭제
                 </button>
@@ -690,12 +808,20 @@ export default function InquiriesPage() {
                   <dt>열람 여부</dt>
                   <dd>{selected.isRead ? "열람 완료" : "미열람"}</dd>
                   <dt>열람 시간</dt>
-                  <dd>{new Date(selected.readAt).toLocaleString("ko-KR")}</dd>
+                  <dd>{selected.readAt ? new Date(selected.readAt).toLocaleString("ko-KR") : "-"}</dd>
                   <dt>문의 내용</dt>
-                  <dd className="inquiries-message-content">{selected.message}</dd>
+                  <dd className="inquiries-message-content">
+                    {selected.messagePending ? "본문을 불러오는 중…" : selected.message || "(내용 없음)"}
+                  </dd>
                   <dt>관리 메모</dt>
                   <dd>
-                    <textarea className="input" rows={4} value={selected.memo || ""} onChange={(e) => updateMemo(selected.id, e.target.value)} />
+                    <textarea
+                      className="input inquiries-memo-input"
+                      rows={4}
+                      value={draftMemo}
+                      onChange={(e) => setDraftMemo(e.target.value)}
+                      placeholder="이 문의에 대한 내부 메모를 입력하세요."
+                    />
                   </dd>
                 </dl>
               </div>
