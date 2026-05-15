@@ -412,6 +412,89 @@ function normalizeData(data) {
   return { ...data, items: withDerivedFields(data.items || []) };
 }
 
+/** @typedef {"draft" | "saved" | "published"} CasesListStatusFilter */
+/** @typedef {"title" | "authorName" | "createdAt"} CasesListSortKey */
+
+const CASES_LIST_STATUS_OPTIONS = [
+  { value: /** @type {CasesListStatusFilter} */ ("draft"), label: "임시" },
+  { value: /** @type {CasesListStatusFilter} */ ("saved"), label: "저장" },
+  { value: /** @type {CasesListStatusFilter} */ ("published"), label: "발행" },
+];
+
+function normalizeCaseListStatus(status) {
+  if (status === "published" || status === "saved") return status;
+  return "draft";
+}
+
+function caseItemCreatedAtMs(item) {
+  if (!item || typeof item !== "object") return 0;
+  const m = /^case-(\d+)$/.exec(String(item.id || ""));
+  if (m) {
+    const n = Number(m[1]);
+    if (Number.isFinite(n) && n > 0) return n;
+  }
+  const c = item.createdAt;
+  if (c) {
+    const t = new Date(c).getTime();
+    if (Number.isFinite(t) && t > 0) return t;
+  }
+  return 0;
+}
+
+function formatCaseCreatedAt(item) {
+  const ms = caseItemCreatedAtMs(item);
+  if (!ms) return "-";
+  return new Date(ms).toLocaleDateString("ko-KR", { dateStyle: "short" });
+}
+
+function compareCases(a, b, key, dir) {
+  const m = dir === "asc" ? 1 : -1;
+  if (key === "title") {
+    return m * String(a.title || "").localeCompare(String(b.title || ""), "ko");
+  }
+  if (key === "authorName") {
+    return m * String(a.authorName || "").localeCompare(String(b.authorName || ""), "ko");
+  }
+  if (key === "createdAt") {
+    return m * (caseItemCreatedAtMs(a) - caseItemCreatedAtMs(b)) || m * String(a.id || "").localeCompare(String(b.id || ""));
+  }
+  return 0;
+}
+
+function CasesSortHead({ label, sortKey, activeKey, dir, onAsc, onDesc }) {
+  const ascOn = activeKey === sortKey && dir === "asc";
+  const descOn = activeKey === sortKey && dir === "desc";
+  return (
+    <span className="inquiries-sort-head">
+      <button
+        type="button"
+        className={`inquiries-sort-btn${ascOn ? " is-active" : ""}`}
+        aria-label={`${label} 오름차순`}
+        title="오름차순"
+        onClick={(e) => {
+          e.stopPropagation();
+          onAsc();
+        }}
+      >
+        ▲
+      </button>
+      <span className="inquiries-sort-label">{label}</span>
+      <button
+        type="button"
+        className={`inquiries-sort-btn${descOn ? " is-active" : ""}`}
+        aria-label={`${label} 내림차순`}
+        title="내림차순"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDesc();
+        }}
+      >
+        ▼
+      </button>
+    </span>
+  );
+}
+
 export default function CasesEditorPage() {
   const { session, loading: authLoading } = useAuth();
   const [data, setData] = useState(() => normalizeData(loadLocalDraft(STORAGE_KEY, defaultCasesData)));
@@ -429,31 +512,42 @@ export default function CasesEditorPage() {
   const buttonFeedbackTimerRef = useRef(null);
   const [editorImages, setEditorImages] = useState([]);
   const [casesListPage, setCasesListPage] = useState(1);
+  /** 목록 필터: 임시 / 저장 / 발행 (단일 선택) */
+  const [listStatusFilter, setListStatusFilter] = useState(/** @type {CasesListStatusFilter} */ ("draft"));
+  const [listSortKey, setListSortKey] = useState(/** @type {CasesListSortKey} */ ("createdAt"));
+  const [listSortDir, setListSortDir] = useState(/** @type {"asc" | "desc"} */ ("desc"));
   /** 일괄 발행용 체크: id → true */
   const [bulkPublishChecked, setBulkPublishChecked] = useState({});
   const [publishFlowBusy, setPublishFlowBusy] = useState(false);
   /** Supabase 원격 목록을 수동으로 다시 불러올 때 증가 (useEffect 재실행) */
   const [remoteCasesReloadKey, setRemoteCasesReloadKey] = useState(0);
-  const items = useMemo(
-    () => withDerivedFields(sortCasesItemsNewestFirst(data.items || [])),
-    [data.items]
-  );
-  const maxCasesListPage = Math.max(1, Math.ceil(items.length / CASES_LIST_PAGE_SIZE));
+  const allItems = useMemo(() => withDerivedFields(data.items || []), [data.items]);
+  const listItems = useMemo(() => {
+    const filtered = allItems.filter((item) => normalizeCaseListStatus(item.status) === listStatusFilter);
+    const arr = [...filtered];
+    arr.sort((a, b) => compareCases(a, b, listSortKey, listSortDir));
+    return arr;
+  }, [allItems, listStatusFilter, listSortKey, listSortDir]);
+  const maxCasesListPage = Math.max(1, Math.ceil(listItems.length / CASES_LIST_PAGE_SIZE));
   const pagedListItems = useMemo(() => {
     const start = (casesListPage - 1) * CASES_LIST_PAGE_SIZE;
-    return items.slice(start, start + CASES_LIST_PAGE_SIZE);
-  }, [items, casesListPage]);
-  const selected = items.find((x) => x.id === selectedId) || null;
+    return listItems.slice(start, start + CASES_LIST_PAGE_SIZE);
+  }, [listItems, casesListPage]);
+  const selected = allItems.find((x) => x.id === selectedId) || null;
+
+  useEffect(() => {
+    setCasesListPage(1);
+  }, [listStatusFilter, listSortKey, listSortDir]);
 
   useEffect(() => {
     setCasesListPage((p) => {
-      const max = Math.max(1, Math.ceil(items.length / CASES_LIST_PAGE_SIZE));
+      const max = Math.max(1, Math.ceil(listItems.length / CASES_LIST_PAGE_SIZE));
       return Math.min(Math.max(1, p), max);
     });
-  }, [items.length]);
+  }, [listItems.length]);
 
   useEffect(() => {
-    const idSet = new Set(items.map((x) => x.id));
+    const idSet = new Set(allItems.map((x) => x.id));
     setBulkPublishChecked((prev) => {
       const next = { ...prev };
       let changed = false;
@@ -465,7 +559,7 @@ export default function CasesEditorPage() {
       }
       return changed ? next : prev;
     });
-  }, [items]);
+  }, [allItems]);
 
   useEffect(() => {
     let cancelled = false;
@@ -593,7 +687,7 @@ export default function CasesEditorPage() {
       return;
     }
     if (supabaseEnabled && casesRowMode) {
-      const it = items.find((x) => x.id === id);
+      const it = allItems.find((x) => x.id === id);
       void (async () => {
         if (it != null && it._syncVersion != null) {
           const { error } = await deleteCaseRow(id);
@@ -624,7 +718,7 @@ export default function CasesEditorPage() {
         let skippedPublished = 0;
         let failed = 0;
         const failLines = [];
-        for (const item of items) {
+        for (const item of allItems) {
           if (item.status === "published") {
             skippedPublished += 1;
             continue;
@@ -721,7 +815,7 @@ export default function CasesEditorPage() {
   }
 
   async function exportWebSplitJson() {
-    const { listPayload, details } = buildWebCasesExport(items, data.updatedAt);
+    const { listPayload, details } = buildWebCasesExport(allItems, data.updatedAt);
     downloadJson("cases-list.json", listPayload);
     await sleep(220);
     for (const row of details) {
@@ -851,7 +945,7 @@ export default function CasesEditorPage() {
 
   async function publishCaseRowFromList(caseId) {
     if (casesStaticMirror || !supabaseEnabled || !casesRowMode) return;
-    const item = items.find((x) => x.id === caseId);
+    const item = allItems.find((x) => x.id === caseId);
     if (!item) return;
     if (item.status === "published") {
       setMessage("이미 발행된 사례입니다.");
@@ -884,7 +978,7 @@ export default function CasesEditorPage() {
 
   async function bulkPublishSelectedCases() {
     if (casesStaticMirror || !supabaseEnabled || !casesRowMode) return;
-    const ids = items.filter((i) => bulkPublishChecked[i.id]).map((i) => i.id);
+    const ids = allItems.filter((i) => bulkPublishChecked[i.id]).map((i) => i.id);
     if (!ids.length) {
       setMessage("선택된 사례이 없습니다.");
       return;
@@ -896,7 +990,7 @@ export default function CasesEditorPage() {
       let failed = 0;
       const failLines = [];
       for (const id of ids) {
-        const rowItem = items.find((x) => x.id === id);
+        const rowItem = allItems.find((x) => x.id === id);
         if (!rowItem) {
           failed += 1;
           failLines.push(`${id}: 목록에 없음`);
@@ -1223,12 +1317,6 @@ export default function CasesEditorPage() {
     setPreviewModal((prev) => ({ ...prev, open: false }));
   }
 
-  function statusLabel(status) {
-    if (status === "published") return "발행";
-    if (status === "saved") return "저장";
-    return "임시";
-  }
-
   return (
     <section className="page">
       <h2 className="page-title">고객 사례 관리</h2>
@@ -1344,11 +1432,27 @@ export default function CasesEditorPage() {
 
       <div className="split-grid" style={{ gridTemplateColumns: "1fr" }}>
         <div className="panel">
+          <div className="cases-list-controls">
+            <div className="cases-status-tabs" role="radiogroup" aria-label="사례 상태 필터">
+              {CASES_LIST_STATUS_OPTIONS.map((opt) => (
+                <label key={opt.value} className="cases-status-tab">
+                  <input
+                    type="radio"
+                    name="cases-status-filter"
+                    value={opt.value}
+                    checked={listStatusFilter === opt.value}
+                    onChange={() => setListStatusFilter(opt.value)}
+                  />
+                  <span>{opt.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
           <table className="table cases-list-table">
             <colgroup>
               <col className="cases-col-title" />
               <col className="cases-col-author" />
-              <col className="cases-col-status" />
+              <col className="cases-col-created" />
               <col className="cases-col-edit" />
               <col className="cases-col-delete" />
               <col className="cases-col-publish" />
@@ -1357,8 +1461,7 @@ export default function CasesEditorPage() {
               <tr>
                 <th scope="col">
                   {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
-                    <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.35rem" }}>
-                      <span>제목</span>
+                    <span style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
                       <input
                         type="checkbox"
                         title="현재 페이지 전체 선택"
@@ -1368,13 +1471,70 @@ export default function CasesEditorPage() {
                         }
                         onChange={toggleBulkPageSelectAll}
                       />
+                      <CasesSortHead
+                        label="제목"
+                        sortKey="title"
+                        activeKey={listSortKey}
+                        dir={listSortDir}
+                        onAsc={() => {
+                          setListSortKey("title");
+                          setListSortDir("asc");
+                        }}
+                        onDesc={() => {
+                          setListSortKey("title");
+                          setListSortDir("desc");
+                        }}
+                      />
                     </span>
                   ) : (
-                    "제목"
+                    <CasesSortHead
+                      label="제목"
+                      sortKey="title"
+                      activeKey={listSortKey}
+                      dir={listSortDir}
+                      onAsc={() => {
+                        setListSortKey("title");
+                        setListSortDir("asc");
+                      }}
+                      onDesc={() => {
+                        setListSortKey("title");
+                        setListSortDir("desc");
+                      }}
+                    />
                   )}
                 </th>
-                <th scope="col">작성자</th>
-                <th scope="col">상태</th>
+                <th scope="col">
+                  <CasesSortHead
+                    label="작성자"
+                    sortKey="authorName"
+                    activeKey={listSortKey}
+                    dir={listSortDir}
+                    onAsc={() => {
+                      setListSortKey("authorName");
+                      setListSortDir("asc");
+                    }}
+                    onDesc={() => {
+                      setListSortKey("authorName");
+                      setListSortDir("desc");
+                    }}
+                  />
+                </th>
+                <th scope="col">
+                  <CasesSortHead
+                    label="작성일"
+                    sortKey="createdAt"
+                    activeKey={listSortKey}
+                    dir={listSortDir}
+                    onAsc={() => {
+                      setListSortKey("createdAt");
+                      setListSortDir("asc");
+                    }}
+                    onDesc={() => {
+                      setListSortKey("createdAt");
+                      setListSortDir("desc");
+                    }}
+                  />
+                </th>
                 <th scope="col">수정</th>
                 <th scope="col">삭제</th>
                 <th scope="col">발행</th>
@@ -1388,11 +1548,21 @@ export default function CasesEditorPage() {
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        justifyContent: "flex-start",
                         gap: "0.5rem",
                         minWidth: 0,
                       }}
                     >
+                      {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
+                        <input
+                          type="checkbox"
+                          style={{ flex: "0 0 auto" }}
+                          checked={Boolean(bulkPublishChecked[item.id])}
+                          onChange={() => toggleBulkCaseCheckbox(item.id)}
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label={`${item.title || item.id} 일괄 발행 대상 선택`}
+                        />
+                      ) : null}
                       <span
                         style={{
                           overflow: "hidden",
@@ -1412,20 +1582,10 @@ export default function CasesEditorPage() {
                       >
                         {item.title}
                       </span>
-                      {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
-                        <input
-                          type="checkbox"
-                          style={{ flex: "0 0 auto" }}
-                          checked={Boolean(bulkPublishChecked[item.id])}
-                          onChange={() => toggleBulkCaseCheckbox(item.id)}
-                          onClick={(e) => e.stopPropagation()}
-                          aria-label={`${item.title || item.id} 일괄 발행 대상 선택`}
-                        />
-                      ) : null}
                     </div>
                   </td>
                   <td>{item.authorName || "-"}</td>
-                  <td>{statusLabel(item.status)}</td>
+                  <td>{formatCaseCreatedAt(item)}</td>
                   <td>
                     <button className="btn btn-outline" type="button" onClick={() => editCase(item.id)} disabled={publishFlowBusy}>
                       수정
@@ -1459,7 +1619,7 @@ export default function CasesEditorPage() {
               ))}
             </tbody>
           </table>
-          {items.length > 0 ? (
+          {listItems.length > 0 ? (
             <div
               className="cases-list-pagination"
               style={{
@@ -1474,11 +1634,11 @@ export default function CasesEditorPage() {
               }}
             >
               <span className="muted" style={{ fontSize: "0.9rem" }}>
-                {items.length <= CASES_LIST_PAGE_SIZE
-                  ? `전체 ${items.length}건`
-                  : `${(casesListPage - 1) * CASES_LIST_PAGE_SIZE + 1}–${Math.min(casesListPage * CASES_LIST_PAGE_SIZE, items.length)}번째 / 전체 ${items.length}건 · 페이지 ${casesListPage}/${maxCasesListPage}`}
+                {listItems.length <= CASES_LIST_PAGE_SIZE
+                  ? `전체 ${listItems.length}건`
+                  : `${(casesListPage - 1) * CASES_LIST_PAGE_SIZE + 1}–${Math.min(casesListPage * CASES_LIST_PAGE_SIZE, listItems.length)}번째 / 전체 ${listItems.length}건 · 페이지 ${casesListPage}/${maxCasesListPage}`}
               </span>
-              {items.length > CASES_LIST_PAGE_SIZE ? (
+              {listItems.length > CASES_LIST_PAGE_SIZE ? (
                 <div style={{ display: "flex", gap: "0.35rem", alignItems: "center" }}>
                   <button
                     type="button"

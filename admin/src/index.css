@@ -910,8 +910,8 @@ a {
   width: 16%;
 }
 
-.cases-list-table .cases-col-status {
-  width: 10%;
+.cases-list-table .cases-col-created {
+  width: 13%;
 }
 
 .cases-list-table .cases-col-edit,
@@ -962,6 +962,39 @@ a {
   padding-left: 0.45rem;
   padding-right: 0.45rem;
 }
+
+.cases-list-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.cases-status-tabs {
+  display: inline-flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.cases-status-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cases-status-tab input {
+  accent-color: #1d4ed8;
+}
+
 
 .detail-panel h3 {
   margin-top: 0;
