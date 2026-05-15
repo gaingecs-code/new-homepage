@@ -163,6 +163,8 @@ function sleep(ms) {
 
 const STORAGE_KEY = "admin.local.cases.v1";
 const PUBLISHED_STORAGE_KEY = "admin.published.cases.v1";
+/** 고객 사례 관리 — 목록 테이블만 페이지당 표시 개수 */
+const CASES_LIST_PAGE_SIZE = 10;
 const INDUSTRY_OPTIONS = ["소비재·F&B·뷰티", "ICT·전자", "모빌리티·산업재", "건설·에너지", "바이오·헬스케어", "콘텐츠·교육·미디어", "금융", "공공영역·NGO", "유통·라이프스타일"];
 const SCALE_OPTIONS = ["5인 미만", "5~10인", "10~20인", "20~50인", "50인 이상"];
 const CONSULTING_OPTIONS = ["HR 컨설팅", "전략 컨설팅", "마케팅 컨설팅", "성과관리 컨설팅", "경영자문"];
@@ -407,11 +409,24 @@ export default function CasesEditorPage() {
   const thumbnailInputRef = useRef(null);
   const buttonFeedbackTimerRef = useRef(null);
   const [editorImages, setEditorImages] = useState([]);
+  const [casesListPage, setCasesListPage] = useState(1);
   const items = useMemo(
     () => withDerivedFields(sortCasesItemsNewestFirst(data.items || [])),
     [data.items]
   );
+  const maxCasesListPage = Math.max(1, Math.ceil(items.length / CASES_LIST_PAGE_SIZE));
+  const pagedListItems = useMemo(() => {
+    const start = (casesListPage - 1) * CASES_LIST_PAGE_SIZE;
+    return items.slice(start, start + CASES_LIST_PAGE_SIZE);
+  }, [items, casesListPage]);
   const selected = items.find((x) => x.id === selectedId) || null;
+
+  useEffect(() => {
+    setCasesListPage((p) => {
+      const max = Math.max(1, Math.ceil(items.length / CASES_LIST_PAGE_SIZE));
+      return Math.min(Math.max(1, p), max);
+    });
+  }, [items.length]);
 
   useEffect(() => {
     let cancelled = false;
@@ -437,6 +452,7 @@ export default function CasesEditorPage() {
             })
           );
           setSelectedId(null);
+          setCasesListPage(1);
           return;
         }
         setCasesStaticMirror(false);
@@ -452,6 +468,7 @@ export default function CasesEditorPage() {
       });
       setData(next);
       setSelectedId(null);
+      setCasesListPage(1);
     }
     bootstrapRemote();
     return () => {
@@ -520,6 +537,7 @@ export default function CasesEditorPage() {
       ...arr,
     ]);
     setSelectedId(id);
+    setCasesListPage(1);
     requestAnimationFrame(() => editorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
@@ -591,6 +609,7 @@ export default function CasesEditorPage() {
           updatedAt: resReload.data.updatedAt || new Date().toISOString(),
         })
       );
+      setCasesListPage(1);
 
       const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
       if (!wf.ok) {
@@ -678,6 +697,7 @@ export default function CasesEditorPage() {
           })
         );
         setSelectedId(null);
+        setCasesListPage(1);
         setMessage("고객 사례 JSON을 불러와 Supabase에 반영했습니다.");
       } else {
         setData(next);
@@ -1108,7 +1128,7 @@ export default function CasesEditorPage() {
             </colgroup>
             <thead><tr><th>제목</th><th>작성자</th><th>상태</th><th>수정</th><th>삭제</th></tr></thead>
             <tbody>
-              {items.map((item) => (
+              {pagedListItems.map((item) => (
                 <tr key={item.id} className={selected?.id === item.id ? "is-selected" : ""}>
                   <td onClick={() => setSelectedId(item.id)}>{item.title}</td>
                   <td>{item.authorName || "-"}</td>
@@ -1119,6 +1139,47 @@ export default function CasesEditorPage() {
               ))}
             </tbody>
           </table>
+          {items.length > 0 ? (
+            <div
+              className="cases-list-pagination"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: "0.5rem",
+                marginTop: "0.65rem",
+                paddingTop: "0.55rem",
+                borderTop: "1px solid #e5e7eb",
+              }}
+            >
+              <span className="muted" style={{ fontSize: "0.9rem" }}>
+                {items.length <= CASES_LIST_PAGE_SIZE
+                  ? `전체 ${items.length}건`
+                  : `${(casesListPage - 1) * CASES_LIST_PAGE_SIZE + 1}–${Math.min(casesListPage * CASES_LIST_PAGE_SIZE, items.length)}번째 / 전체 ${items.length}건 · 페이지 ${casesListPage}/${maxCasesListPage}`}
+              </span>
+              {items.length > CASES_LIST_PAGE_SIZE ? (
+                <div style={{ display: "flex", gap: "0.35rem", alignItems: "center" }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    disabled={casesListPage <= 1}
+                    onClick={() => setCasesListPage((p) => Math.max(1, p - 1))}
+                  >
+                    이전
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    disabled={casesListPage >= maxCasesListPage}
+                    onClick={() => setCasesListPage((p) => Math.min(maxCasesListPage, p + 1))}
+                  >
+                    다음
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
         </div>
 
         <aside className="panel detail-panel" ref={editorRef}>
