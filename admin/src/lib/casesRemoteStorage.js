@@ -1,8 +1,4 @@
-import { loadRemoteJsonByKey } from "./adminRemoteJson";
 import { supabase, supabaseEnabled } from "./supabase";
-import { defaultCasesData } from "../data/defaultCases";
-
-const LEGACY_STORAGE_KEY = "admin.local.cases.v1";
 
 /** DB에 넣기 전 내부 필드 제거 */
 export function casePayloadForDb(item) {
@@ -53,6 +49,10 @@ export async function loadCasesAdminData() {
     return { error: null, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
   }
 
+  // 첫 요청이 세션 복원보다 먼저 나가면 JWT 없이 SELECT → RLS로 0행만 오고,
+  // 아래에서 레거시 JSON으로 덮어써 DB에 있는 사례가 안 보이는 문제가 생길 수 있음.
+  await supabase.auth.getSession();
+
   const { data: rows, error } = await supabase
     .from("cases")
     .select("id, payload, version, updated_at")
@@ -63,12 +63,14 @@ export async function loadCasesAdminData() {
     return { error: error.message, useRowStorage: false, data: { items: [], updatedAt: new Date().toISOString() } };
   }
 
-  if (rows && rows.length > 0) {
-    const items = rows.map((r) => {
+  const rowList = Array.isArray(rows) ? rows : [];
+
+  if (rowList.length > 0) {
+    const items = rowList.map((r) => {
       const p = r.payload && typeof r.payload === "object" ? { ...r.payload } : {};
       return { ...p, id: r.id, _syncVersion: r.version, rowUpdatedAt: r.updated_at };
     });
-    const updatedAtMs = rows.reduce((m, r) => {
+    const updatedAtMs = rowList.reduce((m, r) => {
       const t = new Date(r.updated_at || 0).getTime();
       return Number.isFinite(t) && t > m ? t : m;
     }, 0);
@@ -82,15 +84,13 @@ export async function loadCasesAdminData() {
     };
   }
 
-  // cases 가 비어 있어도 조회에 성공했다면 행 저장(RPC) 경로를 켠다.
-  // 레거시 app_settings 목록은 초기 표시용이며, 임시 저장·작성 완료 시 upsert_case 로 첫 행이 생긴다.
-  const legacy = await loadRemoteJsonByKey(LEGACY_STORAGE_KEY, defaultCasesData);
+  // 조회 성공 + 0행: 테이블이 비어 있거나 RLS로 가려진 경우. app_settings 레거시로 채우지 않음(실제 DB 목록과 불일치 방지).
   return {
     error: null,
     useRowStorage: true,
     data: {
-      items: sortCasesItemsNewestFirst(Array.isArray(legacy.items) ? legacy.items : []),
-      updatedAt: legacy.updatedAt || new Date().toISOString(),
+      items: [],
+      updatedAt: new Date().toISOString(),
     },
   };
 }

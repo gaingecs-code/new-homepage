@@ -10,7 +10,7 @@ import { defaultCasesData } from "../data/defaultCases";
 import { downloadJson, loadLocalDraft, nowIso, readJsonFile, saveLocalDraft } from "../lib/localJsonDraft";
 import { useAuth } from "../context/AuthContext";
 import { supabaseEnabled } from "../lib/supabase";
-import { loadRemoteJsonByKey, saveRemoteJsonByKey } from "../lib/adminRemoteJson";
+import { saveRemoteJsonByKey } from "../lib/adminRemoteJson";
 import {
   loadCasesAdminData,
   loadCasesItemsFromDeployedStatic,
@@ -392,7 +392,7 @@ function normalizeData(data) {
 }
 
 export default function CasesEditorPage() {
-  const { session } = useAuth();
+  const { session, loading: authLoading } = useAuth();
   const [data, setData] = useState(() => normalizeData(loadLocalDraft(STORAGE_KEY, defaultCasesData)));
   const [selectedId, setSelectedId] = useState(null);
   const [message, setMessage] = useState("");
@@ -417,6 +417,7 @@ export default function CasesEditorPage() {
     let cancelled = false;
     async function bootstrapRemote() {
       if (!supabaseEnabled) return;
+      if (authLoading) return;
       // ProtectedRoute 이후여도 JWT 부착 전에 SELECT 가 나가면 anon 으로 실패할 수 있어 세션 확정 후 로드
       if (!session?.user) return;
       const res = await loadCasesAdminData();
@@ -456,7 +457,7 @@ export default function CasesEditorPage() {
     return () => {
       cancelled = true;
     };
-  }, [supabaseEnabled, session?.user?.id]);
+  }, [supabaseEnabled, authLoading, session?.user?.id]);
 
   function patchItems(updater) {
     if (casesStaticMirror) {
