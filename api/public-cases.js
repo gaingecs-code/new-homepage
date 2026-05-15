@@ -7,6 +7,12 @@ function normalizeSupabaseUrl(raw) {
   return s.replace(/\/rest\/v1$/i, "");
 }
 
+function sleep(ms) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, ms);
+  });
+}
+
 function stripHtmlToSearchText(html) {
   return String(html || "")
     .replace(/<[^>]*>/g, " ")
@@ -148,14 +154,41 @@ module.exports = async function handler(req, res) {
         "&status=eq.published&select=id,payload,updated_at&limit=1";
     }
 
-    var r = await fetch(url, {
-      method: "GET",
-      headers: {
-        apikey: SUPABASE_SERVICE_ROLE_KEY,
-        Authorization: "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
-        Accept: "application/json",
-      },
-    });
+    var headers = {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+      Accept: "application/json",
+    };
+
+    var r;
+    var maxAttempts = 3;
+    for (var attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      var ctrl = new AbortController();
+      var timer = setTimeout(function () {
+        ctrl.abort();
+      }, 18000);
+      try {
+        r = await fetch(url, {
+          method: "GET",
+          headers: headers,
+          signal: ctrl.signal,
+        });
+      } catch (e) {
+        clearTimeout(timer);
+        if (attempt < maxAttempts) {
+          await sleep(450 + attempt * 350);
+          continue;
+        }
+        return res.status(504).json({ ok: false, code: "SUPABASE_UNAVAILABLE" });
+      }
+      clearTimeout(timer);
+      if (r.ok) break;
+      if (attempt < maxAttempts && r.status >= 500 && r.status < 600) {
+        await sleep(450 + attempt * 350);
+        continue;
+      }
+      break;
+    }
 
     var rows = [];
     try {

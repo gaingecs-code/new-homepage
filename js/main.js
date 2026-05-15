@@ -1163,6 +1163,57 @@ $(function () {
     } catch (e) {}
   }
 
+  function testimonialsCasesFetchDelay(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  /** 최대 attempts 회까지 fetch (연결 일시 실패·5xx 완화) */
+  function fetchTestimonialsJsonWithRetries(url, init, attempts) {
+    attempts = Math.max(1, Number(attempts) || 3);
+    function tryOnce(remaining) {
+      return fetch(url, init || { cache: "no-store" })
+        .catch(function () {
+          return null;
+        })
+        .then(function (r) {
+          if (r && r.ok) return r;
+          if (remaining > 1) {
+            var used = attempts - remaining + 1;
+            return testimonialsCasesFetchDelay(400 + used * 350).then(function () {
+              return tryOnce(remaining - 1);
+            });
+          }
+          return null;
+        });
+    }
+    return tryOnce(attempts);
+  }
+
+  function updateTestimonialsDataStatusBanner(kind) {
+    var $board = $(".testimonials-board");
+    if (!$board.length) return;
+    var $ex = $("#testimonials-data-status-banner");
+    if (!$ex.length) {
+      $ex = $(
+        '<p id="testimonials-data-status-banner" class="board-data-status-banner" role="status"></p>'
+      );
+      $board.find(".container").first().prepend($ex);
+    }
+    if (kind === "stale") {
+      $ex.text(
+        "실시간 목록을 불러오지 못해, 이전에 본 목록을 표시합니다. 잠시 후 새로고침해 주세요."
+      );
+      $ex.removeAttr("hidden");
+    } else if (kind === "fail") {
+      $ex.text("사례 목록을 불러오지 못했습니다. 네트워크·서비스 상태를 확인한 뒤 새로고침해 주세요.");
+      $ex.removeAttr("hidden");
+    } else {
+      $ex.attr("hidden", "hidden").empty();
+    }
+  }
+
   function buildTestimonialsBoardFromCasesPayload(raw) {
     var $list = $(".testimonials-board .board-list");
     if (!$list.length) return;
@@ -1266,7 +1317,9 @@ $(function () {
   }
 
   function fetchTestimonialsCasesBoardPayload() {
-    if (!window.SiteData) return Promise.resolve({ mode: "legacy", payload: { items: [] } });
+    if (!window.SiteData) {
+      return Promise.resolve({ mode: "legacy", payload: { items: [] }, publicCasesApiOk: false });
+    }
     if (window.SiteData.isFileProtocol && window.SiteData.isFileProtocol()) {
       return window.SiteData.resolveSettingPayload({
         settingKey: "admin.local.cases.v1",
@@ -1277,44 +1330,66 @@ $(function () {
         },
         defaults: { items: [] },
       }).then(function (leg) {
-        return { mode: "legacy", payload: leg || { items: [] } };
+        return { mode: "legacy", payload: leg || { items: [] }, publicCasesApiOk: false };
       });
     }
-    return fetch("/api/public-cases", { cache: "no-store" })
-      .catch(function () {
+    var fetchApiPublicCasesSplit = function () {
+      return fetchTestimonialsJsonWithRetries("/api/public-cases", { cache: "no-store" }, 3)
+        .then(function (r) {
+          if (!r || !r.ok) return null;
+          return r
+            .json()
+            .catch(function () {
+              return null;
+            })
+            .then(function (j) {
+              if (
+                j &&
+                j.ok === true &&
+                j.schema === TESTIMONIALS_SCHEMA_LIST &&
+                Array.isArray(j.items)
+              ) {
+                return { mode: "split", payload: j, publicCasesApiOk: true };
+              }
+              return null;
+            });
+        });
+    };
+    var fetchStaticCasesListSplit = function () {
+      return fetchTestimonialsJsonWithRetries("data/cases-list.json", { cache: "no-store" }, 2).then(function (r2) {
+        if (!r2 || !r2.ok) return null;
+        return r2.json().catch(function () {
+          return null;
+        });
+      }).then(function (d) {
+        if (
+          d &&
+          d.schema === TESTIMONIALS_SCHEMA_LIST &&
+          Array.isArray(d.items) &&
+          d.items.length > 0
+        ) {
+          return { mode: "split", payload: d, publicCasesApiOk: true };
+        }
         return null;
-      })
-      .then(function (r) {
-        if (!r || !r.ok) return Promise.resolve(null);
-        return r.json().then(function (j) {
-          if (
-            j &&
-            j.ok === true &&
-            j.schema === TESTIMONIALS_SCHEMA_LIST &&
-            Array.isArray(j.items)
-          ) {
-            return { mode: "split", payload: j };
-          }
-          return null;
-        });
-      })
-      .then(function (apiResult) {
-        if (apiResult) return apiResult;
-        return fetch("data/cases-list.json", { cache: "no-store" }).then(function (r2) {
-          if (!r2.ok) return null;
-          return r2.json();
-        }).then(function (d) {
-          // 정적 분리 목록: 항목이 있을 때만 split (비어 있으면 레거시 폴백)
-          if (
-            d &&
-            d.schema === TESTIMONIALS_SCHEMA_LIST &&
-            Array.isArray(d.items) &&
-            d.items.length > 0
-          ) {
-            return { mode: "split", payload: d };
-          }
-          return null;
-        });
+      });
+    };
+    return Promise.all([fetchApiPublicCasesSplit(), fetchStaticCasesListSplit()])
+      .then(function (pair) {
+        var apiR = pair[0];
+        var staticR = pair[1];
+        var apiN =
+          apiR && apiR.payload && Array.isArray(apiR.payload.items) ? apiR.payload.items.length : 0;
+        var staticN =
+          staticR && staticR.payload && Array.isArray(staticR.payload.items)
+            ? staticR.payload.items.length
+            : 0;
+        // Supabase에 샘플만 있고 저장소(data/cases-list.json)에 전체가 있을 때: 배포 JSON 우선
+        if (staticR && staticN > 0 && (apiN === 0 || staticN > apiN)) {
+          return staticR;
+        }
+        if (apiR) return apiR;
+        if (staticR) return staticR;
+        return null;
       })
       .then(function (got) {
         if (got) return got;
@@ -1327,8 +1402,15 @@ $(function () {
           },
           defaults: { items: [] },
         }).then(function (leg) {
-          return { mode: "legacy", payload: leg || { items: [] } };
+          return { mode: "legacy", payload: leg || { items: [] }, publicCasesApiOk: false };
         });
+      })
+      .then(function (finalGot) {
+        return {
+          mode: finalGot.mode,
+          payload: finalGot.payload,
+          publicCasesApiOk: !!finalGot.publicCasesApiOk,
+        };
       });
   }
 
@@ -1343,14 +1425,25 @@ $(function () {
     fetchTestimonialsCasesBoardPayload().then(function (res) {
       var next = (res && res.payload) || { items: [] };
       if (res && res.mode === "split") next.schema = TESTIMONIALS_SCHEMA_LIST;
+      var apiOk = !!(res && res.publicCasesApiOk);
+      var hadCache =
+        cachedCasesPayload &&
+        Array.isArray(cachedCasesPayload.items) &&
+        cachedCasesPayload.items.length > 0;
       if (next.items && next.items.length) {
         buildTestimonialsBoardFromCasesPayload(next);
         applyTestimonialsBoardFilter();
         writeTestimonialsCasesCache(next);
+        updateTestimonialsDataStatusBanner("");
+      } else if (hadCache && !apiOk) {
+        buildTestimonialsBoardFromCasesPayload(cachedCasesPayload);
+        applyTestimonialsBoardFilter();
+        updateTestimonialsDataStatusBanner("stale");
       } else {
         buildTestimonialsBoardFromCasesPayload(next);
         applyTestimonialsBoardFilter();
         clearTestimonialsCasesCache();
+        updateTestimonialsDataStatusBanner(apiOk ? "" : "fail");
       }
       if (typeof window.__applyTestimonialsUrlCase === "function") {
         window.__applyTestimonialsUrlCase();

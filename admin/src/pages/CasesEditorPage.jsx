@@ -432,6 +432,8 @@ export default function CasesEditorPage() {
   /** 일괄 발행용 체크: id → true */
   const [bulkPublishChecked, setBulkPublishChecked] = useState({});
   const [publishFlowBusy, setPublishFlowBusy] = useState(false);
+  /** Supabase 원격 목록을 수동으로 다시 불러올 때 증가 (useEffect 재실행) */
+  const [remoteCasesReloadKey, setRemoteCasesReloadKey] = useState(0);
   const items = useMemo(
     () => withDerivedFields(sortCasesItemsNewestFirst(data.items || [])),
     [data.items]
@@ -472,6 +474,7 @@ export default function CasesEditorPage() {
       if (authLoading) return;
       // ProtectedRoute 이후여도 JWT 부착 전에 SELECT 가 나가면 anon 으로 실패할 수 있어 세션 확정 후 로드
       if (!session?.user) return;
+      if (remoteCasesReloadKey > 0) setMessage("사례 목록을 다시 불러오는 중…");
       const res = await loadCasesAdminData();
       if (cancelled) return;
       if (res.error) {
@@ -506,12 +509,13 @@ export default function CasesEditorPage() {
       setData(next);
       setSelectedId(null);
       setCasesListPage(1);
+      setMessage("");
     }
     bootstrapRemote();
     return () => {
       cancelled = true;
     };
-  }, [supabaseEnabled, authLoading, session?.user?.id]);
+  }, [supabaseEnabled, authLoading, session?.user?.id, remoteCasesReloadKey]);
 
   function patchItems(updater) {
     if (casesStaticMirror) {
@@ -1286,6 +1290,16 @@ export default function CasesEditorPage() {
         <button className="btn btn-outline" type="button" onClick={addCase} disabled={casesStaticMirror || publishFlowBusy}>
           사례 추가
         </button>
+        {supabaseEnabled && session?.user && !authLoading ? (
+          <button
+            type="button"
+            className="btn btn-outline"
+            disabled={publishFlowBusy}
+            onClick={() => setRemoteCasesReloadKey((k) => k + 1)}
+          >
+            Supabase에서 다시 불러오기
+          </button>
+        ) : null}
         {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
           <button
             className="btn btn-primary"
