@@ -1098,7 +1098,17 @@ $(function () {
   /** 성공 사례 게시판: 페이지당 게시글 수(향후 페이지네이션 구현 시 동일 값 사용) */
   var TESTIMONIALS_BOARD_PAGE_SIZE = 10;
   window.TESTIMONIALS_BOARD_PAGE_SIZE = TESTIMONIALS_BOARD_PAGE_SIZE;
-  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v5";
+  var TESTIMONIALS_CASES_CACHE_KEY = "testimonials.board.cases.cache.v6";
+  /** file: 이 아닐 때만: 항상 사이트 루트 기준으로 data/* 요청(경로 깊은 URL에서 상대경로 404 방지) */
+  function testimonialsDataUrl(pathFromSiteRoot) {
+    var p = String(pathFromSiteRoot || "").replace(/^\//, "");
+    try {
+      if (!window.location || window.location.protocol === "file:") return p;
+      return new URL("/" + p, window.location.origin).href;
+    } catch (e) {
+      return "/" + p;
+    }
+  }
   var TESTIMONIALS_SCHEMA_LIST = "cases-list.v1";
   var TESTIMONIALS_SCHEMA_DETAIL = "cases-detail.v1";
   var TESTIMONIALS_HIDDEN_MESSAGE = "해당 게시글은 숨김 처리되었습니다.";
@@ -1356,7 +1366,7 @@ $(function () {
         });
     };
     var fetchStaticCasesListSplit = function () {
-      return fetchTestimonialsJsonWithRetries("data/cases-list.json", { cache: "no-store" }, 2).then(function (r2) {
+      return fetchTestimonialsJsonWithRetries(testimonialsDataUrl("data/cases-list.json"), { cache: "no-store" }, 2).then(function (r2) {
         if (!r2 || !r2.ok) return null;
         return r2.json().catch(function () {
           return null;
@@ -1395,7 +1405,7 @@ $(function () {
         if (got) return got;
         // admin.local.cases.v1(app_settings) 폴백 제외 — 레거시 원격 설정에 옛 샘플이 남으면 공개 게시판에 다시 노출됨
         return window.SiteData.resolvePayload({
-          url: "data/cases.json",
+          url: testimonialsDataUrl("data/cases.json"),
           inlineId: "",
           validate: function (d2) {
             return !!(d2 && Array.isArray(d2.items));
@@ -1700,11 +1710,7 @@ $(function () {
 
   function testimonialsCaseDetailUrl(caseId) {
     if (!isSafeCaseDetailId(caseId)) return "";
-    try {
-      return new URL("data/cases/" + encodeURIComponent(caseId) + ".json", window.location.href).href;
-    } catch (e) {
-      return "";
-    }
+    return testimonialsDataUrl("data/cases/" + encodeURIComponent(caseId) + ".json");
   }
 
   function fetchTestimonialsCaseDetail(caseId) {
