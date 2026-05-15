@@ -359,6 +359,25 @@ function extractImageSourcesFromEditorJson(json) {
   });
 }
 
+/** 목록/일괄 발행 시 현재 편집 중인 행이면 에디터 본문·이미지 반영 */
+function mergeEditorIntoCaseIfSelected(editor, selectedId, item) {
+  if (!item || typeof item !== "object") return null;
+  if (selectedId === item.id && editor) {
+    const html = editor.getHTML() || String(item.contentHtml || "<p></p>");
+    const sources = extractImageSourcesFromEditorJson(editor.getJSON());
+    let featuredImageUrl = item.featuredImageUrl || "";
+    if (featuredImageUrl && !sources.includes(featuredImageUrl)) featuredImageUrl = "";
+    const thumbnailUrl = item.thumbnailUrl || "";
+    return {
+      ...item,
+      contentHtml: html,
+      featuredImageUrl,
+      imageUrl: thumbnailUrl || featuredImageUrl || "",
+    };
+  }
+  return { ...item };
+}
+
 function withDerivedFields(rawItems) {
   const items = (rawItems || []).map((item) => ({
     ...item,
@@ -410,6 +429,9 @@ export default function CasesEditorPage() {
   const buttonFeedbackTimerRef = useRef(null);
   const [editorImages, setEditorImages] = useState([]);
   const [casesListPage, setCasesListPage] = useState(1);
+  /** 일괄 발행용 체크: id → true */
+  const [bulkPublishChecked, setBulkPublishChecked] = useState({});
+  const [publishFlowBusy, setPublishFlowBusy] = useState(false);
   const items = useMemo(
     () => withDerivedFields(sortCasesItemsNewestFirst(data.items || [])),
     [data.items]
@@ -427,6 +449,21 @@ export default function CasesEditorPage() {
       return Math.min(Math.max(1, p), max);
     });
   }, [items.length]);
+
+  useEffect(() => {
+    const idSet = new Set(items.map((x) => x.id));
+    setBulkPublishChecked((prev) => {
+      const next = { ...prev };
+      let changed = false;
+      for (const k of Object.keys(next)) {
+        if (!idSet.has(k)) {
+          delete next[k];
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [items]);
 
   useEffect(() => {
     let cancelled = false;
@@ -576,55 +613,79 @@ export default function CasesEditorPage() {
       return;
     }
     if (supabaseEnabled && casesRowMode) {
-      const savedRows = items.filter((x) => x.status === "saved");
-      for (const item of savedRows) {
-        const expected = item._syncVersion ?? 0;
-        const now = nowIso();
-        const nextItem = {
-          ...item,
-          status: "published",
-          publishedAt: item.publishedAt || now,
-          updatedAt: now,
-        };
-        const res = await upsertCaseRow(nextItem, expected);
-        if (!res.ok) {
-          setMessage(
-            `전체 사례 배포 중 발행 처리 실패 (${item.title || item.id}): ${res.message || res.err || "오류"}. 새로고침 후 다시 시도해 주세요.`
-          );
+      setPublishFlowBusy(true);
+      try {
+        let published = 0;
+        let skippedDraft = 0;
+        let skippedPublished = 0;
+        let failed = 0;
+        const failLines = [];
+        for (const item of items) {
+          if (item.status === "published") {
+            skippedPublished += 1;
+            continue;
+          }
+          if (item.status === "draft") {
+            skippedDraft += 1;
+            continue;
+          }
+          if (item.status !== "saved") continue;
+          const snapshot = mergeEditorIntoCaseIfSelected(editor, selectedId, item);
+          if (!snapshot) continue;
+          const now = nowIso();
+          const nextItem = {
+            ...snapshot,
+            status: "published",
+            publishedAt: snapshot.publishedAt || now,
+            updatedAt: now,
+          };
+          const res = await upsertCaseRow(nextItem, snapshot._syncVersion ?? 0);
+          if (!res.ok) {
+            failed += 1;
+            failLines.push(`${snapshot.title || snapshot.id}: ${res.message || res.err || "오류"}`);
+            continue;
+          }
+          published += 1;
+        }
+
+        const resReload = await loadCasesAdminData();
+        if (resReload.error) {
+          setMessage(`발행 반영 후 다시 불러오기에 실패했습니다: ${resReload.error}`);
           flashButtonFeedback("save");
           return;
         }
-      }
+        setCasesRowMode(resReload.useRowStorage);
+        setData(
+          normalizeData({
+            items: resReload.data.items || [],
+            updatedAt: resReload.data.updatedAt || new Date().toISOString(),
+          })
+        );
+        setCasesListPage(1);
 
-      const resReload = await loadCasesAdminData();
-      if (resReload.error) {
-        setMessage(`발행 반영 후 다시 불러오기에 실패했습니다: ${resReload.error}`);
-        flashButtonFeedback("save");
-        return;
+        const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
+        if (!wf.ok) {
+          setMessage(`DB는 반영되었으나 GitHub 동기화 요청 실패: ${wf.message}`);
+          flashButtonFeedback("save");
+          return;
+        }
+        let msg = `전체 사례 배포하기: 발행 ${published}건 처리. GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.`;
+        if (skippedDraft) msg += ` 임시 건너뜀 ${skippedDraft}건.`;
+        if (skippedPublished) msg += ` 이미 발행 ${skippedPublished}건 제외.`;
+        if (failed) {
+          msg += ` 실패 건너뜀 ${failed}건.`;
+          if (failLines.length) msg += ` (${failLines.slice(0, 5).join(" · ")})`;
+        }
+        if (wf.skipped) {
+          setMessage("GitHub 동기화를 건너뛰었습니다. 로그인 세션을 확인해 주세요.");
+        } else {
+          setMessage(msg);
+        }
+      } finally {
+        setPublishFlowBusy(false);
       }
-      setCasesRowMode(resReload.useRowStorage);
-      setData(
-        normalizeData({
-          items: resReload.data.items || [],
-          updatedAt: resReload.data.updatedAt || new Date().toISOString(),
-        })
-      );
-      setCasesListPage(1);
-
-      const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
-      if (!wf.ok) {
-        setMessage(`DB는 발행 상태로 맞췄으나 GitHub 동기화 요청 실패: ${wf.message}`);
-        flashButtonFeedback("save");
-        return;
-      }
-      let msg = "전체 사례 배포하기: 저장된 사례를 발행한 뒤 GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
-      if (savedRows.length === 0) {
-        msg = "전체 사례 배포하기: GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.";
-      }
-      if (wf.skipped) {
-        msg = "GitHub 동기화를 건너뛰었습니다. 로그인 세션을 확인해 주세요.";
-      }
-      setMessage(msg);
+      flashButtonFeedback("save");
+      return;
     } else if (supabaseEnabled) {
       const { error } = await saveRemoteJsonByKey(STORAGE_KEY, data);
       if (error) {
@@ -757,6 +818,147 @@ export default function CasesEditorPage() {
     if (!editor) return;
     editor.setEditable(!casesStaticMirror);
   }, [editor, casesStaticMirror]);
+
+  async function reloadCasesAndTriggerWorkflow() {
+    const resReload = await loadCasesAdminData();
+    if (resReload.error) {
+      setMessage(`발행 반영 후 다시 불러오기에 실패했습니다: ${resReload.error}`);
+      return false;
+    }
+    setCasesRowMode(resReload.useRowStorage);
+    setData(
+      normalizeData({
+        items: resReload.data.items || [],
+        updatedAt: resReload.data.updatedAt || new Date().toISOString(),
+      })
+    );
+    setCasesListPage(1);
+    const wf = await triggerGithubCasesWorkflow({ accessToken: session?.access_token });
+    if (!wf.ok) {
+      setMessage(`DB는 반영되었으나 GitHub 동기화 요청 실패: ${wf.message}`);
+      return false;
+    }
+    if (wf.skipped) {
+      setMessage("GitHub 동기화를 건너뛰었습니다. 로그인 세션을 확인해 주세요.");
+      return false;
+    }
+    return true;
+  }
+
+  async function publishCaseRowFromList(caseId) {
+    if (casesStaticMirror || !supabaseEnabled || !casesRowMode) return;
+    const item = items.find((x) => x.id === caseId);
+    if (!item) return;
+    if (item.status === "published") {
+      setMessage("이미 발행된 사례입니다.");
+      return;
+    }
+    setPublishFlowBusy(true);
+    try {
+      const snapshot = mergeEditorIntoCaseIfSelected(editor, selectedId, item);
+      if (!snapshot) return;
+      const now = nowIso();
+      const nextItem = {
+        ...snapshot,
+        status: "published",
+        publishedAt: snapshot.publishedAt || now,
+        updatedAt: now,
+      };
+      const res = await upsertCaseRow(nextItem, snapshot._syncVersion ?? 0);
+      if (!res.ok) {
+        setMessage(`발행 실패 (${item.title || caseId}): ${res.message || res.err || "오류"}`);
+        return;
+      }
+      const ok = await reloadCasesAndTriggerWorkflow();
+      if (!ok) return;
+      setMessage(`${item.title || caseId} 발행 및 GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.`);
+      flashButtonFeedback("save");
+    } finally {
+      setPublishFlowBusy(false);
+    }
+  }
+
+  async function bulkPublishSelectedCases() {
+    if (casesStaticMirror || !supabaseEnabled || !casesRowMode) return;
+    const ids = items.filter((i) => bulkPublishChecked[i.id]).map((i) => i.id);
+    if (!ids.length) {
+      setMessage("선택된 사례이 없습니다.");
+      return;
+    }
+    setPublishFlowBusy(true);
+    try {
+      let published = 0;
+      let skippedPublished = 0;
+      let failed = 0;
+      const failLines = [];
+      for (const id of ids) {
+        const rowItem = items.find((x) => x.id === id);
+        if (!rowItem) {
+          failed += 1;
+          failLines.push(`${id}: 목록에 없음`);
+          continue;
+        }
+        if (rowItem.status === "published") {
+          skippedPublished += 1;
+          continue;
+        }
+        const snapshot = mergeEditorIntoCaseIfSelected(editor, selectedId, rowItem);
+        if (!snapshot) continue;
+        const now = nowIso();
+        const nextItem = {
+          ...snapshot,
+          status: "published",
+          publishedAt: snapshot.publishedAt || now,
+          updatedAt: now,
+        };
+        const res = await upsertCaseRow(nextItem, snapshot._syncVersion ?? 0);
+        if (!res.ok) {
+          failed += 1;
+          failLines.push(`${rowItem.title || id}: ${res.message || res.err || "오류"}`);
+          continue;
+        }
+        published += 1;
+      }
+      if (published === 0) {
+        let m = "발행된 건이 없습니다.";
+        if (skippedPublished) m += ` 이미 발행 ${skippedPublished}건 건너뜀.`;
+        if (failed) m += ` 실패 ${failed}건.`;
+        if (failLines.length) m += ` (${failLines.slice(0, 4).join(" · ")})`;
+        setMessage(m);
+        return;
+      }
+      const ok = await reloadCasesAndTriggerWorkflow();
+      if (!ok) return;
+      setBulkPublishChecked({});
+      let msg = `선택 ${published}건 발행 후 GitHub 동기화를 시작했습니다. Actions 완료 후(보통 1~3분) 사이트에 반영됩니다.`;
+      if (skippedPublished) msg += ` (이미 발행 ${skippedPublished}건 건너뜀)`;
+      if (failed) {
+        msg += ` (실패 ${failed}건)`;
+        if (failLines.length) msg += ` ${failLines.slice(0, 3).join(" · ")}`;
+      }
+      setMessage(msg);
+      flashButtonFeedback("save");
+    } finally {
+      setPublishFlowBusy(false);
+    }
+  }
+
+  function toggleBulkCaseCheckbox(id) {
+    setBulkPublishChecked((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  function toggleBulkPageSelectAll() {
+    setBulkPublishChecked((prev) => {
+      const pageIds = pagedListItems.map((i) => i.id);
+      const allOn = pageIds.length > 0 && pageIds.every((id) => prev[id]);
+      const next = { ...prev };
+      for (const id of pageIds) {
+        if (allOn) delete next[id];
+        else next[id] = true;
+      }
+      return next;
+    });
+  }
 
   useEffect(
     () => () => {
@@ -1049,7 +1251,7 @@ export default function CasesEditorPage() {
             className="btn btn-outline"
             type="button"
             onClick={saveDraft}
-            disabled={casesStaticMirror}
+            disabled={casesStaticMirror || publishFlowBusy}
             style={{
               color: "#b91c1c",
               borderColor: "#b91c1c",
@@ -1081,9 +1283,19 @@ export default function CasesEditorPage() {
             </span>
           ) : null}
         </div>
-        <button className="btn btn-outline" type="button" onClick={addCase} disabled={casesStaticMirror}>
+        <button className="btn btn-outline" type="button" onClick={addCase} disabled={casesStaticMirror || publishFlowBusy}>
           사례 추가
         </button>
+        {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
+          <button
+            className="btn btn-primary"
+            type="button"
+            disabled={publishFlowBusy}
+            onClick={() => void bulkPublishSelectedCases()}
+          >
+            선택 일괄 발행하기
+          </button>
+        ) : null}
       </div>
       {message && <p className="muted">{message}</p>}
       <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: supabaseEnabled && casesRowMode ? "0.45rem" : "0.85rem", lineHeight: 1.55 }}>
@@ -1125,16 +1337,110 @@ export default function CasesEditorPage() {
               <col className="cases-col-status" />
               <col className="cases-col-edit" />
               <col className="cases-col-delete" />
+              <col className="cases-col-publish" />
             </colgroup>
-            <thead><tr><th>제목</th><th>작성자</th><th>상태</th><th>수정</th><th>삭제</th></tr></thead>
+            <thead>
+              <tr>
+                <th scope="col">
+                  {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
+                    <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.35rem" }}>
+                      <span>제목</span>
+                      <input
+                        type="checkbox"
+                        title="현재 페이지 전체 선택"
+                        aria-label="현재 페이지 사례 전체 선택"
+                        checked={
+                          pagedListItems.length > 0 && pagedListItems.every((row) => bulkPublishChecked[row.id])
+                        }
+                        onChange={toggleBulkPageSelectAll}
+                      />
+                    </span>
+                  ) : (
+                    "제목"
+                  )}
+                </th>
+                <th scope="col">작성자</th>
+                <th scope="col">상태</th>
+                <th scope="col">수정</th>
+                <th scope="col">삭제</th>
+                <th scope="col">발행</th>
+              </tr>
+            </thead>
             <tbody>
               {pagedListItems.map((item) => (
                 <tr key={item.id} className={selected?.id === item.id ? "is-selected" : ""}>
-                  <td onClick={() => setSelectedId(item.id)}>{item.title}</td>
+                  <td>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: "0.5rem",
+                        minWidth: 0,
+                      }}
+                    >
+                      <span
+                        style={{
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          flex: "1 1 auto",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => setSelectedId(item.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setSelectedId(item.id);
+                          }
+                        }}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        {item.title}
+                      </span>
+                      {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
+                        <input
+                          type="checkbox"
+                          style={{ flex: "0 0 auto" }}
+                          checked={Boolean(bulkPublishChecked[item.id])}
+                          onChange={() => toggleBulkCaseCheckbox(item.id)}
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label={`${item.title || item.id} 일괄 발행 대상 선택`}
+                        />
+                      ) : null}
+                    </div>
+                  </td>
                   <td>{item.authorName || "-"}</td>
                   <td>{statusLabel(item.status)}</td>
-                  <td><button className="btn btn-outline" type="button" onClick={() => editCase(item.id)}>수정</button></td>
-                  <td><button className="btn btn-outline" type="button" onClick={() => removeCase(item.id)} disabled={casesStaticMirror}>삭제</button></td>
+                  <td>
+                    <button className="btn btn-outline" type="button" onClick={() => editCase(item.id)} disabled={publishFlowBusy}>
+                      수정
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-outline"
+                      type="button"
+                      onClick={() => removeCase(item.id)}
+                      disabled={casesStaticMirror || publishFlowBusy}
+                    >
+                      삭제
+                    </button>
+                  </td>
+                  <td>
+                    {supabaseEnabled && casesRowMode && !casesStaticMirror ? (
+                      <button
+                        className="btn btn-outline"
+                        type="button"
+                        disabled={publishFlowBusy || item.status === "published"}
+                        onClick={() => void publishCaseRowFromList(item.id)}
+                      >
+                        발행하기
+                      </button>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

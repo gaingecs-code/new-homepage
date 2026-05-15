@@ -890,20 +890,24 @@ a {
 }
 
 .cases-list-table .cases-col-title {
-  width: 46%;
+  width: 34%;
 }
 
 .cases-list-table .cases-col-author {
-  width: 18%;
+  width: 16%;
 }
 
 .cases-list-table .cases-col-status {
-  width: 12%;
+  width: 10%;
 }
 
 .cases-list-table .cases-col-edit,
 .cases-list-table .cases-col-delete {
-  width: 12%;
+  width: 9%;
+}
+
+.cases-list-table .cases-col-publish {
+  width: 13%;
 }
 
 .cases-list-table th,
@@ -913,23 +917,33 @@ a {
   text-overflow: ellipsis;
 }
 
+.cases-list-table th:nth-child(1),
+.cases-list-table td:nth-child(1) {
+  overflow: visible;
+  white-space: normal;
+}
+
 .cases-list-table th:nth-child(3),
 .cases-list-table th:nth-child(4),
 .cases-list-table th:nth-child(5),
+.cases-list-table th:nth-child(6),
 .cases-list-table td:nth-child(3),
 .cases-list-table td:nth-child(4),
-.cases-list-table td:nth-child(5) {
+.cases-list-table td:nth-child(5),
+.cases-list-table td:nth-child(6) {
   text-align: center;
 }
 
 .cases-list-table td:nth-child(4),
-.cases-list-table td:nth-child(5) {
+.cases-list-table td:nth-child(5),
+.cases-list-table td:nth-child(6) {
   overflow: visible;
   text-overflow: clip;
 }
 
 .cases-list-table td:nth-child(4) .btn,
-.cases-list-table td:nth-child(5) .btn {
+.cases-list-table td:nth-child(5) .btn,
+.cases-list-table td:nth-child(6) .btn {
   width: 100%;
   min-width: 0;
   padding-left: 0.45rem;
