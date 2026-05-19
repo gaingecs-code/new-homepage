@@ -342,6 +342,39 @@ textarea {
 
 .header-actions-top .pill-cta-button {
   margin-top: 0.22rem;
+  border: none;
+  padding: 0.38rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.header-actions-top .pill-cta-button[data-gainge-campus] {
+  background-color: var(--branding-color-1);
+  color: #ffffff;
+}
+
+.header-actions-top .pill-cta-button[data-gainge-campus]:hover {
+  text-decoration: none;
+  filter: brightness(1.06);
+}
+
+.header-actions-top .pill-cta-button[data-header-diagnosis] {
+  background-color: var(--branding-color-2);
+  color: #000000;
+}
+
+.header-actions-top .pill-cta-button[data-header-diagnosis]:hover {
+  text-decoration: none;
+  filter: brightness(0.97);
+}
+
+.header-actions-top .pill-cta-button + .pill-cta-button::before {
+  content: none;
+  display: none;
 }
 
 .text-link-button {
@@ -383,66 +416,6 @@ textarea {
 .header-actions-bottom {
   display: flex;
   gap: 0.5rem;
-}
-
-.pill-cta-button {
-  border: none;
-  background: none;
-  color: #b8bcc8;
-  padding: 0;
-  border-radius: 0;
-  font-size: 0.65rem;
-  cursor: pointer;
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.pill-cta-badge {
-  display: inline-flex;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: 0.25rem;
-  padding: 0.02rem 0.3rem 0.08rem;
-  border-radius: 999px;
-  background-color: #ffffff;
-  color: #000000;
-  font-size: 0.55rem;
-  font-weight: 700;
-  position: relative;
-  top: 0.5px; 
-  line-height: 1; 
-}
-
-
-.pill-cta-button[data-header-diagnosis] {
-  color: #ffffff;
-}
-
-.pill-cta-button[data-header-diagnosis] .pill-cta-badge {
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  color: #ffffff;
-}
-
-.pill-cta-button:hover {
-  text-decoration: underline;
-}
-
-.pill-cta-button[data-gainge-campus]:hover {
-  text-decoration-color: #c4c8d0;
-  color: #d1d5db;
-}
-
-.pill-cta-button[data-header-diagnosis]:hover {
-  text-decoration-color: #ffffff;
-  color: #ffffff;
-}
-
-
-.header-actions-top .pill-cta-button + .pill-cta-button::before {
-  content: "|";
-  color: rgba(184, 188, 200, 0.65);
-  margin: 0 0.2rem 0 0;
 }
 
 .nav-toggle {

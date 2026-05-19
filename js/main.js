@@ -59,18 +59,10 @@ $(function () {
     window.open("login-popup.html", "_blank", authPopupFeatures);
   });
 
-  // 헤더: 기업 진단하기 → 메인페이지 진단 타이틀로 이동
+  // 헤더: 컨설팅/교육 문의하기 → 문의 팝업 새 창 (다른 문의하기 버튼과 동일)
+  var inquiryPopupFeatures = "noopener,noreferrer,width=760,height=900";
   $("[data-header-diagnosis]").on("click", function () {
-    // index.html 내부에서는 앵커 이동, 다른 페이지에서는 index.html#home-diagnosis-heading으로 이동
-    var isIndex =
-      /(^|\/)index\.html$/i.test(window.location.pathname) ||
-      window.location.pathname === "/" ||
-      window.location.pathname === "";
-    if (isIndex) {
-      window.location.hash = "#home-diagnosis-heading";
-    } else {
-      window.location.href = "index.html#home-diagnosis-heading";
-    }
+    window.open("story-inquiry-popup.html", "_blank", inquiryPopupFeatures);
   });
 
   // 간증 영상 팝업 공통: 상대 경로 표준화(슬래시) 후 절대 URL; file:// / http:// 모두 동일 API 사용
